@@ -5,6 +5,7 @@ import "dotenv/config"
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import Routes from './routes.js'
+import errorHandler from './src/middleware/errorHandler.js'
 
 const app = express()
 const corsOptions = {
@@ -19,6 +20,6 @@ app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 app.use(morgan('dev'))
 app.use('/api', Routes())
-//app.use(errorHandler)
+app.use(errorHandler)
 
 export default app

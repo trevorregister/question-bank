@@ -1,4 +1,5 @@
 import UseCase from "../../../core/usecase.js"
+import { NotFoundError } from "../../../core/errors.js"
 
 export default class GetUserByIdUseCase extends UseCase {
     constructor(repository){
@@ -6,6 +7,10 @@ export default class GetUserByIdUseCase extends UseCase {
     }
 
     execute = async (id) =>{
-        return await this.repository.findById(id)
+        const user = await this.repository.findById(id)
+        if(!user){
+            throw new NotFoundError(`user ${id} not found`)
+        }
+        return user
     }
 }

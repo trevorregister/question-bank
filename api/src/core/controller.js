@@ -9,7 +9,7 @@ export default class Controller {
             const result = await this.useCases.create(data)
             res.status(201).send(result)
         } catch(err){
-            res.status(500).send(err)
+            next(err)
         }
     }
 
@@ -17,10 +17,9 @@ export default class Controller {
         try{
             const { id } = req.params
             const result = await this.useCases.findById(id)
-            res.status(201).send(result)
+            res.status(200).send(result)
         } catch(err){
-            console.log(err)
-            res.status(500).send(err)
+            next(err)
         }
     }
 }
