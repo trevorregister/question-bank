@@ -5,7 +5,7 @@ export default class Controller {
 
     create = async(req, res, next) => {
         try{
-            const { data } = req.body
+            const data = req.body
             const result = await this.useCases.create(data)
             res.status(201).send(result)
         } catch(err){
