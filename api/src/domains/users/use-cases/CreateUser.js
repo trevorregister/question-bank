@@ -1,7 +1,7 @@
 import UseCase from "../../../core/usecase.js"
 import { User } from "../entities.js"
 
-export class CreateUserUseCase extends UseCase {
+export default class CreateUserUseCase extends UseCase {
     constructor(repository){
         super(repository)
     }

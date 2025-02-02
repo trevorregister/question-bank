@@ -2,7 +2,7 @@ import mongoose from "mongoose"
 
 const Schema = mongoose.Schema
 
-export default new Schema({
+const schema = new Schema({
     email: {
         type: String,
         required: true
@@ -26,3 +26,4 @@ export default new Schema({
         }
     }
 })
+export default schema

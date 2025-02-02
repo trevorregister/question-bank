@@ -1,6 +1,6 @@
 import UseCase from "../../../core/usecase.js"
 
-export class GetUserByIdUseCase extends UseCase {
+export default class GetUserByIdUseCase extends UseCase {
     constructor(repository){
         super(repository)
     }
