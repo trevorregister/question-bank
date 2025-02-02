@@ -3,7 +3,7 @@ export default class Controller {
         this.useCases = useCases
     }
 
-    async create(req, res, next){
+    create = async(req, res, next) => {
         try{
             const { data } = req.body
             const result = await this.useCases.create.execute(data)
@@ -13,9 +13,8 @@ export default class Controller {
         }
     }
 
-    async findById(req, res, next){
+    findById = async(req, res, next) => {
         try{
-            console.log('THIS', this.useCases)
             const { id } = req.params
             const result = await this.useCases.findById(id)
             res.status(201).send(result)
