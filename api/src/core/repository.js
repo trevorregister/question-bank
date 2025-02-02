@@ -3,13 +3,11 @@ export default class Repository {
         this.model = model
     }
 
-    async findById(id){
-        /* return await this.model.findById(id) */
-        console.log(id)
-        return
+    findById = async (id) => {
+        return await this.model.findById(id)
     }
 
-    async create(data){
+    create = async (data) =>{
         return await this.model.create(data)
     }
 }

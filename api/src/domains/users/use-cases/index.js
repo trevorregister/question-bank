@@ -10,8 +10,8 @@ const findByIdCase = new GetUserByIdUseCase(repository)
 const createCase = new CreateUserUseCase(repository)
 
 const userUseCases = {
-    create: (userProps) => { createCase.execute(userProps) },
-    findById: (id) => { findByIdCase.execute(id) }
+    create: async (userProps) => { return await createCase.execute(userProps) },
+    findById: async (id) => { return await findByIdCase.execute(id) }
 }
 
 export default userUseCases

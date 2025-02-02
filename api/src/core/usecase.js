@@ -3,7 +3,7 @@ export default class UseCase {
         this.repository = repository
     }
 
-    async execute(data){
+    execute = async (data) =>{
         
     }
 }

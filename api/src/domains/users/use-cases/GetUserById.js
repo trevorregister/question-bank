@@ -5,7 +5,7 @@ export default class GetUserByIdUseCase extends UseCase {
         super(repository)
     }
 
-    async execute(id){
+    execute = async (id) =>{
         return await this.repository.findById(id)
     }
 }

@@ -6,7 +6,7 @@ export default class CreateUserUseCase extends UseCase {
         super(repository)
     }
 
-    async execute({email, firstName, lastName, role}){
+    execute = async ({email, firstName, lastName, role}) =>{
         const user = new User({email, firstName, lastName, role})
         return await this.repository.create(user)
     }
