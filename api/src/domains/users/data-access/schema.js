@@ -1,5 +1,7 @@
 import mongoose from "mongoose"
 
+export const USER_ROLES = ['student', 'teacher', 'admin']
+
 const Schema = mongoose.Schema
 
 const schema = new Schema({
@@ -22,7 +24,7 @@ const schema = new Schema({
         type: String,
         required: true,
         enum: {
-            values: ['student', 'teacher', 'admin']
+            values: USER_ROLES
         }
     }
 })
