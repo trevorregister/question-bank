@@ -1,4 +1,5 @@
 import UseCase from "../../../core/usecase.js"
+import User from "../entities.js"
 import { NotFoundError } from "../../../core/errors.js"
 
 export default class GetUserByIdUseCase extends UseCase {
@@ -13,6 +14,6 @@ export default class GetUserByIdUseCase extends UseCase {
             throw new NotFoundError((`user ${id}`))
         }
         
-        return user
+        return User.toWeb(user)
     }
 }

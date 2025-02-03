@@ -25,8 +25,8 @@ export class NotFoundError extends HttpError {
 }
 
 export class ValidationError extends HttpError {
-    constructor(code, joiError){
-        super(code)
+    constructor(joiError){
+        super(422)
         this.message = joiError.details.map(detail => detail.message)
     }
 }

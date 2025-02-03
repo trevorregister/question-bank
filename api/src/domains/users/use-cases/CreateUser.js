@@ -1,5 +1,5 @@
 import UseCase from "../../../core/usecase.js"
-import { User } from "../entities.js"
+import User from "../entities.js"
 import { HttpError } from "../../../core/errors.js"
 
 export default class CreateUserUseCase extends UseCase {
@@ -14,8 +14,9 @@ export default class CreateUserUseCase extends UseCase {
             throw new HttpError(422, `user with ${email} already exists`)
         } else {
 
-        const user = new User({email, firstName, lastName, role})
-        return await this.repository.create(user)
+        const userProps = User.toDb({email, firstName, lastName, role})
+        const user = await this.repository.create(new User(userProps))
+        return User.toWeb(user)
         }
     }
 }
