@@ -19,16 +19,13 @@ const dbUser = Joi.object({
 })
 
 export default class User extends Entity {
+    static validator = dbUser
     constructor({email, firstName, lastName, role}){
         super()
         this.email = email,
         this.firstName = firstName,
         this.lastName = lastName,
         this.role = role
-    }
-
-    static getValidator(){
-        return dbUser
     }
 
     static toWeb(data){
