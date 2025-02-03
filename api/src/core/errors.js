@@ -17,9 +17,10 @@ export class HttpError extends BaseError{
 }
 
 export class NotFoundError extends HttpError {
-    constructor(message){
-        super(404, message)
-
+    constructor(subject){
+        super(404)
+        this.message = `${subject} not found`
+        
     }
 }
 
