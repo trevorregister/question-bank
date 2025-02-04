@@ -1,6 +1,6 @@
 const Joi = require('joi')
 const Entity = require('../../core/entity.js')
-const { USER_ROLES } = require('./data-access/schema.js')
+const { USER_ROLES } = require('../../core/enums.js')
 
 const dbUser = Joi.object({
     firstName: Joi.string()
