@@ -13,7 +13,6 @@ module.exports = class CreateUserUseCase extends UseCase {
         if(existingUser){
             throw new HttpError(422, `user with ${email} already exists`)
         } else {
-        console.log('use case', email)
         const userProps = User.toDb({email, firstName, lastName, role})
         const user = await this.repository.create(new User(userProps))
         return User.toWeb(user)
