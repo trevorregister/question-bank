@@ -14,7 +14,6 @@ describe('Create User', () => {
         const res = await request.users.post('/', userProps)
         expect(res.status).toBe(201)
         const { email, firstName, lastName, role } = res.body
-        console.log(res.body)
         expect({
             email,
             firstName,
@@ -26,6 +25,16 @@ describe('Create User', () => {
             lastName: userProps.lastName,
             role: 'student'
         })
+    })
 
+    it('given invalid inputs, returns 422', async () => {
+        const userProps = {
+            email: 'fdas',
+            firstName: builder.faker.person.firstName(),
+            lastName: builder.faker.person.lastName(),
+            role: 'asdf'
+        }
+        const res = await request.users.post('/', userProps)
+        expect(res.status).toBe(422)
     })
 })
