@@ -1,6 +1,7 @@
-module.exports = class Controller {
+/* module.exports = class Controller {
     constructor(useCases){
         this.useCases = useCases
+        this.findById.bind(this)
     }
 
     create = async(req, res, next) => {
@@ -13,7 +14,7 @@ module.exports = class Controller {
         }
     }
 
-    findById = async(req, res, next) => {
+    async findById(req, res, next){
         try{
             const { id } = req.params
             console.log('controller', id, this.useCases.findById)
@@ -23,4 +24,4 @@ module.exports = class Controller {
             next(err)
         }
     }
-}
+} */

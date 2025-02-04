@@ -1,9 +1,10 @@
 module.exports = class UseCase {
     constructor(repository){
         this.repository = repository
+        this.execute.bind(this)
     }
 
-    execute = async (data) =>{
+    async execute(data) {
         
     }
 }

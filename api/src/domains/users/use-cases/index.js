@@ -3,7 +3,7 @@ const GetUserByIdUseCase = require('./GetUserById')
 const UserRepository = require("../repository")
 const UserModel = require('../data-access/model')
 
-const model = new UserModel()
+/* const model = new UserModel()
 const repository = new UserRepository(model)
 
 const findByIdCase = new GetUserByIdUseCase(repository)
@@ -14,4 +14,9 @@ const userUseCases = {
     findById: async (id) => { return await findByIdCase.execute(id) }
 }
 
-module.exports = userUseCases
+module.exports = userUseCases */
+
+module.exports = {
+    CreateUserUseCase,
+    GetUserByIdUseCase
+}
