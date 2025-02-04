@@ -7,8 +7,10 @@ export default class GetUserByIdUseCase extends UseCase {
         super(repository)
     }
 
-    execute = async (id) =>{
+    async execute(id){
+        console.log('id', id)
         const user = await this.repository.findById(id)
+        console.log('use case', user)
 
         if(!user){
             throw new NotFoundError((`user ${id}`))

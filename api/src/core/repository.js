@@ -1,9 +1,11 @@
 export default class Repository {
     constructor(model){
         this.model = model
+        this.findById.bind(this)
     }
 
-    findById = async (id) => {
+    async findById(id) {
+        console.log('id', id)
         return await this.model.findById(id)
     }
 

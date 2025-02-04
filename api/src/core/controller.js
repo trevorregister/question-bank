@@ -13,7 +13,7 @@ export default class Controller {
         }
     }
 
-    findById = async(req, res, next) => {
+/*     async findById(id) {
         try{
             const { id } = req.params
             const result = await this.useCases.findById(id)
@@ -21,5 +21,5 @@ export default class Controller {
         } catch(err){
             next(err)
         }
-    }
+    } */
 }
