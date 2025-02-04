@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test:int": "jest --experimental-modules  --runInBand  ./src/__tests__/integration"
+    "test:int": "jest --experimental-modules  --runInBand  ./src/__tests__/integration",
+    "db:seed": "node src/db-seed/seed.js"
   },
   "keywords": [],
   "type": "commonjs",

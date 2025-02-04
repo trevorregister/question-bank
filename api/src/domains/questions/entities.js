@@ -1,7 +1,6 @@
 const Joi = require('joi')
 const Entity = require('../../core/entity.js')
-
-const QUESTION_TYPES = ['numerical', 'multiple-choice', 'matrix']
+const { QUESTION_TYPES } = require('../../core/enums.js')
 
 const dbQuestion = Joi.object({
     prompt: Joi.string().required(),

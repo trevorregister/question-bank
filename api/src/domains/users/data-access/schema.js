@@ -1,6 +1,5 @@
 const mongoose = require('mongoose')
-
-const USER_ROLES = ['student', 'teacher', 'admin']
+const { USER_ROLES } = require('../../../core/enums')
 
 const Schema = mongoose.Schema
 
@@ -30,5 +29,4 @@ const schema = new Schema({
 })
 module.exports = {
     schema,
-    USER_ROLES
 }
