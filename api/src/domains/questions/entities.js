@@ -1,8 +1,7 @@
 import generateId from "../utils/generateId.js"
 import Entity from "../../core/entity.js"
 import Joi from "joi"
-
-const QUESTION_TYPES = ['numerical', 'multiple-choice', 'matrix']
+import { QUESTION_TYPES } from "../../core/enums.js"
 
 const dbQuestion = Joi.object({
     prompt: Joi.string().required(),

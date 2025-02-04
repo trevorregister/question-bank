@@ -1,6 +1,6 @@
 import Joi from "joi"
 import Entity from "../../core/entity.js"
-import { USER_ROLES } from "./data-access/schema.js"
+import { USER_ROLES } from "../../core/enums.js"
 
 const dbUser = Joi.object({
     firstName: Joi.string()

@@ -1,6 +1,5 @@
 import mongoose from "mongoose"
-
-export const USER_ROLES = ['student', 'teacher', 'admin']
+import { USER_ROLES } from "../../../core/enums.js"
 
 const Schema = mongoose.Schema
 
