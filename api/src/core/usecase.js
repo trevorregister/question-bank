@@ -1,9 +1,10 @@
-export default class UseCase {
+module.exports = class UseCase {
     constructor(repository){
         this.repository = repository
+        this.execute = this.execute.bind(this)
     }
 
-    execute = async (data) =>{
+    async execute(data) {
         
     }
 }

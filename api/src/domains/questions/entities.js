@@ -1,6 +1,5 @@
-import generateId from "../utils/generateId.js"
-import Entity from "../../core/entity.js"
-import Joi from "joi"
+const Joi = require('joi')
+const Entity = require('../../core/entity.js')
 
 const QUESTION_TYPES = ['numerical', 'multiple-choice', 'matrix']
 
@@ -29,7 +28,8 @@ const dbCondition = Joi.object({
     isCorrect: Joi.boolean().required(),
     feedBack: Joi.required()
 })
-export class Question extends Entity  {
+
+class Question extends Entity  {
     static validator = dbQuestion
     constructor({prompt, pointValue}){
         this.prompt = prompt,
@@ -48,7 +48,7 @@ export class Question extends Entity  {
     }
 }
 
-export class Variable extends Entity {
+class Variable extends Entity {
     static validator = dbVariable
     constructor({type, min, max, step}){
         this._id = generateId()
@@ -69,7 +69,7 @@ export class Variable extends Entity {
     }
 }
 
-export class Condition extends Entity {
+class Condition extends Entity {
     static validator = dbCondition
     constructor({formula, isCorrect, feedBack}){
         this._id = generateId()
@@ -86,4 +86,10 @@ export class Condition extends Entity {
             feedBack: data.feedBack
         }
     }
+}
+
+module.exports = {
+    Question,
+    Variable,
+    Condition
 }

@@ -1,5 +1,5 @@
-import builder from '../../../db-seed/builder.js'
-import request from '../setup.js'
+const builder = require("../../../db-seed/builder.js")
+const request = require('../setup.js')
 
 
 describe('getUserById', () => {

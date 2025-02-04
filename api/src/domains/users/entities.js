@@ -1,6 +1,6 @@
-import Joi from "joi"
-import Entity from "../../core/entity.js"
-import { USER_ROLES } from "./data-access/schema.js"
+const Joi = require('joi')
+const Entity = require('../../core/entity.js')
+const { USER_ROLES } = require('./data-access/schema.js')
 
 const dbUser = Joi.object({
     firstName: Joi.string()
@@ -18,7 +18,7 @@ const dbUser = Joi.object({
         .valid(...USER_ROLES)
 })
 
-export default class User extends Entity {
+module.exports = class User extends Entity {
     static validator = dbUser
     constructor({email, firstName, lastName, role}){
         super()

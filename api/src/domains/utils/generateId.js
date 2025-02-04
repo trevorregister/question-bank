@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
-export default function generateId() {
+module.exports = function generateId() {
     return new mongoose.Types.ObjectId()
 }

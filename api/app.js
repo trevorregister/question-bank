@@ -1,11 +1,11 @@
-import express from 'express'
-import morgan from 'morgan'
-import helmet from 'helmet'
-import "dotenv/config"
-import cors from 'cors'
-import cookieParser from 'cookie-parser'
-import Routes from './routes.js'
-import errorHandler from './src/middleware/errorHandler.js'
+const express = require('express')
+const morgan = require('morgan')
+const helmet = require('helmet')
+const dotenv = require('dotenv').config()
+const cors = require('cors')
+const cookieParser = require('cookie-parser')
+const Routes = require('./routes')
+const errorHandler = require('./src/middleware/errorHandler')
 
 const app = express()
 const corsOptions = {
@@ -22,4 +22,4 @@ app.use(morgan('dev'))
 app.use('/api', Routes())
 app.use(errorHandler)
 
-export default app
+module.exports = app

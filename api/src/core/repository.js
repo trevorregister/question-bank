@@ -1,13 +1,15 @@
-export default class Repository {
+module.exports = class Repository {
     constructor(model){
         this.model = model
+        this.findById = this.findById.bind(this)
+        this.create = this.create.bind(this)
     }
 
-    findById = async (id) => {
+    async findById(id){
         return await this.model.findById(id)
     }
 
-    create = async (data) =>{
+    async create(data){
         return await this.model.create(data)
     }
 }

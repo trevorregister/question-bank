@@ -9,14 +9,14 @@ class BaseError extends Error {
     }
 }
 
-export class HttpError extends BaseError{
+class HttpError extends BaseError{
     constructor(code, message){
         super(message)
         this.code = code
     }
 }
 
-export class NotFoundError extends HttpError {
+class NotFoundError extends HttpError {
     constructor(subject){
         super(404)
         this.message = `${subject} not found`
@@ -24,9 +24,15 @@ export class NotFoundError extends HttpError {
     }
 }
 
-export class ValidationError extends HttpError {
+class ValidationError extends HttpError {
     constructor(joiError){
         super(422)
         this.message = joiError.details.map(detail => detail.message)
     }
+}
+
+module.exports = {
+    HttpError,
+    NotFoundError,
+    ValidationError
 }

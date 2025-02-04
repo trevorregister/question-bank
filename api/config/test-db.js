@@ -1,16 +1,16 @@
-import mongoose from 'mongoose'
-import { MongoMemoryServer } from 'mongodb-memory-server'
+const { MongoMemoryServer } = require('mongodb-memory-server')
+const mongoose = require('mongoose')
 
 let mongo = undefined
 
-export async function setUp(){
+async function setUp(){
     mongo = await MongoMemoryServer.create()
     const url = mongo.getUri()
 
     await mongoose.connect(url)
 }
 
-export async function dropDatabase(){
+async function dropDatabase(){
     if (mongo) {
         await mongoose.connection.dropDatabase()
         await mongoose.connection.close()
@@ -18,7 +18,7 @@ export async function dropDatabase(){
     }
 }
 
-export async function dropCollections(){
+async function dropCollections(){
     if (mongo) {
         const collections = mongoose.connection.collections
 
@@ -27,4 +27,10 @@ export async function dropCollections(){
             await collection.deleteMany()
         }
     }
+}
+
+module.exports = {
+    setUp,
+    dropDatabase,
+    dropCollections
 }

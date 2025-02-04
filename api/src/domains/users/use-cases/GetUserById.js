@@ -1,13 +1,13 @@
-import UseCase from "../../../core/usecase.js"
-import User from "../entities.js"
-import { NotFoundError } from "../../../core/errors.js"
+const UseCase = require('../../../core/usecase.js')
+const User = require('../entities.js')
+const { NotFoundError } = require('../../../core/errors.js')
 
-export default class GetUserByIdUseCase extends UseCase {
+module.exports = class GetUserByIdUseCase extends UseCase {
     constructor(repository){
         super(repository)
     }
 
-    execute = async (id) =>{
+    async execute(id){
         const user = await this.repository.findById(id)
 
         if(!user){

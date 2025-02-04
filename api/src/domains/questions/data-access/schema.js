@@ -1,8 +1,8 @@
-import mongoose from "mongoose"
+const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 
-export default new Schema({
+module.exports = new Schema({
     prompt: {
         type: String,
         required: true

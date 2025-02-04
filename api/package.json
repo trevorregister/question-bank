@@ -7,7 +7,7 @@
     "test:int": "jest --experimental-modules  --runInBand  ./src/__tests__/integration"
   },
   "keywords": [],
-  "type": "module",
+  "type": "commonjs",
   "author": "",
   "license": "ISC",
   "description": "",

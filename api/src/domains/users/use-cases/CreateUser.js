@@ -1,13 +1,13 @@
-import UseCase from "../../../core/usecase.js"
-import User from "../entities.js"
-import { HttpError } from "../../../core/errors.js"
+const UseCase = require('../../../core/usecase')
+const User = require('../entities.js')
+const { HttpError } = require('../../../core/errors.js')
 
-export default class CreateUserUseCase extends UseCase {
+module.exports = class CreateUserUseCase extends UseCase {
     constructor(repository){
         super(repository)
     }
 
-    execute = async ({email, firstName, lastName, role}) =>{
+    async execute ({email, firstName, lastName, role}) {
         const existingUser = await this.repository.findByEmail(email)
         
         if(existingUser){

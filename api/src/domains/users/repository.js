@@ -1,11 +1,12 @@
-import Repository from "../../core/repository.js"
+const Repository = require('../../core/repository')
 
-export default class UserRepository extends Repository{
+module.exports = class UserRepository extends Repository{
     constructor(model){
         super(model)
+        this.findByEmail = this.findByEmail.bind(this)
     }
 
-    findByEmail = async (email) => {
+    async findByEmail(email){
         return await this.model.findOne({email: email.toLowerCase().trim()})
     }
 }

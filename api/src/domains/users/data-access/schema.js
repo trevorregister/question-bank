@@ -1,6 +1,6 @@
-import mongoose from "mongoose"
+const mongoose = require('mongoose')
 
-export const USER_ROLES = ['student', 'teacher', 'admin']
+const USER_ROLES = ['student', 'teacher', 'admin']
 
 const Schema = mongoose.Schema
 
@@ -28,4 +28,7 @@ const schema = new Schema({
         }
     }
 })
-export default schema
+module.exports = {
+    schema,
+    USER_ROLES
+}

@@ -1,8 +1,8 @@
-import { ValidationError } from "./errors.js"
+const { ValidationError } = require('./errors')
 
-export default class Entity {
+module.exports = class Entity {
     static validator = null
-    
+
     constructor(data){
     }
 
