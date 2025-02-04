@@ -33,7 +33,8 @@ module.exports = class User extends Entity {
             id: data._id,
             firstName: data.firstName,
             lastName: data.lastName,
-            role: data.role
+            role: data.role,
+            email: data.email
         }
     }
 }
