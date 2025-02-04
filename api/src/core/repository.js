@@ -1,8 +1,8 @@
 module.exports = class Repository {
     constructor(model){
         this.model = model
-        this.findById.bind(this)
-        this.create.bind(this)
+        this.findById = this.findById.bind(this)
+        this.create = this.create.bind(this)
     }
 
     async findById(id){

@@ -1,7 +1,7 @@
 /* module.exports = class Controller {
     constructor(useCases){
         this.useCases = useCases
-        this.findById.bind(this)
+        this.findById = findBy
     }
 
     create = async(req, res, next) => {

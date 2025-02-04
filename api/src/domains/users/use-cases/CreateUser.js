@@ -1,4 +1,4 @@
-const UseCase = require('../entities.js')
+const UseCase = require('../../../core/usecase')
 const User = require('../entities.js')
 const { HttpError } = require('../../../core/errors.js')
 
@@ -7,7 +7,7 @@ module.exports = class CreateUserUseCase extends UseCase {
         super(repository)
     }
 
-    execute = async ({email, firstName, lastName, role}) =>{
+    async execute ({email, firstName, lastName, role}) {
         const existingUser = await this.repository.findByEmail(email)
         
         if(existingUser){
