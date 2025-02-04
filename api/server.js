@@ -1,5 +1,5 @@
-import app from "./app.js"
-import connect from './config/db.js'
+const app = require('./app.js')
+const connect = require('./config/db.js')
 
 connect('local')
 app.listen(process.env.PORT, ()=>console.log(`Listening on port ${process.env.PORT}...`))

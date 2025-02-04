@@ -1,4 +1,4 @@
-export default class Controller {
+module.exports = class Controller {
     constructor(useCases){
         this.useCases = useCases
     }
@@ -16,6 +16,7 @@ export default class Controller {
     findById = async(req, res, next) => {
         try{
             const { id } = req.params
+            console.log('controller', id, this.useCases.findById)
             const result = await this.useCases.findById(id)
             res.status(200).send(result)
         } catch(err){

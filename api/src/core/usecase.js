@@ -1,4 +1,4 @@
-export default class UseCase {
+module.exports = class UseCase {
     constructor(repository){
         this.repository = repository
     }

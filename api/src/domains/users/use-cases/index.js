@@ -1,7 +1,7 @@
-import CreateUserUseCase from "./CreateUser.js"
-import GetUserByIdUseCase from "./GetUserById.js"
-import UserRepository from "../repository.js"
-import UserModel from "../data-access/model.js"
+const CreateUserUseCase = require('./CreateUser')
+const GetUserByIdUseCase = require('./GetUserById')
+const UserRepository = require("../repository")
+const UserModel = require('../data-access/model')
 
 const model = new UserModel()
 const repository = new UserRepository(model)
@@ -14,4 +14,4 @@ const userUseCases = {
     findById: async (id) => { return await findByIdCase.execute(id) }
 }
 
-export default userUseCases
+module.exports = userUseCases

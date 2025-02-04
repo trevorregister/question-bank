@@ -1,7 +1,7 @@
-import mongoose from "mongoose"
-import schema from "./schema.js"
+const mongoose = require('mongoose')
+const { schema } = require('./schema')
 
-export default class UserModel {
+module.exports = class UserModel {
     constructor (){
         return mongoose.model('users', schema)
     }

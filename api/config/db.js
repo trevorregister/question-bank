@@ -1,6 +1,6 @@
-import mongoose from 'mongoose'
+const mongoose = require('mongoose')
 
-export default async function connect(environment){
+module.exports = async function connect(environment){
     switch (environment){
         case 'local':
             var uri = process.env.MONGO_LOCAL_URI

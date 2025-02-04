@@ -1,9 +1,8 @@
-import { build, perBuild } from '@jackfranklin/test-data-bot'
-import { faker } from '@faker-js/faker'
-import generateId from '../domains/utils/generateId.js'
-import UserModel from '../domains/users/data-access/model.js'
-
-import UserRepository from '../domains/users/repository.js'
+const { build, perBuild } = require('@jackfranklin/test-data-bot')
+const { faker } = require('@faker-js/faker')
+const generateId = require('../domains/utils/generateId')
+const UserModel = require('../domains/users/data-access/model')
+const UserRepository = require('../domains/users/repository')
 
 const userModel = new UserModel()
 const userRepository = new UserRepository(userModel)
@@ -70,4 +69,4 @@ class Builder {
 
 const builder = new Builder()
 
-export default builder
+module.exports = builder

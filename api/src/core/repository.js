@@ -1,4 +1,4 @@
-export default class Repository {
+module.exports = class Repository {
     constructor(model){
         this.model = model
     }

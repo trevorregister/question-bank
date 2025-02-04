@@ -1,6 +1,6 @@
-import Controller from "../../core/controller.js"
+const Controller = require('../../core/controller')
 
-export default class UserController extends Controller {
+module.exports = class UserController extends Controller {
     constructor(useCases){
         super(useCases)
     }

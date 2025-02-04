@@ -1,5 +1,5 @@
-import mongoose from "mongoose"
-import schema from "./schema.js"
+const mongoose = require('mongoose')
+const schema = require('./schema.js')
 
 export default class QuestionModel {
     constructor (){

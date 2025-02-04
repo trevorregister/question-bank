@@ -1,7 +1,7 @@
-import express from 'express'
-import userRoutes from './src/domains/users/routes.js'
+const express = require('express')
+const userRoutes = require('./src/domains/users/routes.js')
 
-export default function Routes(){
+function Routes(){
     const router = express.Router()
     router.use('/users', userRoutes())
     router.get('/', (req, res, next) => {
@@ -9,3 +9,5 @@ export default function Routes(){
     })
     return router
 }
+
+module.exports = Routes

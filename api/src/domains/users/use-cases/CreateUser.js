@@ -1,8 +1,8 @@
-import UseCase from "../../../core/usecase.js"
-import User from "../entities.js"
-import { HttpError } from "../../../core/errors.js"
+const UseCase = require('../entities.js')
+const User = require('../entities.js')
+const { HttpError } = require('../../../core/errors.js')
 
-export default class CreateUserUseCase extends UseCase {
+module.exports = class CreateUserUseCase extends UseCase {
     constructor(repository){
         super(repository)
     }

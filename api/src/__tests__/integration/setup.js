@@ -1,5 +1,5 @@
-import supertest from 'supertest'
-import app from '../../../app'
+const supertest = require('supertest')
+const app = require('../../../app')
 
 const supertestRequest = supertest(app)
 
@@ -41,4 +41,4 @@ class Request {
 
 const request = new Request(supertestRequest, routes)
 
-export default request
+module.exports = request

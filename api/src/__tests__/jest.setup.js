@@ -1,4 +1,4 @@
-import { setUp, dropCollections, dropDatabase } from "../../config/test-db"
+const { setUp, dropCollections, dropDatabase} = require('../../config/test-db')
 
 beforeAll(async () => {
     await setUp()
