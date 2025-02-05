@@ -23,7 +23,7 @@ const schema = new Schema({
         type: String,
         required: true,
         enum: {
-            values: USER_ROLES
+            values: Object.values(USER_ROLES)
         }
     }
 })

@@ -15,7 +15,7 @@ const dbUser = Joi.object({
         .email({minDomainSegments: 2}),
     role: Joi.string()
         .required()
-        .valid(...USER_ROLES)
+        .valid(...Object.values(USER_ROLES))
 })
 
 module.exports = class User extends Entity {
