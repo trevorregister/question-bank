@@ -5,6 +5,7 @@ const UserModel = require('../domains/users/data-access/model')
 const UserRepository = require('../domains/users/repository')
 const QuestionModel = require('../domains/questions/data-access/model')
 const QuestionRepository = require('../domains/questions/repository')
+const { QUESTION_TYPES } = require('../core/enums')
 
 const userModel = new UserModel()
 const userRepository = new UserRepository(userModel)
@@ -23,10 +24,10 @@ const userFields = {
 const questionFields = {
     _id: perBuild(() => generateId()),
     prompt: perBuild(() => faker.lorem.sentence(5)),
-    variables: perBuild(() => []),
-    conditions: perBuild(() => []),
+    variables: [],
+    conditions: [],
     pointValue: perBuild(() => faker.number.int({min: 10, max: 100})),
-    type: 'numerical',
+    type: QUESTION_TYPES.Numerical,
     owner: perBuild(() => generateId())
 }
 

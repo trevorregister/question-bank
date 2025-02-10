@@ -2,21 +2,27 @@ const builder = require("../../../db-seed/builder.js")
 const generateId = require("../../../domains/utils/generateId.js")
 const request = require('../setup.js')
 const { faker } = builder
-const { QUESTION_TYPES } = require('../../../core/enums.js')
+const { VARIABLE_TYPES } = require('../../../core/enums.js')
 
 
-describe('Create Question', () => {
+describe('Create Variable', () => {
 
-    it('given valid inputs, returns new question and 201', async () => {
-        const questionOwner = generateId()
-        const questionProps = {
-            prompt: faker.lorem.sentence(10),
-            pointValue: faker.number.int({min: 10, max: 50}),
-            type: QUESTION_TYPES.Numerical,
-            owner: questionOwner
+    it('given valid inputs, returns question with new variable and 201', async () => {
+        const min = faker.number.int({min: 1, max: 10})
+        const max = faker.number.int({min: 11, max: 20})
+        const step = faker.number.int({min: 1, max: 10})
+        const variableProps = {
+            type: VARIABLE_TYPES.Random,
+            min: min,
+            max: max,
+            step: step
+
         }
-        const res = await request.questions.post('/', questionProps)
+        const question = await builder.question()
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
+
         expect(res.status).toBe(201)
+        
         const { id, prompt, variables, conditions, pointValue, owner, type } = res.body
         expect({
             id,
@@ -29,7 +35,13 @@ describe('Create Question', () => {
         }).toEqual({
             id: id,
             prompt: prompt,
-            variables: variables,
+            variables: [{
+                id: variables[0].id,
+                min: min,
+                max: max,
+                step: step,
+                type: VARIABLE_TYPES.Random
+            }],
             conditions: conditions,
             pointValue: pointValue,
             owner: owner,
