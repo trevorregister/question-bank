@@ -45,9 +45,15 @@ module.exports = class QuestionRepository extends Repository{
     }
 
     async updateQuestion({questionId, payload}){
+/*         let setParameters = {}
+        if(payload.variables){
+            for (const [key, value] of Object.entries(payload.variables)){
+                setParameters[`variables.$[elem].${key}`] = value
+            }
+        } */
         return await this.model.findOneAndUpdate(
             { _id: questionId },
-            { $set: payload },
+            { $set: setParameters },
             { new: true }
         )
     }
