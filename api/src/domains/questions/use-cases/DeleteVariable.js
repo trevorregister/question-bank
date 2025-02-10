@@ -13,7 +13,7 @@ module.exports = class DeleteVariableUseCase extends UseCase {
             throw new NotFoundError(`question ${questionId}`)
         }
 
-        if(!question.variables.some(v => v._id.toHexString() === variableId)){
+        if(!question.variables.some(v => v.id.toHexString() === variableId)){
             throw new NotFoundError(` variable ${variableId} in question ${questionId}`)
         }
         const updatedQuestion = await this.repository.deleteVariableFromQuestion({questionId, variableId})

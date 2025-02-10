@@ -9,11 +9,12 @@ module.exports = function questionRoutes(){
     const controller = new QuestionController(repository)
     const router = express.Router()
     router.post('/', controller.create)
-    
+
     router.post('/:questionId/variable', controller.createVariable)
     router.post('/:questionId/condition', controller.createCondition)
 
     router.delete('/:questionId/variable/:variableId', controller.deleteVariable)
+    router.delete('/:questionId/condition/:conditionId', controller.deleteCondition)
 
     return router
 } 

@@ -89,7 +89,7 @@ class Condition extends Entity {
 
     static toWeb(data){
         return {
-            id: data._id,
+            id: data.id,
             expression: data.expression,
             isCorrect: data.isCorrect,
             feedback: data.feedback

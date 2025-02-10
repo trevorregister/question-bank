@@ -1,4 +1,5 @@
 const Repository = require('../../core/repository')
+const mongoose = require('mongoose')
 
 module.exports = class QuestionRepository extends Repository{
     constructor(model){
@@ -6,6 +7,7 @@ module.exports = class QuestionRepository extends Repository{
         this.addVariableToQuestion = this.addVariableToQuestion.bind(this)
         this.deleteVariableFromQuestion = this.deleteVariableFromQuestion.bind(this)
         this.addConditionToQuestion = this.addConditionToQuestion.bind(this)
+        this.deleteConditionFromQuestion = this.deleteConditionFromQuestion.bind(this)
     }
 
     async addVariableToQuestion({questionId, variable}) {
@@ -19,7 +21,7 @@ module.exports = class QuestionRepository extends Repository{
     async deleteVariableFromQuestion({questionId, variableId}){
         return await this.model.findOneAndUpdate(
             { _id: questionId },
-            { $pull: {variables: {_id: variableId}} },
+            { $pull: {variables: {id: mongoose.Types.ObjectId.createFromHexString(variableId)}} },
             { new: true }
         )
     }
@@ -28,6 +30,14 @@ module.exports = class QuestionRepository extends Repository{
         return await this.model.findOneAndUpdate(
             { _id: questionId },
             {$push: {conditions: condition} },
+            { new: true }
+        )
+    }
+
+    async deleteConditionFromQuestion({questionId, conditionId}){
+        return await this.model.findOneAndUpdate(
+            { _id: questionId },
+            { $pull: {conditions: {id: mongoose.Types.ObjectId.createFromHexString(conditionId)}} },
             { new: true }
         )
     }
