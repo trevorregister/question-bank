@@ -22,7 +22,6 @@ describe('Create Variable', () => {
         const res = await request.questions.post(`/${question._id}/variable`, variableProps)
 
         expect(res.status).toBe(201)
-        console.log('question', question)
         
         const { id, prompt, variables, conditions, pointValue, owner, type } = res.body
         expect({
