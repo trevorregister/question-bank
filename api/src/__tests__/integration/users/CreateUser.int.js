@@ -1,14 +1,15 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
+const { faker } = builder
 
 
 describe('Create User', () => {
 
     it('given valid inputs, returns new user and 201', async () => {
         const userProps = {
-            email: builder.faker.internet.email().toLowerCase(),
-            firstName: builder.faker.person.firstName(),
-            lastName: builder.faker.person.lastName(),
+            email: faker.internet.email().toLowerCase(),
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
             role: 'student'
         }
         const res = await request.users.post('/', userProps)
@@ -30,8 +31,8 @@ describe('Create User', () => {
     it('given invalid inputs, returns 422', async () => {
         const userProps = {
             email: 'fdas',
-            firstName: builder.faker.person.firstName(),
-            lastName: builder.faker.person.lastName(),
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
             role: 'asdf'
         }
         const res = await request.users.post('/', userProps)

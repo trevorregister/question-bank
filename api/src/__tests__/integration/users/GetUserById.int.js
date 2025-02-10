@@ -1,5 +1,7 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
+const { faker } = builder
+
 
 
 describe('getUserById', () => {
