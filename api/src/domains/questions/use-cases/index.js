@@ -1,5 +1,7 @@
 const CreateQuestionUseCase = require('./CreateQuestion')
+const CreateVariableUseCase = require('./CreateVariable')
 
 module.exports = {
-    CreateQuestionUseCase
+    CreateQuestionUseCase,
+    CreateVariableUseCase
 }

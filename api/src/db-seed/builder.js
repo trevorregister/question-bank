@@ -16,6 +16,10 @@ const userFields = {
     email: perBuild(() => faker.internet.email()),
 }
 
+const questionFields = {
+    _id: perBuild(() => generateId())
+}
+
 const studentBuilder = build({
     name: 'User',
     fields: {
@@ -30,6 +34,10 @@ const teacherBuilder = build({
         role: 'teacher',
         ...userFields
     },
+})
+
+const questionBuilder = build({
+
 })
 
 

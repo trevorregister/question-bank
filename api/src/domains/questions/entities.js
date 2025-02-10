@@ -1,5 +1,6 @@
 const Joi = require('joi')
 const Entity = require('../../core/entity.js')
+const generateId = require('../utils/generateId.js')
 const { QUESTION_TYPES } = require('../../core/enums.js')
 
 const dbQuestion = Joi.object({
@@ -45,7 +46,7 @@ class Question extends Entity  {
         return {
             id: data._id,
             prompt: data.prompt,
-            variables: data.variables,
+            variables: data.variables.map(v => Variable.toWeb(v)),
             conditions: data.conditions,
             pointValue: data.pointValue,
             owner: data.owner,
@@ -57,7 +58,8 @@ class Question extends Entity  {
 class Variable extends Entity {
     static validator = dbVariable
     constructor({type, min, max, step}){
-        this._id = generateId()
+        super()
+        this.id = generateId()
         this.type = type
         this.min = min
         this.max = max
@@ -66,7 +68,7 @@ class Variable extends Entity {
 
     static toWeb(data){
         return {
-            id: data._id,
+            id: data.id,
             type: data.type,
             min: data.min,
             max: data.max,
@@ -78,7 +80,8 @@ class Variable extends Entity {
 class Condition extends Entity {
     static validator = dbCondition
     constructor({formula, isCorrect, feedBack}){
-        this._id = generateId()
+        super()
+        this.id = generateId()
         this.formula = formula
         this.isCorrect = isCorrect,
         this.feedBack = feedBack

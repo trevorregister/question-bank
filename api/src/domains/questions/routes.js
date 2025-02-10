@@ -9,6 +9,7 @@ module.exports = function questionRoutes(){
     const controller = new QuestionController(repository)
     const router = express.Router()
     router.post('/', controller.create)
+    router.post('/:questionId/variable', controller.createVariable)
 
     return router
 } 
