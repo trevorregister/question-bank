@@ -11,5 +11,7 @@ module.exports = function questionRoutes(){
     router.post('/', controller.create)
     router.post('/:questionId/variable', controller.createVariable)
 
+    router.delete('/:questionId/variable/:variableId', controller.deleteVariable)
+
     return router
 } 
