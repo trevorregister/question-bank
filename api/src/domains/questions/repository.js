@@ -1,5 +1,5 @@
 const Repository = require('../../core/repository')
-const mongoose = require('mongoose')
+const toOid = require('../utils/toOid')
 
 module.exports = class QuestionRepository extends Repository{
     constructor(model){
@@ -21,7 +21,7 @@ module.exports = class QuestionRepository extends Repository{
     async deleteVariableFromQuestion({questionId, variableId}){
         return await this.model.findOneAndUpdate(
             { _id: questionId },
-            { $pull: {variables: {id: mongoose.Types.ObjectId.createFromHexString(variableId)}} },
+            { $pull: {variables: {id: toOid(variableId)}} },
             { new: true }
         )
     }
@@ -37,7 +37,7 @@ module.exports = class QuestionRepository extends Repository{
     async deleteConditionFromQuestion({questionId, conditionId}){
         return await this.model.findOneAndUpdate(
             { _id: questionId },
-            { $pull: {conditions: {id: mongoose.Types.ObjectId.createFromHexString(conditionId)}} },
+            { $pull: {conditions: {id: toOid(conditionId)}} },
             { new: true }
         )
     }
