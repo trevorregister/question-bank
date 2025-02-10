@@ -4,37 +4,41 @@ const { QUESTION_TYPES } = require('../../core/enums.js')
 
 const dbQuestion = Joi.object({
     prompt: Joi.string().required(),
-    variables: Joi.array().required(),
-    conditions: Joi.array().required(),
-    pointValue: Joi.number().integer().required()
+    variables: Joi.array(),
+    conditions: Joi.array(),
+    pointValue: Joi.number().integer().required(),
+    type: Joi.string().required().valid(...Object.values(QUESTION_TYPES)),
+    owner: Joi.string().required()
 })
 
 const dbVariable = Joi.object({
     type: Joi.string()
         .trim()
-        .lowercase()
-        .valid(...QUESTION_TYPES),
+        .lowercase(),
     min: Joi.number().required(),
     max: Joi.number().required(),
     step: Joi.number()
-        .integer()
         .greater(0)
         .required()
 })
 
 const dbCondition = Joi.object({
-    formula: Joi.required(),
+    formula: Joi.string().required(),
     isCorrect: Joi.boolean().required(),
-    feedBack: Joi.required()
+    feedBack: Joi.string().required()
 })
 
 class Question extends Entity  {
     static validator = dbQuestion
-    constructor({prompt, pointValue}){
+    constructor({prompt, pointValue, type, owner}){
+        super()
         this.prompt = prompt,
         this.variables = [],
         this.conditions = [],
-        this.pointValue = pointValue
+        this.pointValue = pointValue,
+        this.type = type
+        this.owner = owner
+
     }
 
     static toWeb(data){
@@ -42,7 +46,10 @@ class Question extends Entity  {
             id: data._id,
             prompt: data.prompt,
             variables: data.variables,
-            pointValue: data.pointValue
+            conditions: data.conditions,
+            pointValue: data.pointValue,
+            owner: data.owner,
+            type: data.type
         }
     }
 }
