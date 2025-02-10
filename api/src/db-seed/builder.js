@@ -3,9 +3,13 @@ const { faker } = require('@faker-js/faker')
 const generateId = require('../domains/utils/generateId')
 const UserModel = require('../domains/users/data-access/model')
 const UserRepository = require('../domains/users/repository')
+const QuestionModel = require('../domains/questions/data-access/model')
+const QuestionRepository = require('../domains/questions/repository')
 
 const userModel = new UserModel()
 const userRepository = new UserRepository(userModel)
+const questionModel = new QuestionModel()
+const questionRepository = new QuestionRepository(questionModel)
 
 faker.seed(123)
 
@@ -17,7 +21,13 @@ const userFields = {
 }
 
 const questionFields = {
-    _id: perBuild(() => generateId())
+    _id: perBuild(() => generateId()),
+    prompt: perBuild(() => faker.lorem.sentence(5)),
+    variables: perBuild(() => []),
+    conditions: perBuild(() => []),
+    pointValue: perBuild(() => faker.number.int({min: 10, max: 100})),
+    type: 'numerical',
+    owner: perBuild(() => generateId())
 }
 
 const studentBuilder = build({
@@ -37,7 +47,10 @@ const teacherBuilder = build({
 })
 
 const questionBuilder = build({
-
+    name: 'Question',
+    fields: {
+        ...questionFields
+    }
 })
 
 
@@ -61,11 +74,14 @@ class Builder {
     constructor(){
         this.userModel = userModel
         this.userRepository = userRepository
+        this.questionModel = questionModel
+        this.questionRepository = questionRepository
         this.faker = faker
         this.user = {
             student: createBuilderMethod(studentBuilder, userModel),
             teacher: createBuilderMethod(teacherBuilder, userModel)
         }
+        this.question = createBuilderMethod(questionBuilder, questionModel)
     }
     randomId(){
         return generateId()

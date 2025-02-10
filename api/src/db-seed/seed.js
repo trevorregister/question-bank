@@ -6,9 +6,11 @@ import "dotenv/config" */
 const builder = require('../db-seed/builder')
 const connect = require('../../config/db')
 const UserModel = require('../domains/users/data-access/model')
+const QuestionModel = require('../domains/questions/data-access/model')
 const dotenv = require('dotenv').config()
 
 const userModel = new UserModel()
+const questionModel = new QuestionModel()
 
 async function init(){
     await connect('local')
@@ -22,9 +24,17 @@ async function buildUsers(){
         }
     }
 
+async function buildQuestions(){
+    for(let i=0; i<10; i++){
+        const question = await builder.question()
+        questionModel.create(question)
+    }
+}
+
 async function seed(){
     await init()
     await buildUsers()
+    await buildQuestions()
 }
 
 seed()
