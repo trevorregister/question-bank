@@ -1,6 +1,6 @@
 const {
     CreateQuestionUseCase,
-} = require('../questions/use-cases/index')
+} = require('./use-cases/index')
 
 module.exports = class QuestionController {
     constructor(repository){
