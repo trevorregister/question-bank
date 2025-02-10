@@ -15,26 +15,34 @@ const questionModel = new QuestionModel()
 async function init(){
     await connect('local')
     await userModel.deleteMany({})
+    await questionModel.deleteMany({})
 }
 
 async function buildUsers(){
+    const teachers = []
     for(let i=0; i<10; i++){
         const teacher = await builder.user.teacher()
+        teachers.push(teacher)
         userModel.create(teacher)
         }
+    return {
+        teachers: teachers
+    }
     }
 
-async function buildQuestions(){
-    for(let i=0; i<10; i++){
-        const question = await builder.question()
-        questionModel.create(question)
-    }
+async function buildQuestions(teachers){
+    teachers.forEach(async teacher => {
+        for(let i=0; i<10; i++){
+            const question = await builder.question({owner: teacher._id})
+            questionModel.create(question)
+        }
+    })
 }
 
 async function seed(){
     await init()
-    await buildUsers()
-    await buildQuestions()
+    const users = await buildUsers()
+    await buildQuestions(users.teachers)
 }
 
 seed()
