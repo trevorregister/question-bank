@@ -9,6 +9,7 @@ module.exports = class QuestionRepository extends Repository{
         this.addConditionToQuestion = this.addConditionToQuestion.bind(this)
         this.deleteConditionFromQuestion = this.deleteConditionFromQuestion.bind(this)
         this.updateQuestion = this.updateQuestion.bind(this)
+        this.findQuestionsByOwner = this.findQuestionsByOwner.bind(this)
     }
 
     async addVariableToQuestion({questionId, variable}) {
@@ -49,5 +50,9 @@ module.exports = class QuestionRepository extends Repository{
             { $set: payload },
             { new: true }
         )
+    }
+
+    async findQuestionsByOwner(ownerId){
+        return await this.model.find({owner: toOid(ownerId)})
     }
 }

@@ -10,6 +10,7 @@ module.exports = function questionRoutes(){
     const router = express.Router()
     router.post('/', controller.create)
     router.patch('/:questionId', controller.updateQuestion)
+    router.get('/owner/:ownerId', controller.getByOwner)
 
     router.post('/:questionId/variable', controller.createVariable)
     router.post('/:questionId/condition', controller.createCondition)
