@@ -9,6 +9,7 @@ module.exports = function questionRoutes(){
     const controller = new QuestionController(repository)
     const router = express.Router()
     router.post('/', controller.create)
+    router.patch('/:questionId', controller.updateQuestion)
 
     router.post('/:questionId/variable', controller.createVariable)
     router.post('/:questionId/condition', controller.createCondition)

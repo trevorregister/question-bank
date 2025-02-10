@@ -8,6 +8,7 @@ module.exports = class QuestionRepository extends Repository{
         this.deleteVariableFromQuestion = this.deleteVariableFromQuestion.bind(this)
         this.addConditionToQuestion = this.addConditionToQuestion.bind(this)
         this.deleteConditionFromQuestion = this.deleteConditionFromQuestion.bind(this)
+        this.updateQuestion = this.updateQuestion.bind(this)
     }
 
     async addVariableToQuestion({questionId, variable}) {
@@ -38,6 +39,14 @@ module.exports = class QuestionRepository extends Repository{
         return await this.model.findOneAndUpdate(
             { _id: questionId },
             { $pull: {conditions: {id: toOid(conditionId)}} },
+            { new: true }
+        )
+    }
+
+    async updateQuestion({questionId, payload}){
+        return await this.model.findOneAndUpdate(
+            { _id: questionId },
+            { $set: payload },
             { new: true }
         )
     }

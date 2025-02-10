@@ -3,7 +3,8 @@ const {
     CreateVariableUseCase,
     DeleteVariableUseCase,
     CreateConditionUseCase,
-    DeleteConditionUseCase
+    DeleteConditionUseCase,
+    UpdateQuestionUseCase
 } = require('./use-cases/index')
 
 module.exports = class QuestionController {
@@ -14,6 +15,7 @@ module.exports = class QuestionController {
         this.deleteVariable = this.deleteVariable.bind(this)
         this.createCondition = this.createCondition.bind(this)
         this.deleteCondition = this.deleteCondition.bind(this)
+        this.updateQuestion = this.updateQuestion.bind(this)
     }
 
     async create(req, res, next){
@@ -23,6 +25,19 @@ module.exports = class QuestionController {
             const result = await createQuestionCase.execute(data)
             res.status(201).send(result)
         } catch(err){
+            next(err)
+        }
+    }
+
+    async updateQuestion(req, res, next){
+        try{
+            const updateQuestionCase = new UpdateQuestionUseCase(this.repository)
+            const payload = req.body
+            console.log('payload controller', payload)
+            const { questionId } = req.params
+            const result = await updateQuestionCase.execute({questionId, payload})
+            res.status(201).send(result)
+        }catch(err){
             next(err)
         }
     }
