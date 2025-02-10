@@ -1,3 +1,4 @@
+const { USER_ROLES } = require("../../../core/enums.js")
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
 const { faker } = builder
@@ -10,7 +11,7 @@ describe('Create User', () => {
             email: faker.internet.email().toLowerCase(),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            role: 'student'
+            role: USER_ROLES.Student
         }
         const res = await request.users.post('/', userProps)
         expect(res.status).toBe(201)
@@ -24,7 +25,7 @@ describe('Create User', () => {
             email: userProps.email,
             firstName: userProps.firstName,
             lastName: userProps.lastName,
-            role: 'student'
+            role: userProps.role
         })
     })
 
