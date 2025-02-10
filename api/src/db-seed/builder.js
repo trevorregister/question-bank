@@ -25,7 +25,7 @@ const questionFields = {
     _id: perBuild(() => generateId()),
     prompt: perBuild(() => faker.lorem.sentence(5)),
     variables: [],
-    conditions: [],
+    conditions: perBuild(() => generateConditions()),
     pointValue: perBuild(() => faker.number.int({min: 10, max: 100})),
     type: QUESTION_TYPES.Numerical,
     owner: perBuild(() => generateId())
@@ -54,6 +54,22 @@ const questionBuilder = build({
     }
 })
 
+function generateConditions() {
+    return [
+        {
+            id: generateId(),
+            expression: faker.lorem.word(10),
+            isCorrect: true,
+            feedback: faker.lorem.sentence(10)
+        },
+        {
+            id: generateId(),
+            expression: faker.lorem.word(10),
+            isCorrect: false,
+            feedback: faker.lorem.sentence(10)
+        }
+    ]
+}
 
 function applyOverrides(builderInstance, overrides) {
     for (const key in overrides) {

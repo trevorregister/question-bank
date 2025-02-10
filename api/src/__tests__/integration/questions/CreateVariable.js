@@ -18,10 +18,11 @@ describe('Create Variable', () => {
             step: step
 
         }
-        const question = await builder.question()
+        const question = await builder.question({conditions: []})
         const res = await request.questions.post(`/${question._id}/variable`, variableProps)
 
         expect(res.status).toBe(201)
+        console.log('question', question)
         
         const { id, prompt, variables, conditions, pointValue, owner, type } = res.body
         expect({
@@ -33,8 +34,8 @@ describe('Create Variable', () => {
             owner,
             type
         }).toEqual({
-            id: id,
-            prompt: prompt,
+            id: question._id.toHexString(),
+            prompt: question.prompt,
             variables: [{
                 id: variables[0].id,
                 min: min,
@@ -42,10 +43,10 @@ describe('Create Variable', () => {
                 step: step,
                 type: VARIABLE_TYPES.Random
             }],
-            conditions: conditions,
-            pointValue: pointValue,
-            owner: owner,
-            type: type
+            conditions: question.conditions,
+            pointValue: question.pointValue,
+            owner: question.owner.toHexString(),
+            type: question.type
         })
     })
 
