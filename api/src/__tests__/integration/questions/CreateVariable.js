@@ -8,6 +8,9 @@ const { VARIABLE_TYPES, QUESTION_TYPES } = require('../../../core/enums.js')
 describe('Create Variable', () => {
 
     it('given valid inputs, returns question with new variable and 201', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
         const min = faker.number.int({min: 1, max: 10})
         const max = faker.number.int({min: 11, max: 20})
         const step = faker.number.int({min: 1, max: 10})
@@ -18,8 +21,8 @@ describe('Create Variable', () => {
             step: step
 
         }
-        const question = await builder.question({conditions: []})
-        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
+        const question = await builder.question({conditions: [], owner: user._id})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps, token)
 
         expect(res.status).toBe(201)
         
@@ -50,6 +53,9 @@ describe('Create Variable', () => {
     })
 
     it('given invalid inputs, returns 422', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
         const max = faker.number.int({min: 11, max: 20})
         const step = faker.number.int({min: 1, max: 10})
         const variableProps = {
@@ -58,12 +64,15 @@ describe('Create Variable', () => {
             max: max,
             step: step
         }
-        const question = await builder.question({conditions: []})
-        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
+        const question = await builder.question({conditions: [], owner: user._id})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps, token)
         expect(res.status).toBe(422)
     })
 
     it('given a min greater than max, returns 422', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
         const max = faker.number.int({min: 11, max: 20})
         const step = faker.number.int({min: 1, max: 10})
         const variableProps = {
@@ -72,8 +81,8 @@ describe('Create Variable', () => {
             max: 1,
             step: step
         }
-        const question = await builder.question({conditions: []})
-        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
+        const question = await builder.question({conditions: [], owner: user._id})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps, token)
         expect(res.status).toBe(422)
     })
 })

@@ -5,9 +5,12 @@ const request = require('../setup.js')
 describe('Delete condition', () => {
 
     it('returns question with deleted condition removed and 201', async () => {
-        const question = await builder.question()
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
+        const question = await builder.question({owner: user._id})
         const conditionId = question.conditions[0].id
-        const res = await request.questions.delete(`/${question._id}/condition/${conditionId}`)
+        const res = await request.questions.delete(`/${question._id}/condition/${conditionId}`, token)
 
         expect(res.status).toBe(201)
         

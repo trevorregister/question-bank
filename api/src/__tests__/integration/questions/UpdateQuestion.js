@@ -35,7 +35,9 @@ describe('Update question', () => {
                 expression: faker.lorem.sentence(10)
             }
         ]
-        const question = await builder.question({ variables: variables, conditions: conditions})
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+        const question = await builder.question({ variables: variables, conditions: conditions, owner: user._id})
 
         const variableUpdate = {
             id: variables[0].id,
@@ -57,7 +59,7 @@ describe('Update question', () => {
             isArchived: true
         }
 
-        const res = await request.questions.patch(`/${question._id}/`, payload)
+        const res = await request.questions.patch(`/${question._id}/`, payload, token)
         const updatedQuestion  = res.body
         const { prompt, pointValue, isArchived, isDeleted } = updatedQuestion
 
