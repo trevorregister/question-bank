@@ -10,8 +10,6 @@ const dbQuestion = Joi.object({
     pointValue: Joi.number().integer().required(),
     type: Joi.string().required().valid(...Object.values(QUESTION_TYPES)),
     owner: Joi.string().required(),
-    isArchived: Joi.boolean().required(),
-    isDeleted: Joi.boolean().required(),
 })
 
 const dbVariable = Joi.object({
@@ -19,7 +17,7 @@ const dbVariable = Joi.object({
         .trim()
         .lowercase(),
     min: Joi.number().required(),
-    max: Joi.number().required(),
+    max: Joi.number().greater(Joi.ref('min')).required(),
     step: Joi.number()
         .greater(0)
         .required()

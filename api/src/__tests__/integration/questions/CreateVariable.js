@@ -2,7 +2,7 @@ const builder = require("../../../db-seed/builder.js")
 const generateId = require("../../../domains/utils/generateId.js")
 const request = require('../setup.js')
 const { faker } = builder
-const { VARIABLE_TYPES } = require('../../../core/enums.js')
+const { VARIABLE_TYPES, QUESTION_TYPES } = require('../../../core/enums.js')
 
 
 describe('Create Variable', () => {
@@ -50,13 +50,30 @@ describe('Create Variable', () => {
     })
 
     it('given invalid inputs, returns 422', async () => {
-        const questionProps = {
-            prompt: faker.lorem.sentence(10),
-            pointValue: faker.number.int({min: 10, max: 50}),
-            type: 'asdf',
-            owner: '123'
+        const max = faker.number.int({min: 11, max: 20})
+        const step = faker.number.int({min: 1, max: 10})
+        const variableProps = {
+            type: VARIABLE_TYPES.Random,
+            min: "asdf",
+            max: max,
+            step: step
         }
-        const res = await request.questions.post('/', questionProps)
+        const question = await builder.question({conditions: []})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
+        expect(res.status).toBe(422)
+    })
+
+    it('given a min greater than max, returns 422', async () => {
+        const max = faker.number.int({min: 11, max: 20})
+        const step = faker.number.int({min: 1, max: 10})
+        const variableProps = {
+            type: VARIABLE_TYPES.Random,
+            min: 10,
+            max: 1,
+            step: step
+        }
+        const question = await builder.question({conditions: []})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps)
         expect(res.status).toBe(422)
     })
 })
