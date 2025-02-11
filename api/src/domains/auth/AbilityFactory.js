@@ -21,7 +21,7 @@ module.exports = class AbilityFactory {
                 defineStudentRules(can, cannot, user)
                 break
             default:
-                throw new TypeError(role, 'USER_ROLES')
+                throw new TypeError(role)
         }
 
         return createMongoAbility(rules)

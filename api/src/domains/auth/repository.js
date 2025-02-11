@@ -20,7 +20,7 @@ class AuthorizationRepository {
                     break
                 }
             default:
-                throw new TypeError(subject, 'SUBJECTS')
+                throw new TypeError(subject)
         }
 
         return owner

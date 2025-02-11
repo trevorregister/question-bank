@@ -32,9 +32,9 @@ class ValidationError extends HttpError {
 }
 
 class TypeError extends HttpError {
-    constructor(type, validTypes){
+    constructor(type){
         super(400)
-        this.message = `${type} is not a valid ${validTypes}`
+        this.message = `invalid type ${type}`
     }
 }
 
