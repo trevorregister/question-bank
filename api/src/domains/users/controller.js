@@ -4,6 +4,8 @@ const {
     LoginEmailPasswordUseCase
 } = require('../users/use-cases/index')
 
+const { HttpError } = require('../../core/errors')
+
 module.exports = class UserController {
     constructor(repository){
         this.repository = repository
@@ -39,7 +41,17 @@ module.exports = class UserController {
             const loginEmailPasswordCase = new LoginEmailPasswordUseCase(this.repository)
             const data = req.body
             const result = await loginEmailPasswordCase.execute(data)
-            res.status(200).send(result)
+            res.status(200)
+                .cookie(
+                    'token', 
+                    result.token, 
+                    {
+                        httpOnly: true, 
+                        sameSite: 'none',
+                        secure: true,
+                        domain: process.env.DOMAIN
+                    })
+                .send(result)
         } catch(err) {
             next(err)
         }

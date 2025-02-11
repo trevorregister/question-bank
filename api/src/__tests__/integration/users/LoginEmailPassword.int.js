@@ -4,8 +4,6 @@ const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv').config()
 const { faker } = builder
 
-
-
 describe('Login with email and password', () => {
 
     it('given correct credentials, returns valid token and 200', async () => {
@@ -14,6 +12,7 @@ describe('Login with email and password', () => {
         const { token } = res.body
         const valid = jwt.verify(token, process.env.JWT_SECRET)
         const { id, role } = valid
+        
         expect(res.status).toBe(200)
         expect({
             id,
