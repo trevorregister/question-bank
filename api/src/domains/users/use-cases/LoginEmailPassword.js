@@ -10,18 +10,11 @@ module.exports = class LoginEmailPasswordUseCase extends UseCase {
 
     async execute ({email, password}) {
         const user = await this.repository.findByEmail(email)
-        
-        if(!user){
-            throw new HttpError(401, 'user not found or incorrect password')
-        } else {
-            
-        const match = await bcrypt.compare(password, user.hash)
-        
-        if(match){
+        const match = await bcrypt.compare(password, user.hash ?? '')
+        if(user && match){
             return User.toWeb(user)
-        } else {
+        } else{
             throw new HttpError(401, 'user not found or incorrect password')
         }
-        } 
     }
 }
