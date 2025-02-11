@@ -9,7 +9,9 @@ const dbQuestion = Joi.object({
     conditions: Joi.array(),
     pointValue: Joi.number().integer().required(),
     type: Joi.string().required().valid(...Object.values(QUESTION_TYPES)),
-    owner: Joi.string().required()
+    owner: Joi.string().required(),
+    isArchived: Joi.boolean().required(),
+    isDeleted: Joi.boolean().required(),
 })
 
 const dbVariable = Joi.object({
