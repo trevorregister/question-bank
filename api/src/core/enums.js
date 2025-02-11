@@ -1,5 +1,7 @@
-/* const USER_ROLES = ['student', 'teacher', 'admin']
-const QUESTION_TYPES = ['numerical', 'multiple-choice', 'matrix'] */
+const VARIABLE_TYPES = {
+    Random: 'random',
+    Matrix: 'matrix'
+}
 
 const USER_ROLES = {
     Student: 'student',
@@ -15,5 +17,6 @@ const QUESTION_TYPES = {
 
 module.exports = {
     USER_ROLES,
-    QUESTION_TYPES
+    QUESTION_TYPES,
+    VARIABLE_TYPES
 }

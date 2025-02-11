@@ -5,6 +5,7 @@ const supertestRequest = supertest(app)
 
 const routes = {
     users: '/api/users',
+    questions: '/api/questions'
 }
 
 function createRequestMethods(request, domainRoute){
@@ -36,6 +37,7 @@ function createRequestMethods(request, domainRoute){
 class Request {
     constructor(request, routes){
         this.users = createRequestMethods(request, routes.users)
+        this.questions = createRequestMethods(request, routes.questions)
     }
 }
 

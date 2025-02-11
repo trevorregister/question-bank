@@ -1,48 +1,60 @@
 const Joi = require('joi')
 const Entity = require('../../core/entity.js')
+const generateId = require('../utils/generateId.js')
 const { QUESTION_TYPES } = require('../../core/enums.js')
 
 const dbQuestion = Joi.object({
     prompt: Joi.string().required(),
-    variables: Joi.array().required(),
-    conditions: Joi.array().required(),
-    pointValue: Joi.number().integer().required()
+    variables: Joi.array(),
+    conditions: Joi.array(),
+    pointValue: Joi.number().integer().required(),
+    type: Joi.string().required().valid(...Object.values(QUESTION_TYPES)),
+    owner: Joi.string().required(),
 })
 
 const dbVariable = Joi.object({
     type: Joi.string()
         .trim()
-        .lowercase()
-        .valid(...QUESTION_TYPES),
+        .lowercase(),
     min: Joi.number().required(),
-    max: Joi.number().required(),
+    max: Joi.number().greater(Joi.ref('min')).required(),
     step: Joi.number()
-        .integer()
         .greater(0)
         .required()
 })
 
 const dbCondition = Joi.object({
-    formula: Joi.required(),
+    expression: Joi.string().required(),
     isCorrect: Joi.boolean().required(),
-    feedBack: Joi.required()
+    feedback: Joi.string().required()
 })
 
 class Question extends Entity  {
     static validator = dbQuestion
-    constructor({prompt, pointValue}){
+    constructor({prompt, pointValue, type, owner}){
+        super()
         this.prompt = prompt,
         this.variables = [],
         this.conditions = [],
-        this.pointValue = pointValue
+        this.pointValue = pointValue,
+        this.type = type,
+        this.isArchived = false,
+        this.isDeleted = false
+        this.owner = owner
+
     }
 
     static toWeb(data){
         return {
             id: data._id,
             prompt: data.prompt,
-            variables: data.variables,
-            pointValue: data.pointValue
+            variables: data.variables.map(v => Variable.toWeb(v)),
+            conditions: data.conditions.map(c => Condition.toWeb(c)),
+            pointValue: data.pointValue,
+            owner: data.owner,
+            type: data.type,
+            isArchived: data.isArchived,
+            isDeleted: data.isDeleted
         }
     }
 }
@@ -50,7 +62,8 @@ class Question extends Entity  {
 class Variable extends Entity {
     static validator = dbVariable
     constructor({type, min, max, step}){
-        this._id = generateId()
+        super()
+        this.id = generateId()
         this.type = type
         this.min = min
         this.max = max
@@ -59,7 +72,7 @@ class Variable extends Entity {
 
     static toWeb(data){
         return {
-            id: data._id,
+            id: data.id,
             type: data.type,
             min: data.min,
             max: data.max,
@@ -70,19 +83,20 @@ class Variable extends Entity {
 
 class Condition extends Entity {
     static validator = dbCondition
-    constructor({formula, isCorrect, feedBack}){
-        this._id = generateId()
-        this.formula = formula
+    constructor({expression, isCorrect, feedback}){
+        super()
+        this.id = generateId()
+        this.expression = expression
         this.isCorrect = isCorrect,
-        this.feedBack = feedBack
+        this.feedback = feedback ?? ''
     }
 
     static toWeb(data){
         return {
-            id: data._id,
-            formula: data.formula,
+            id: data.id,
+            expression: data.expression,
             isCorrect: data.isCorrect,
-            feedBack: data.feedBack
+            feedback: data.feedback
         }
     }
 }

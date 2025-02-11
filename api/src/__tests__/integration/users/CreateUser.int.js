@@ -1,15 +1,17 @@
+const { USER_ROLES } = require("../../../core/enums.js")
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
+const { faker } = builder
 
 
 describe('Create User', () => {
 
     it('given valid inputs, returns new user and 201', async () => {
         const userProps = {
-            email: builder.faker.internet.email().toLowerCase(),
-            firstName: builder.faker.person.firstName(),
-            lastName: builder.faker.person.lastName(),
-            role: 'student'
+            email: faker.internet.email().toLowerCase(),
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            role: USER_ROLES.Student
         }
         const res = await request.users.post('/', userProps)
         expect(res.status).toBe(201)
@@ -23,15 +25,15 @@ describe('Create User', () => {
             email: userProps.email,
             firstName: userProps.firstName,
             lastName: userProps.lastName,
-            role: 'student'
+            role: userProps.role
         })
     })
 
     it('given invalid inputs, returns 422', async () => {
         const userProps = {
             email: 'fdas',
-            firstName: builder.faker.person.firstName(),
-            lastName: builder.faker.person.lastName(),
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
             role: 'asdf'
         }
         const res = await request.users.post('/', userProps)
