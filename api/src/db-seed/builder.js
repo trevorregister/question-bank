@@ -6,6 +6,8 @@ const UserRepository = require('../domains/users/repository')
 const QuestionModel = require('../domains/questions/data-access/model')
 const QuestionRepository = require('../domains/questions/repository')
 const { QUESTION_TYPES } = require('../core/enums')
+const dotenv = require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 const userModel = new UserModel()
 const userRepository = new UserRepository(userModel)
@@ -106,9 +108,9 @@ class Builder {
     randomId(){
         return generateId()
     }
-/*     token(user){
+    token(user){
         return jwt.sign({id: user._id, role: user.role}, process.env.JWT_SECRET)
-    } */
+    }
 }
 
 const builder = new Builder()
