@@ -15,8 +15,13 @@ const QUESTION_TYPES = {
     Matrix: 'matrix'
 }
 
+const SUBJECTS = {
+    Question: 'Question'
+}
+
 module.exports = {
     USER_ROLES,
     QUESTION_TYPES,
-    VARIABLE_TYPES
+    VARIABLE_TYPES,
+    SUBJECTS
 }
