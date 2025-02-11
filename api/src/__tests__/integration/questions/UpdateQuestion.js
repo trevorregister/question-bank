@@ -30,10 +30,22 @@ describe('Update question', () => {
                 id: generateId(),
                 min: faker.number.int({min: 1, max: 10}),
                 max: faker.number.int({min: 11, max: 20}),
-                step: faker.number.int()
+                step: faker.number.int({min: 1, max: 10})
+            },
+            {
+                id: generateId(),
+                min: faker.number.int({min: 1, max: 10}),
+                max: faker.number.int({min: 11, max: 20}),
+                step: faker.number.int({min: 1, max: 10})
             },
         ]
         const conditions = [
+            {
+                id: generateId(),
+                isCorrect: true,
+                feedback: faker.lorem.sentence(10),
+                expression: faker.lorem.sentence(10)
+            },
             {
                 id: generateId(),
                 isCorrect: true,
@@ -46,7 +58,7 @@ describe('Update question', () => {
             id: variables[0].id,
             min: faker.number.int({min: 1, max: 10}),
             max: faker.number.int({min: 11, max: 20}),
-            step: faker.number.int()
+            step: faker.number.int({min: 1, max: 10})
         }
         const conditionUpdate = {
             id: conditions[0].id,
@@ -59,8 +71,31 @@ describe('Update question', () => {
             //conditions: [conditionUpdate]
         }
         const res = await request.questions.patch(`/${question._id}/`, payload)
-
+        const updatedQuestion  = res.body
         expect(res.status).toBe(201)
-        console.log(res.body)
+        updatedQuestion.variables.forEach(variable => {
+            const { min, max, step } = variable
+            if(variable.id === variableUpdate.id.toHexString()){
+                expect({
+                    min,
+                    max,
+                    step
+                }).toEqual({
+                    min: variableUpdate.min,
+                    max: variableUpdate.max,
+                    step: variableUpdate.step
+                })
+            } else {
+                expect({
+                    min,
+                    max,
+                    step
+                }).toEqual({
+                    min: variables[1].min,
+                    max: variables[1].max,
+                    step: variables[1].step
+                })
+            }
+        })
     })
 })

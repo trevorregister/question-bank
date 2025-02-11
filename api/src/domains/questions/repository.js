@@ -51,11 +51,30 @@ module.exports = class QuestionRepository extends Repository{
                 setParameters[`variables.$[elem].${key}`] = value
             }
         } */
-        return await this.model.findOneAndUpdate(
+       const question = await this.model.findById(questionId)
+       Object.entries(payload).forEach(([key, value]) => {
+        switch(key){
+            case 'variables':
+                payload.variables.forEach(payloadVariable => {
+                    question.variables.forEach(questionVariable => {
+                        if(questionVariable.id.toHexString() === payloadVariable.id){
+                            Object.entries(payloadVariable).forEach(([key, value]) => {
+                                questionVariable[key] = value
+                            })
+                        } 
+                    })
+                })
+                break
+            default:
+                question[key] = value
+        }
+       })
+       return await question.save()
+/*         return await this.model.findOneAndUpdate(
             { _id: questionId },
             { $set: setParameters },
             { new: true }
-        )
+        ) */
     }
 
     async findQuestionsByOwner(ownerId){

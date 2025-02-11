@@ -35,7 +35,6 @@ module.exports = class QuestionController {
         try{
             const updateQuestionCase = new UpdateQuestionUseCase(this.repository)
             const payload = req.body
-            console.log('payload controller', payload)
             const { questionId } = req.params
             const result = await updateQuestionCase.execute({questionId, payload})
             res.status(201).send(result)
