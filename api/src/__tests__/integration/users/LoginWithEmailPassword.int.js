@@ -1,28 +1,28 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv').config()
 const { faker } = builder
 
 
 
 describe('Login with email and password', () => {
 
-    it('given correct credentials, returns user and 200', async () => {
+    it('given correct credentials, returns valid token and 200', async () => {
         const user = await builder.user.teacher()
         const res = await request.users.post(`/login/email-password`, {email: user.email, password: 'asdf'})
-        const {firstName, lastName, email, role} = res.body
-
+        const { token } = res.body
+        const valid = jwt.verify(token, process.env.JWT_SECRET)
+        const { id, role } = valid
         expect(res.status).toBe(200)
         expect({
-            firstName,
-            lastName,
-            email,
+            id,
             role
         }).toEqual({
-            firstName: user.firstName,
-            lastName: user.lastName,
-            email: user.email.toLowerCase(),
+            id: user._id.toHexString(),
             role: user.role
         })
+        
     })
 
     it('given correct email but wrong password, returns 401', async () => {
