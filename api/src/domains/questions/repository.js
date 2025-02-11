@@ -1,3 +1,4 @@
+const { HttpError, NotFoundError } = require('../../core/errors')
 const Repository = require('../../core/repository')
 const toOid = require('../utils/toOid')
 
@@ -52,6 +53,9 @@ module.exports = class QuestionRepository extends Repository{
             }
         } */
        const question = await this.model.findById(questionId)
+       if(!question){
+        throw new NotFoundError(`question ${questionId}`)
+       }
        Object.entries(payload).forEach(([key, value]) => {
         switch(key){
             case 'variables':

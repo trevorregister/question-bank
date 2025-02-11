@@ -36,6 +36,7 @@ describe('Update question', () => {
             }
         ]
         const question = await builder.question({ variables: variables, conditions: conditions})
+
         const variableUpdate = {
             id: variables[0].id,
             min: faker.number.int({min: 1, max: 10}),
@@ -54,10 +55,12 @@ describe('Update question', () => {
             variables: [variableUpdate],
             conditions: [conditionUpdate]
         }
+
         const res = await request.questions.patch(`/${question._id}/`, payload)
         const updatedQuestion  = res.body
-        expect(res.status).toBe(201)
         const { prompt, pointValue } = updatedQuestion
+
+        expect(res.status).toBe(201)
         expect({
             prompt,
             pointValue
