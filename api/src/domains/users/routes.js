@@ -5,8 +5,7 @@ const UserController = require('./controller')
 const auth = require('../../middleware/auth')
 
 module.exports = function userRoutes(){
-    const model = new UserModel()
-    const repository = new UserRepository(model)
+    const repository = new UserRepository(UserModel)
     const controller = new UserController(repository)
     const router = express.Router()
     router.post('/', controller.create)

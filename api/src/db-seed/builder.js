@@ -2,17 +2,10 @@ const { build, perBuild } = require('@jackfranklin/test-data-bot')
 const { faker } = require('@faker-js/faker')
 const generateId = require('../domains/utils/generateId')
 const UserModel = require('../domains/users/data-access/model')
-const UserRepository = require('../domains/users/repository')
 const QuestionModel = require('../domains/questions/data-access/model')
-const QuestionRepository = require('../domains/questions/repository')
 const { QUESTION_TYPES } = require('../core/enums')
 const dotenv = require('dotenv').config()
 const jwt = require('jsonwebtoken')
-
-const userModel = new UserModel()
-const userRepository = new UserRepository(userModel)
-const questionModel = new QuestionModel()
-const questionRepository = new QuestionRepository(questionModel)
 
 faker.seed(123)
 
@@ -94,16 +87,12 @@ function createBuilderMethod(builder, model){
 
 class Builder {
     constructor(){
-        this.userModel = userModel
-        this.userRepository = userRepository
-        this.questionModel = questionModel
-        this.questionRepository = questionRepository
         this.faker = faker
         this.user = {
-            student: createBuilderMethod(studentBuilder, userModel),
-            teacher: createBuilderMethod(teacherBuilder, userModel)
+            student: createBuilderMethod(studentBuilder, UserModel),
+            teacher: createBuilderMethod(teacherBuilder, UserModel)
         }
-        this.question = createBuilderMethod(questionBuilder, questionModel)
+        this.question = createBuilderMethod(questionBuilder, QuestionModel)
     }
     randomId(){
         return generateId()

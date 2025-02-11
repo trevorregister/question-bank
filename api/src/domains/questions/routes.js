@@ -5,8 +5,7 @@ const QuestionController = require('./controller')
 const auth = require('../../middleware/auth')
 
 module.exports = function questionRoutes(){
-    const model = new QuestionModel()
-    const repository = new QuestionRepository(model)
+    const repository = new QuestionRepository(QuestionModel)
     const controller = new QuestionController(repository)
     const router = express.Router()
 
