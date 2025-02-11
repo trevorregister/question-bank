@@ -1,8 +1,3 @@
-/* import builder from '../db-seed/builder.js'
-import connect from '../../config/db.js'
-import UserModel from '../domains/users/data-access/model.js'
-import "dotenv/config" */
-
 const builder = require('../db-seed/builder')
 const connect = require('../../config/db')
 const UserModel = require('../domains/users/data-access/model')
