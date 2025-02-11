@@ -65,6 +65,17 @@ module.exports = class QuestionRepository extends Repository{
                     })
                 })
                 break
+            case 'conditions':
+                payload.conditions.forEach(payloadCondition => {
+                    question.conditions.forEach(questionCondition => {
+                        if(questionCondition.id.toHexString() === payloadCondition.id){
+                            Object.entries(payloadCondition).forEach(([key, value]) => {
+                                questionCondition[key] = value
+                            })
+                        } 
+                    })
+                })
+                break
             default:
                 question[key] = value
         }

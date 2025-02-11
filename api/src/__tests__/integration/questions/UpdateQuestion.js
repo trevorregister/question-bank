@@ -6,25 +6,7 @@ const { faker } = builder
 
 describe('Update question', () => {
 
-    it('returns question with updated prompt/value and 201', async () => {
-        const question = await builder.question()
-        const newPrompt = faker.lorem.sentence(10)
-        const newPointValue = faker.number.int({min: 10, max: 50})
-        const res = await request.questions.patch(`/${question._id}/`, {prompt: newPrompt, pointValue: newPointValue})
-
-        expect(res.status).toBe(201)
-        
-        const { prompt, pointValue } = res.body
-        expect({
-            prompt,
-            pointValue
-        }).toEqual({
-            prompt: prompt,
-            pointValue: pointValue
-        })
-    })
-
-    it('returns question with updated variables/conditions and 201', async () => {
+    it('returns question with updated prompt, pointValue, variables, and conditions and 201', async () => {
         const variables = [
             {
                 id: generateId(),
@@ -57,22 +39,32 @@ describe('Update question', () => {
         const variableUpdate = {
             id: variables[0].id,
             min: faker.number.int({min: 1, max: 10}),
-            max: faker.number.int({min: 11, max: 20}),
             step: faker.number.int({min: 1, max: 10})
         }
         const conditionUpdate = {
             id: conditions[0].id,
             isCorrect: false,
             feedback: faker.lorem.sentence(10),
-            expression: faker.lorem.sentence(10)
         }
+        const newPrompt = faker.lorem.sentence(10)
+        const newPointValue = faker.number.int({min: 100, max: 200})
         const payload = {
+            prompt: newPrompt,
+            pointValue: newPointValue,
             variables: [variableUpdate],
-            //conditions: [conditionUpdate]
+            conditions: [conditionUpdate]
         }
         const res = await request.questions.patch(`/${question._id}/`, payload)
         const updatedQuestion  = res.body
         expect(res.status).toBe(201)
+        const { prompt, pointValue } = updatedQuestion
+        expect({
+            prompt,
+            pointValue
+        }).toEqual({
+            prompt: newPrompt,
+            pointValue: newPointValue
+        })
         updatedQuestion.variables.forEach(variable => {
             const { min, max, step } = variable
             if(variable.id === variableUpdate.id.toHexString()){
@@ -82,7 +74,7 @@ describe('Update question', () => {
                     step
                 }).toEqual({
                     min: variableUpdate.min,
-                    max: variableUpdate.max,
+                    max: variables[0].max,
                     step: variableUpdate.step
                 })
             } else {
@@ -94,6 +86,30 @@ describe('Update question', () => {
                     min: variables[1].min,
                     max: variables[1].max,
                     step: variables[1].step
+                })
+            }
+        })
+        updatedQuestion.conditions.forEach(condition => {
+            const { isCorrect, feedback, expression } = condition
+            if(condition.id === conditionUpdate.id.toHexString()){
+                expect({
+                    isCorrect,
+                    feedback,
+                    expression
+                }).toEqual({
+                    isCorrect: conditionUpdate.isCorrect,
+                    feedback: conditionUpdate.feedback,
+                    expression: conditions[0].expression
+                })
+            } else{
+                expect({
+                    isCorrect,
+                    feedback,
+                    expression
+                }).toEqual({
+                    isCorrect: conditions[1].isCorrect,
+                    feedback: conditions[1].feedback,
+                    expression: conditions[1].expression
                 })
             }
         })
