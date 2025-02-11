@@ -35,7 +35,8 @@ describe('Create User', () => {
             email: 'fdas',
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            role: 'asdf'
+            role: 'asdf',
+            password: "asdf"
         }
         const res = await request.users.post('/', userProps)
         expect(res.status).toBe(422)

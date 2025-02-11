@@ -19,6 +19,7 @@ const userFields = {
     firstName: perBuild(() => faker.person.firstName()),
     lastName: perBuild(() => faker.person.lastName()),
     email: perBuild(() => faker.internet.email()),
+    hash: "$2b$10$2Qt1dVjd.mH/t6h..Xv.JOkuFZ6Pn6kVUimXjDTZl84vYlF8JtNYW"
 }
 
 const questionFields = {
