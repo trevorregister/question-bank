@@ -15,17 +15,20 @@ const dbUser = Joi.object({
         .email({minDomainSegments: 2}),
     role: Joi.string()
         .required()
-        .valid(...Object.values(USER_ROLES))
+        .valid(...Object.values(USER_ROLES)),
+    hash: Joi.string()
+        .required()
 })
 
 module.exports = class User extends Entity {
     static validator = dbUser
-    constructor({email, firstName, lastName, role}){
+    constructor({email, firstName, lastName, role, hash}){
         super()
         this.email = email,
         this.firstName = firstName,
         this.lastName = lastName,
-        this.role = role
+        this.role = role,
+        this.hash = hash
     }
 
     static toWeb(data){

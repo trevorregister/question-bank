@@ -14,6 +14,11 @@ const schema = new Schema({
         required: true
     },
 
+    hash: {
+        type: String,
+        required: true
+    },
+
     lastName: {
         type: String,
         required: true
