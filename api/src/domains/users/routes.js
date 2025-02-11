@@ -9,6 +9,8 @@ module.exports = function userRoutes(){
     const controller = new UserController(repository)
     const router = express.Router()
     router.post('/', controller.create)
+    router.post('/login/email-password', controller.loginEmailPassword)
+    
     router.get('/:id', controller.findById)
 
     return router

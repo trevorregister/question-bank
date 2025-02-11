@@ -1,6 +1,7 @@
 const {
     GetUserByIdUseCase,
-    CreateUserUseCase
+    CreateUserUseCase,
+    LoginEmailPasswordUseCase
 } = require('../users/use-cases/index')
 
 module.exports = class UserController {
@@ -8,6 +9,7 @@ module.exports = class UserController {
         this.repository = repository
         this.findById = this.findById.bind(this)
         this.create = this.create.bind(this)
+        this.loginEmailPassword = this.loginEmailPassword.bind(this)
     }
 
     async findById(req, res, next){
@@ -28,6 +30,17 @@ module.exports = class UserController {
             const result = await createUserCase.execute(data)
             res.status(201).send(result)
         } catch(err){
+            next(err)
+        }
+    }
+
+    async loginEmailPassword(req, res, next){
+        try{
+            const loginEmailPasswordCase = new LoginEmailPasswordUseCase(this.repository)
+            const data = req.body
+            const result = await loginEmailPasswordCase.execute(data)
+            res.status(200).send(result)
+        } catch(err) {
             next(err)
         }
     }
