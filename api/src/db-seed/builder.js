@@ -28,7 +28,9 @@ const questionFields = {
     conditions: perBuild(() => generateConditions()),
     pointValue: perBuild(() => faker.number.int({min: 10, max: 100})),
     type: QUESTION_TYPES.Numerical,
-    owner: perBuild(() => generateId())
+    owner: perBuild(() => generateId()),
+    isArchived: false,
+    isDeleted: false
 }
 
 const studentBuilder = build({

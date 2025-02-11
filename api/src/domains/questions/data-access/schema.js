@@ -32,6 +32,16 @@ module.exports = new Schema({
         }
     },
 
+    isArchived: {
+        type: Boolean,
+        required: true
+    },
+
+    isDeleted: {
+        type: Boolean,
+        required: true
+    },
+
     owner: {
         type: Schema.Types.ObjectId, 
         ref: 'User'

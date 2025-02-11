@@ -53,20 +53,25 @@ describe('Update question', () => {
             prompt: newPrompt,
             pointValue: newPointValue,
             variables: [variableUpdate],
-            conditions: [conditionUpdate]
+            conditions: [conditionUpdate],
+            isArchived: true
         }
 
         const res = await request.questions.patch(`/${question._id}/`, payload)
         const updatedQuestion  = res.body
-        const { prompt, pointValue } = updatedQuestion
+        const { prompt, pointValue, isArchived, isDeleted } = updatedQuestion
 
         expect(res.status).toBe(201)
         expect({
             prompt,
-            pointValue
+            pointValue,
+            isArchived,
+            isDeleted
         }).toEqual({
             prompt: newPrompt,
-            pointValue: newPointValue
+            pointValue: newPointValue,
+            isArchived: true,
+            isDeleted: false
         })
         updatedQuestion.variables.forEach(variable => {
             const { min, max, step } = variable

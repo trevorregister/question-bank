@@ -37,7 +37,9 @@ class Question extends Entity  {
         this.variables = [],
         this.conditions = [],
         this.pointValue = pointValue,
-        this.type = type
+        this.type = type,
+        this.isArchived = false,
+        this.isDeleted = false
         this.owner = owner
 
     }
@@ -50,7 +52,9 @@ class Question extends Entity  {
             conditions: data.conditions.map(c => Condition.toWeb(c)),
             pointValue: data.pointValue,
             owner: data.owner,
-            type: data.type
+            type: data.type,
+            isArchived: data.isArchived,
+            isDeleted: data.isDeleted
         }
     }
 }
