@@ -3,37 +3,27 @@ const QuestionModel = require('../questions/data-access/model')
 const { SUBJECTS } = require('../../core/enums')
 const mongoose = require('mongoose')
 const { TypeError, NotFoundError } = require('../../core/errors') 
-const { Question } = require('./subjects')
+const { Question, User } = require('./subjects')
 
 class AuthRepo {
     constructor(){
     }
-
-    static async getOwner({resourceId, subject}){
-        let owner = undefined
-        switch(subject.__proto__){
-            case Question.prototype:
-                const question = await QuestionModel.findById(resourceId)
-                owner = question?.owner
+    static async getResource({resourceId, subjectClass}){
+        let resource = undefined
+        switch(subjectClass){
+            case Question:
+                console.log('question')
+                resource = await QuestionModel.findById(resourceId)
                 break
-            default:
-                throw new TypeError(subject)
+            case User:
+                resource = await UserModel.findById(resourceId)
+                break
         }
-
-        if(owner){
-            return owner
+        if(resource){
+            return resource
         } else {
-            throw new NotFoundError(`owner of ${resourceId} for ${subject.__proto__}`)
+            throw new NotFoundError(` ${subjectClass.name} ${resourceId}`)
         }
-    }
-
-    static async getQuestion(id) {
-        const question = await QuestionModel.findById(id)
-        if(!question) {
-            throw new NotFoundError(`question ${id}`)
-        }
-        return question
-
     }
 
 }

@@ -18,16 +18,18 @@ const authorize = (action, subjectClass) => {
             }
     
             let resource
+            let resourceId
             switch(subjectClass){
                 case Question:
-                    const { questionId } = req.params
-                    resource = await AuthRepo.getQuestion(questionId)
+                    resourceId = req.params.questionId
                     break
                 default:
                     throw new TypeError(subject.__proto__)
             }
+            
+            resource = await AuthRepo.getResource({resourceId, subjectClass})
             if(!resource) {
-                throw new NotFoundError(`resource ${subjectClass.__proto__}`)
+                throw new NotFoundError(`resource ${subjectClass.name}`)
             }
     
             const subject = new subjectClass(resource)
