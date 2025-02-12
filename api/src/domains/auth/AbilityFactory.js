@@ -36,5 +36,5 @@ module.exports = class AbilityFactory {
 function defineTeacherRules(can, cannot, actor){
     can('create', [Question])
     can(['read', 'update', 'delete'], [Question], {owner: actor.id})
-    can(['read, update'], [User], {owner: actor.id})
+    can(['read', 'update'], [User], {id: actor.id})
 }

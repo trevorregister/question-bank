@@ -15,7 +15,7 @@ module.exports = function userRoutes(){
 
     router.use(authenticate)
 
-    router.get('/:id', controller.findById)
+    router.get('/:userId', authorize('read', User), controller.findById)
 
     return router
 } 

@@ -1,7 +1,7 @@
 const { HttpError, NotFoundError } = require('../core/errors')
 const AbilityFactory = require('../domains/auth/AbilityFactory')
 const AuthRepo = require('../domains/auth/repository')
-const { Question } = require('../domains/auth/subjects')
+const { Question, User } = require('../domains/auth/subjects')
 
 const authorize = (action, subjectClass) => {
     return async (req, res, next) => {
@@ -25,8 +25,11 @@ const authorize = (action, subjectClass) => {
                 case Question:
                     resourceId = req.params.questionId
                     break
+                case User:
+                    resourceId = req.params.userId
+                    break
                 default:
-                    throw new TypeError(subject.__proto__)
+                    throw new TypeError(subjectClass.name)
             }
 
             resource = await AuthRepo.getResource({resourceId, subjectClass})
