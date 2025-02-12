@@ -14,6 +14,8 @@ const authorize = (action, subjectClass) => {
             if(action === 'create'){
                 if(ability.can(action, subjectClass)){
                    return next()
+                } else {
+                    throw new HttpError(403, 'forbidden')
                 }
             }
     
@@ -26,7 +28,7 @@ const authorize = (action, subjectClass) => {
                 default:
                     throw new TypeError(subject.__proto__)
             }
-            
+
             resource = await AuthRepo.getResource({resourceId, subjectClass})
             if(!resource) {
                 throw new NotFoundError(`resource ${subjectClass.name}`)
