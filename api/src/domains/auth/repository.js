@@ -10,7 +10,6 @@ class AuthRepo {
         let resource = undefined
         switch(subjectClass){
             case Question:
-                console.log('question')
                 resource = await QuestionModel.findById(resourceId)
                 break
             case User:
