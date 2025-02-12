@@ -1,8 +1,6 @@
 const UserModel = require('../users/data-access/model')
 const QuestionModel = require('../questions/data-access/model')
-const { SUBJECTS } = require('../../core/enums')
-const mongoose = require('mongoose')
-const { TypeError, NotFoundError } = require('../../core/errors') 
+const { NotFoundError } = require('../../core/errors') 
 const { Question, User } = require('./subjects')
 
 class AuthRepo {
@@ -22,22 +20,10 @@ class AuthRepo {
         if(resource){
             return resource
         } else {
-            throw new NotFoundError(` ${subjectClass.name} ${resourceId}`)
+            throw new NotFoundError(`resource ${subjectClass.name} ${resourceId}`)
         }
     }
 
 }
 
 module.exports = AuthRepo
-
-
-
-/* async function main(){
-    await mongoose.connect('mongodb://localhost:27017/question-bank')
-    const user = {id: "67aba6619f59c5d86aec542b"}
-    const resource = {id: "67aba6619f59c5d86aec5454", subject: SUBJECTS.question}
-    const result = await AuthRepo.getOwner(resource)
-    console.log(result)
-}
-
-main() */
