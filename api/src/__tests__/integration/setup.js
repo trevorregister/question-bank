@@ -13,24 +13,23 @@ function createRequestMethods(request, domainRoute){
         post: (endpoint, data, token = '') => 
             request
                 .post(`${domainRoute}${endpoint}`)
-                //.set({'Cookie': `authcookie=${token}`})
+                .set({'Cookie': `token=${token}`})
                 .send(data),
         get: (endpoint, token = '') => 
             request
                 .get(`${domainRoute}${endpoint}`)
-                //.set({'Cookie': `authcookie=${token}`})
+                .set({'Cookie': `token=${token}`})
         ,
         patch: (endpoint, data, token = '') => 
             request
                 .patch(`${domainRoute}${endpoint}`)
-                //.set({'Cookie': `authcookie=${token}`})
+                .set({'Cookie': `token=${token}`})
                 .send(data)
         ,
         delete: (endpoint, token = '') => 
             request
                 .delete(`${domainRoute}${endpoint}`)
-                //.set({'Cookie': `authcookie=${token}`})
-        
+                .set({'Cookie': `token=${token}`})        
     }
 }
 

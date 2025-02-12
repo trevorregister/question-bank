@@ -8,6 +8,9 @@ const { VARIABLE_TYPES } = require('../../../core/enums.js')
 describe('Create condition', () => {
 
     it('given valid inputs, returns question with new condition and 201', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
         const expression = faker.lorem.word(10)
         const isCorrect = faker.number.int(100)%2 === 0 ? true : false
         const feedback = faker.lorem.sentence(10)
@@ -17,8 +20,8 @@ describe('Create condition', () => {
             feedback: feedback
 
         }
-        const question = await builder.question({conditions: []})
-        const res = await request.questions.post(`/${question._id}/condition`, conditionProps)
+        const question = await builder.question({conditions: [], owner: user._id})
+        const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
 
         expect(res.status).toBe(201)
         
@@ -49,6 +52,8 @@ describe('Create condition', () => {
     })
 
     it('given invalid inputs, returns 422', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
         const feedback = faker.lorem.sentence(10)
         const conditionProps = {
             expression: 123,
@@ -56,8 +61,25 @@ describe('Create condition', () => {
             feedback: feedback
 
         }
-        const question = await builder.question()
-        const res = await request.questions.post(`/${question._id}/condition`, conditionProps)
+        const question = await builder.question({owner: user._id})
+        const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
         expect(res.status).toBe(422)
+    })
+
+    it('given valid inputs and bad credentials, returns 403', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+        const expression = faker.lorem.word(10)
+        const isCorrect = faker.number.int(100)%2 === 0 ? true : false
+        const feedback = faker.lorem.sentence(10)
+        const conditionProps = {
+            expression: expression,
+            isCorrect: isCorrect,
+            feedback: feedback
+
+        }
+        const question = await builder.question({owner: generateId()})
+        const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
+        expect(res.status).toBe(403)
     })
 })

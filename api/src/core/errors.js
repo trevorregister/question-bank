@@ -31,8 +31,16 @@ class ValidationError extends HttpError {
     }
 }
 
+class TypeError extends HttpError {
+    constructor(type){
+        super(400)
+        this.message = `invalid type ${type}`
+    }
+}
+
 module.exports = {
     HttpError,
     NotFoundError,
-    ValidationError
+    ValidationError,
+    TypeError
 }

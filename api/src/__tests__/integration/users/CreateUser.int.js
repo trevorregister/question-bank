@@ -2,7 +2,8 @@ const { USER_ROLES } = require("../../../core/enums.js")
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
 const { faker } = builder
-
+const jwt = require('jsonwebtoken')
+const dotenv = require('dotenv').config()
 
 describe('Create User', () => {
 
@@ -11,22 +12,17 @@ describe('Create User', () => {
             email: faker.internet.email().toLowerCase(),
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            role: USER_ROLES.Student
+            role: USER_ROLES.Student,
+            password: faker.lorem.word(20)
         }
         const res = await request.users.post('/', userProps)
+        const { token } = res.body
+        const valid = jwt.verify(token, process.env.JWT_SECRET)
+        const { id, role } = valid
+        
         expect(res.status).toBe(201)
-        const { email, firstName, lastName, role } = res.body
-        expect({
-            email,
-            firstName,
-            lastName, 
-            role
-        }).toEqual({
-            email: userProps.email,
-            firstName: userProps.firstName,
-            lastName: userProps.lastName,
-            role: userProps.role
-        })
+        expect(role).toBe(userProps.role)
+        expect(id).toBeTruthy()
     })
 
     it('given invalid inputs, returns 422', async () => {
@@ -34,7 +30,8 @@ describe('Create User', () => {
             email: 'fdas',
             firstName: faker.person.firstName(),
             lastName: faker.person.lastName(),
-            role: 'asdf'
+            role: 'asdf',
+            password: "asdf"
         }
         const res = await request.users.post('/', userProps)
         expect(res.status).toBe(422)

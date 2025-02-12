@@ -2,15 +2,10 @@ const { build, perBuild } = require('@jackfranklin/test-data-bot')
 const { faker } = require('@faker-js/faker')
 const generateId = require('../domains/utils/generateId')
 const UserModel = require('../domains/users/data-access/model')
-const UserRepository = require('../domains/users/repository')
 const QuestionModel = require('../domains/questions/data-access/model')
-const QuestionRepository = require('../domains/questions/repository')
 const { QUESTION_TYPES } = require('../core/enums')
-
-const userModel = new UserModel()
-const userRepository = new UserRepository(userModel)
-const questionModel = new QuestionModel()
-const questionRepository = new QuestionRepository(questionModel)
+const dotenv = require('dotenv').config()
+const jwt = require('jsonwebtoken')
 
 faker.seed(123)
 
@@ -18,7 +13,8 @@ const userFields = {
     _id: perBuild(() => generateId()),
     firstName: perBuild(() => faker.person.firstName()),
     lastName: perBuild(() => faker.person.lastName()),
-    email: perBuild(() => faker.internet.email()),
+    email: perBuild(() => faker.internet.email().toLowerCase()),
+    hash: "$2b$10$2Qt1dVjd.mH/t6h..Xv.JOkuFZ6Pn6kVUimXjDTZl84vYlF8JtNYW"
 }
 
 const questionFields = {
@@ -91,23 +87,19 @@ function createBuilderMethod(builder, model){
 
 class Builder {
     constructor(){
-        this.userModel = userModel
-        this.userRepository = userRepository
-        this.questionModel = questionModel
-        this.questionRepository = questionRepository
         this.faker = faker
         this.user = {
-            student: createBuilderMethod(studentBuilder, userModel),
-            teacher: createBuilderMethod(teacherBuilder, userModel)
+            student: createBuilderMethod(studentBuilder, UserModel),
+            teacher: createBuilderMethod(teacherBuilder, UserModel)
         }
-        this.question = createBuilderMethod(questionBuilder, questionModel)
+        this.question = createBuilderMethod(questionBuilder, QuestionModel)
     }
     randomId(){
         return generateId()
     }
-/*     token(user){
+    token(user){
         return jwt.sign({id: user._id, role: user.role}, process.env.JWT_SECRET)
-    } */
+    }
 }
 
 const builder = new Builder()
