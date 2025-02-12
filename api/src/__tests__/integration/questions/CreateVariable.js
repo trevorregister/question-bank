@@ -85,4 +85,24 @@ describe('Create Variable', () => {
         const res = await request.questions.post(`/${question._id}/variable`, variableProps, token)
         expect(res.status).toBe(422)
     })
+
+    it('given valid inputs and bad credentials, return 403', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+
+        const min = faker.number.int({min: 1, max: 10})
+        const max = faker.number.int({min: 11, max: 20})
+        const step = faker.number.int({min: 1, max: 10})
+        const variableProps = {
+            type: VARIABLE_TYPES.Random,
+            min: min,
+            max: max,
+            step: step
+
+        }
+        const question = await builder.question({conditions: [], owner: generateId()})
+        const res = await request.questions.post(`/${question._id}/variable`, variableProps, token)
+
+        expect(res.status).toBe(403)
+    })
 })

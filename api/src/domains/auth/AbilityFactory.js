@@ -38,3 +38,7 @@ function defineTeacherRules(can, cannot, actor){
     can(['read', 'update', 'delete'], [Question], {owner: actor.id})
     can(['read', 'update'], [User], {id: actor.id})
 }
+
+function defineStudentRules(can, cannot, actor){
+    can(['read', 'update'], [User], {id: actor.id})
+}

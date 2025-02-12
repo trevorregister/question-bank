@@ -65,4 +65,21 @@ describe('Create condition', () => {
         const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
         expect(res.status).toBe(422)
     })
+
+    it('given valid inputs and bad credentials, returns 403', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+        const expression = faker.lorem.word(10)
+        const isCorrect = faker.number.int(100)%2 === 0 ? true : false
+        const feedback = faker.lorem.sentence(10)
+        const conditionProps = {
+            expression: expression,
+            isCorrect: isCorrect,
+            feedback: feedback
+
+        }
+        const question = await builder.question({owner: generateId()})
+        const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
+        expect(res.status).toBe(403)
+    })
 })

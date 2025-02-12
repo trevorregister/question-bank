@@ -124,4 +124,21 @@ describe('Update question', () => {
             }
         })
     })
+
+    it('given valid inputs and bad credentials, returns 403', async () => {
+        const user = await builder.user.teacher()
+        const token = builder.token(user)
+        const question = await builder.question({owner: generateId()})
+
+        const newPrompt = faker.lorem.sentence(10)
+        const newPointValue = faker.number.int({min: 100, max: 200})
+        const payload = {
+            prompt: newPrompt,
+            pointValue: newPointValue,
+            isArchived: true
+        }
+
+        const res = await request.questions.patch(`/${question._id}/`, payload, token)
+        expect(res.status).toBe(403)
+    })
 })

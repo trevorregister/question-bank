@@ -54,4 +54,20 @@ describe('Create Question', () => {
         const res = await request.questions.post('/', questionProps, token)
         expect(res.status).toBe(422)
     })
+
+    it('given valid inputs and student user returns 403', async () => {
+        const user = await builder.user.student()
+        const token = builder.token(user)
+
+        const questionOwner = generateId()
+        const questionProps = {
+            prompt: faker.lorem.sentence(10),
+            pointValue: faker.number.int({min: 10, max: 50}),
+            type: QUESTION_TYPES.Numerical,
+            owner: questionOwner
+        }
+        const res = await request.questions.post('/', questionProps, token)
+
+        expect(res.status).toBe(403)
+    })
 })
