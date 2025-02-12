@@ -2,7 +2,7 @@ const express = require('express')
 const UserModel = require('../users/data-access/model')
 const UserRepository = require('./repository')
 const UserController = require('./controller')
-const auth = require('../../middleware/auth')
+const authenticate = require('../../middleware/authenticate')
 
 module.exports = function userRoutes(){
     const repository = new UserRepository(UserModel)
@@ -11,7 +11,7 @@ module.exports = function userRoutes(){
     router.post('/', controller.create)
     router.post('/login/email-password', controller.loginEmailPassword)
 
-    router.use(auth)
+    router.use(authenticate)
 
     router.get('/:id', controller.findById)
 

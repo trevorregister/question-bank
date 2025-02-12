@@ -1,23 +1,25 @@
-class QuestionSub {
-    constructor(ownerId) {
-      this.ownerId = ownerId
+class Question {
+    constructor({id, owner}) {
+      this.id = id
+      this.owner = owner.toHexString()
     }
   }
   
-  class ActivitySub {
-    constructor(ownerId) {
-      this.ownerId = ownerId
+  class Activity {
+    constructor({id, owner}) {
+      this.id = id 
+      this.owner = owner
     }
   }
 
-  class UserSub {
-    constructor(id) {
+  class User {
+    constructor({id}) {
         this.id = id
     }
   }
   
   module.exports = { 
-    QuestionSub, 
-    ActivitySub,
-    UserSub 
+    Question, 
+    Activity,
+    User 
 }

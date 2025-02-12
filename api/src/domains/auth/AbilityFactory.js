@@ -1,7 +1,7 @@
 const { AbilityBuilder , createMongoAbility, } = require('@casl/ability')
 const { 
-    QuestionSub, 
-    UserSub
+    Question, 
+    User
 } = require('./subjects')
 const { USER_ROLES } = require('../../core/enums')
 const { TypeError, HttpError } = require('../../core/errors')
@@ -34,17 +34,7 @@ module.exports = class AbilityFactory {
 }
 
 function defineTeacherRules(can, cannot, actor){
-    can('create', [QuestionSub])
-    can(['read, update, delete'], [QuestionSub], {ownerId: actor.id})
-    can(['read, update'], [UserSub], {ownerId: actor.id})
+    can('create', [Question])
+    can(['read', 'update', 'delete'], [Question], {owner: actor.id})
+    can(['read, update'], [User], {owner: actor.id})
 }
-
-
-/* const actor = {
-    id: 'asdf',
-    role: USER_ROLES.Teacher
-}
-
-const ability = AbilityFactory.defineAbilitiesFor(actor)
-const questionSub = new QuestionSub()
-console.log(ability.can('read',  QuestionSub)) */
