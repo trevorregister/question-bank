@@ -61,7 +61,7 @@ describe('Create condition', () => {
             feedback: feedback
 
         }
-        const question = await builder.question()
+        const question = await builder.question({owner: user._id})
         const res = await request.questions.post(`/${question._id}/condition`, conditionProps, token)
         expect(res.status).toBe(422)
     })

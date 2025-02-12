@@ -17,10 +17,10 @@ module.exports = function questionRoutes(){
     router.get('/owner/:ownerId', controller.getByOwner)
 
     router.post('/:questionId/variable', authorize('update', Question), controller.createVariable)
-    router.post('/:questionId/condition', controller.createCondition)
+    router.post('/:questionId/condition', authorize('update', Question), controller.createCondition)
 
-    router.delete('/:questionId/variable/:variableId', controller.deleteVariable)
-    router.delete('/:questionId/condition/:conditionId', controller.deleteCondition)
+    router.delete('/:questionId/variable/:variableId', authorize('delete', Question), controller.deleteVariable)
+    router.delete('/:questionId/condition/:conditionId', authorize('delete', Question), controller.deleteCondition)
 
     return router
 } 

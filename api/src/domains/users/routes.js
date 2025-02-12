@@ -2,6 +2,8 @@ const express = require('express')
 const UserModel = require('../users/data-access/model')
 const UserRepository = require('./repository')
 const UserController = require('./controller')
+const { User } = require('../auth/subjects')
+const authorize = require('../../middleware/authorize')
 const authenticate = require('../../middleware/authenticate')
 
 module.exports = function userRoutes(){
