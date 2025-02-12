@@ -1,24 +1,28 @@
 const { AbilityBuilder , createMongoAbility, } = require('@casl/ability')
 const { 
-    QuestionSub 
+    QuestionSub, 
+    UserSub
 } = require('./subjects')
 const { USER_ROLES } = require('../../core/enums')
-const { TypeError } = require('../../core/errors')
+const { TypeError, HttpError } = require('../../core/errors')
 
 module.exports = class AbilityFactory {
-    static defineAbilitiesFor(user){
+    static defineAbilitiesFor(actor){
         const { can, cannot, rules } = new AbilityBuilder(createMongoAbility)
 
-        const { role } = user
+        const { role } = actor
+        if(!role){
+            throw new HttpError(400, 'role required')
+        }
         switch(role){
             case USER_ROLES.Admin:
-                defineAdminRules(can, cannot, user)
+                defineAdminRules(can, cannot, actor)
                 break
             case USER_ROLES.Teacher:
-                defineTeacherRules(can, cannot, user)
+                defineTeacherRules(can, cannot, actor)
                 break
             case USER_ROLES.Student:
-                defineStudentRules(can, cannot, user)
+                defineStudentRules(can, cannot, actor)
                 break
             default:
                 throw new TypeError(role)
@@ -29,17 +33,18 @@ module.exports = class AbilityFactory {
     }
 }
 
-function defineTeacherRules(can, cannot, user){
+function defineTeacherRules(can, cannot, actor){
     can('create', [QuestionSub])
-    can(['read, update, delete'], [QuestionSub], {ownerId: user.id})
+    can(['read, update, delete'], [QuestionSub], {ownerId: actor.id})
+    can(['read, update'], [UserSub], {ownerId: actor.id})
 }
 
 
-/* const user = {
+/* const actor = {
     id: 'asdf',
     role: USER_ROLES.Teacher
 }
 
-const ability = AbilityFactory.defineAbilitiesFor(user)
+const ability = AbilityFactory.defineAbilitiesFor(actor)
 const questionSub = new QuestionSub()
 console.log(ability.can('read',  QuestionSub)) */
