@@ -16,7 +16,6 @@ describe('Create Question', () => {
             prompt: faker.lorem.sentence(10),
             pointValue: faker.number.int({min: 10, max: 50}),
             type: QUESTION_TYPES.Numerical,
-            owner: questionOwner
         }
         const res = await request.questions.post('/', questionProps, token)
 
@@ -49,7 +48,6 @@ describe('Create Question', () => {
             prompt: faker.lorem.sentence(10),
             pointValue: faker.number.int({min: 10, max: 50}),
             type: 'asdf',
-            owner: '123'
         }
         const res = await request.questions.post('/', questionProps, token)
         expect(res.status).toBe(422)

@@ -23,7 +23,7 @@ module.exports = class QuestionController {
     async create(req, res, next){
         try{
             const createQuestionCase = new CreateQuestionUseCase(this.repository)
-            const data = req.body
+            const data = { ...req.body, owner: req.user.id }
             const result = await createQuestionCase.execute(data)
             res.status(201).send(result)
         } catch(err){
