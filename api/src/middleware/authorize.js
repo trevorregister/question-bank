@@ -3,7 +3,7 @@ const AbilityFactory = require('../domains/auth/AbilityFactory')
 const AuthRepo = require('../domains/auth/repository')
 const { Question, User } = require('../domains/auth/subjects')
 
-const authorize = (action, subjectClass) => {
+const authorize = (action, subjectClass, conditions = null) => {
     return async (req, res, next) => {
         try {
             if(!req.user){
@@ -14,6 +14,14 @@ const authorize = (action, subjectClass) => {
             if(action === 'create'){
                 if(ability.can(action, subjectClass)){
                    return next()
+                } else {
+                    throw new HttpError(403, 'forbidden')
+                }
+            }
+
+            if(conditions){
+                if(ability.can(action, subjectClass, conditions)){
+                    return next()
                 } else {
                     throw new HttpError(403, 'forbidden')
                 }

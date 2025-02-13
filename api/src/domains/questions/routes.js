@@ -13,14 +13,17 @@ module.exports = function questionRoutes(){
 
     router.use(authenticate)
     router.post('/', authorize('create', Question), controller.create)
-    router.patch('/:questionId', authorize('update', Question), controller.updateQuestion)
-    router.get('/owner/:ownerId', controller.getByOwner)
 
+    router.patch('/:questionId', authorize('update', Question), controller.updateQuestion)
+    //make these 4 routes patch instead
+    router.delete('/:questionId/variable/:variableId', authorize('update', Question), controller.deleteVariable)
+    router.delete('/:questionId/condition/:conditionId', authorize('update', Question), controller.deleteCondition)
     router.post('/:questionId/variable', authorize('update', Question), controller.createVariable)
     router.post('/:questionId/condition', authorize('update', Question), controller.createCondition)
 
-    router.delete('/:questionId/variable/:variableId', authorize('delete', Question), controller.deleteVariable)
-    router.delete('/:questionId/condition/:conditionId', authorize('delete', Question), controller.deleteCondition)
+
+    router.get('/owner/:ownerId', controller.getByOwner)
+
 
     return router
 } 
