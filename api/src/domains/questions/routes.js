@@ -15,7 +15,6 @@ module.exports = function questionRoutes(){
     router.post('/', authorize('create', Question), controller.create)
 
     router.patch('/:questionId', authorize('update', Question), controller.updateQuestion)
-    //make these 4 routes patch instead
     router.delete('/:questionId/variable/:variableId', authorize('update', Question), controller.deleteVariable)
     router.delete('/:questionId/condition/:conditionId', authorize('update', Question), controller.deleteCondition)
     router.post('/:questionId/variable', authorize('update', Question), controller.createVariable)
