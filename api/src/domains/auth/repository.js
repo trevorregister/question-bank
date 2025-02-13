@@ -6,9 +6,9 @@ const { Question, User } = require('./subjects')
 class AuthRepo {
     constructor(){
     }
-    static async getResource({resourceId, subjectClass}){
+    static async getResource({resourceId, SubjectClass}){
         let resource = undefined
-        switch(subjectClass){
+        switch(SubjectClass){
             case Question:
                 resource = await QuestionModel.findById(resourceId)
                 break
@@ -19,7 +19,7 @@ class AuthRepo {
         if(resource){
             return resource
         } else {
-            throw new NotFoundError(`resource ${subjectClass.name} ${resourceId}`)
+            throw new NotFoundError(`resource ${SubjectClass.name} ${resourceId}`)
         }
     }
 

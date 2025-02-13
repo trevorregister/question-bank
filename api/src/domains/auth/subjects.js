@@ -1,7 +1,8 @@
+const isTypeOid = require('../utils/isTypeOid')
 class Question {
     constructor({id, owner}) {
       this.id = id
-      this.owner = owner.toHexString()
+      this.owner = isTypeOid(owner) ? owner.toHexString() : owner
     }
   }
   

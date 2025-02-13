@@ -3,7 +3,7 @@ const AbilityFactory = require('../domains/auth/AbilityFactory')
 const AuthRepo = require('../domains/auth/repository')
 const { Question, User } = require('../domains/auth/subjects')
 
-const authorize = (action, subjectClass, conditions = null) => {
+const authorize = (action, SubjectClass, conditions = undefined) => {
     return async (req, res, next) => {
         try {
             if(!req.user){
@@ -11,25 +11,33 @@ const authorize = (action, subjectClass, conditions = null) => {
             }
 
             const ability = AbilityFactory.defineAbilitiesFor(req.user)
+
             if(action === 'create'){
-                if(ability.can(action, subjectClass)){
-                   return next()
-                } else {
+                if(!ability.can(action, SubjectClass)){
                     throw new HttpError(403, 'forbidden')
+                } else {
+                    return next()
                 }
             }
 
             if(conditions){
-                if(ability.can(action, subjectClass, conditions)){
-                    return next()
-                } else {
+                const evaluatedConditions = typeof conditions === 'function'
+                    ? conditions(req)
+                    : conditions
+
+                const subject = new SubjectClass(evaluatedConditions)
+
+                if(!ability.can(action, subject)){
                     throw new HttpError(403, 'forbidden')
+                } else {
+                    return next()
                 }
             }
-    
+
             let resource
             let resourceId
-            switch(subjectClass){
+
+            switch(SubjectClass){
                 case Question:
                     resourceId = req.params.questionId
                     break
@@ -37,15 +45,16 @@ const authorize = (action, subjectClass, conditions = null) => {
                     resourceId = req.params.userId
                     break
                 default:
-                    throw new TypeError(subjectClass.name)
+                    throw new TypeError(SubjectClass.name)
             }
 
-            resource = await AuthRepo.getResource({resourceId, subjectClass})
+            resource = await AuthRepo.getResource({resourceId, SubjectClass})
+
             if(!resource) {
-                throw new NotFoundError(`resource ${subjectClass.name}`)
+                throw new NotFoundError(`resource ${SubjectClass.name}`)
             }
     
-            const subject = new subjectClass(resource)
+            const subject = new SubjectClass(resource)
     
             if(!ability.can(action, subject)){
                 throw new HttpError(403, 'unauthorized')
@@ -59,22 +68,3 @@ const authorize = (action, subjectClass, conditions = null) => {
 }
 
 module.exports = authorize
-
-/* const authorize = (action, subjectGetter) => {
-    return (req, res, next) => {
-        if (!req.user) {
-            return res.status(401).json({ message: 'Unauthorized' });
-        }
-
-        const ability = AbilityFactory.defineAbilitiesFor(req.user);
-        
-        // Determine the subject dynamically (optional)
-        const subject = typeof subjectGetter === 'function' ? subjectGetter(req) : subjectGetter;
-
-        if (!ability.can(action, subject)) {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
-
-        next();
-    };
-}; */

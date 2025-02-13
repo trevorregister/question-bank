@@ -21,7 +21,7 @@ module.exports = function questionRoutes(){
     router.post('/:questionId/condition', authorize('update', Question), controller.createCondition)
 
 
-    router.get('/owner/:ownerId', controller.getByOwner)
+    router.get('/owner/:ownerId', authorize('read', Question,  (req) => ({ owner: req.params.ownerId })) ,controller.getByOwner)
 
 
     return router
