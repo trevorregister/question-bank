@@ -2,7 +2,6 @@ const express = require('express')
 const QuestionModel = require('./data-access/model')
 const QuestionRepository = require('./repository')
 const QuestionController = require('./controller')
-const authenticate = require('../../middleware/authenticate')
 const authorize = require('../../middleware/authorize')
 const { Question } = require('../auth/subjects')
 
@@ -11,7 +10,6 @@ module.exports = function questionRoutes(){
     const controller = new QuestionController(repository)
     const router = express.Router()
 
-    router.use(authenticate)
     router.post('/', authorize('create', Question), controller.create)
 
     router.patch('/:questionId', authorize('update', Question), controller.updateQuestion)
