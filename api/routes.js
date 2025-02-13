@@ -1,6 +1,7 @@
 const express = require('express')
 const userRoutes = require('./src/domains/users/routes.js')
 const questionRoutes = require('./src/domains/questions/routes.js')
+const bankRoutes = require('./src/domains/banks/routes.js')
 const authenticate = require('./src/middleware/authenticate.js')
 
 function Routes(){
@@ -10,6 +11,8 @@ function Routes(){
     router.use(authenticate)
     
     router.use('/questions', questionRoutes())
+    router.use('/banks', bankRoutes())
+    
     router.get('/', (req, res, next) => {
         res.status(201).send('hello')
     })

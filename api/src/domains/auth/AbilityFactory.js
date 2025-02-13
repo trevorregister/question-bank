@@ -1,7 +1,8 @@
 const { AbilityBuilder , createMongoAbility, } = require('@casl/ability')
 const { 
     Question, 
-    User
+    User,
+    Bank
 } = require('./subjects')
 const { USER_ROLES } = require('../../core/enums')
 const { TypeError, HttpError } = require('../../core/errors')
@@ -34,8 +35,8 @@ module.exports = class AbilityFactory {
 }
 
 function defineTeacherRules(can, cannot, actor){
-    can('create', [Question])
-    can(['read', 'update', 'delete'], [Question], {owner: actor.id})
+    can('create', [Question, Bank])
+    can(['read', 'update', 'delete'], [Question, Bank], {owner: actor.id})
     can(['read', 'update'], [User], {id: actor.id})
 }
 
