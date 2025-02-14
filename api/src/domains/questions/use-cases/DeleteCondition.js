@@ -1,6 +1,6 @@
 const UseCase = require('../../../core/usecase.js')
-const { Question, Condition } = require('../entities.js')
-const { HttpError, NotFoundError } = require('../../../core/errors.js')
+const { Question } = require('../entities.js')
+const { NotFoundError } = require('../../../core/errors.js')
 
 module.exports = class DeleteConditionUseCase extends UseCase {
     constructor(repository){

@@ -1,4 +1,4 @@
-const { HttpError, NotFoundError } = require('../../core/errors')
+const { NotFoundError } = require('../../core/errors')
 const Repository = require('../../core/repository')
 const toOid = require('../utils/toOid')
 

@@ -2,7 +2,7 @@ const builder = require("../../../db-seed/builder.js")
 const generateId = require("../../../domains/utils/generateId.js")
 const request = require('../setup.js')
 const { faker } = builder
-const { VARIABLE_TYPES, QUESTION_TYPES } = require('../../../core/enums.js')
+const { VARIABLE_TYPES } = require('../../../core/enums.js')
 
 
 describe('Create Variable', () => {

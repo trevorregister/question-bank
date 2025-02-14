@@ -1,6 +1,6 @@
 const UseCase = require('../../../core/usecase')
 const { Question } = require('../entities.js')
-const { HttpError, NotFoundError } = require('../../../core/errors.js')
+const { NotFoundError } = require('../../../core/errors.js')
 
 module.exports = class UpdateQuestionUseCase extends UseCase {
     constructor(repository){

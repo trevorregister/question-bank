@@ -1,6 +1,5 @@
 const UseCase = require('../../../core/usecase')
 const { Question } = require('../entities.js')
-const { HttpError } = require('../../../core/errors.js')
 
 module.exports = class CreateQuestionUseCase extends UseCase {
     constructor(repository){

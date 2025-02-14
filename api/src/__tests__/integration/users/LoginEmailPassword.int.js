@@ -1,8 +1,6 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
 const jwt = require('jsonwebtoken')
-const dotenv = require('dotenv').config()
-const { faker } = builder
 
 describe('Login with email and password', () => {
 

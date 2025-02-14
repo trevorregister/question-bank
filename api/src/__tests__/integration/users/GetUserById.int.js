@@ -1,7 +1,5 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require('../setup.js')
-const generateId = require('../../../domains/utils/generateId.js')
-const { faker } = builder
 
 
 

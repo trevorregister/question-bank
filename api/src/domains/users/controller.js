@@ -4,8 +4,6 @@ const {
     LoginEmailPasswordUseCase
 } = require('../users/use-cases/index')
 
-const { HttpError } = require('../../core/errors')
-
 module.exports = class UserController {
     constructor(repository){
         this.repository = repository
