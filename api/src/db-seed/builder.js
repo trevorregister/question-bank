@@ -3,6 +3,7 @@ const { faker } = require('@faker-js/faker')
 const generateId = require('../domains/utils/generateId')
 const UserModel = require('../domains/users/data-access/model')
 const QuestionModel = require('../domains/questions/data-access/model')
+const BankModel = require('../domains/banks/data-access/model')
 const { QUESTION_TYPES } = require('../core/enums')
 const dotenv = require('dotenv').config()
 const jwt = require('jsonwebtoken')
@@ -28,6 +29,22 @@ const questionFields = {
     isArchived: false,
     isDeleted: false
 }
+
+const bankFields = {
+    _id: perBuild(() => generateId()),
+    name: perBuild(() => faker.lorem.sentence(5)),
+    owner: perBuild(() => generateId()),
+    questions: [],
+    isArchived: false,
+    isDeleted: false
+}
+
+const bankBuilder = build({
+    name: 'Bank',
+    fields: {
+        ...bankFields
+    }
+})
 
 const studentBuilder = build({
     name: 'User',
@@ -93,6 +110,7 @@ class Builder {
             teacher: createBuilderMethod(teacherBuilder, UserModel)
         }
         this.question = createBuilderMethod(questionBuilder, QuestionModel)
+        this.bank = createBuilderMethod(bankBuilder, BankModel)
     }
     randomId(){
         return generateId()
