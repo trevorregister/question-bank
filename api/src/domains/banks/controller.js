@@ -1,6 +1,7 @@
 const {
     CreateBankUseCase,
-    GetMyBanksUseCase
+    GetMyBanksUseCase,
+    GetBankQuestionsUseCase
 } = require('./use-cases/index')
 
 module.exports = class BankController {
@@ -8,6 +9,7 @@ module.exports = class BankController {
         this.repository = repository
         this.create = this.create.bind(this)
         this.getMyBanks = this.getMyBanks.bind(this)
+        this.getBankQuestions = this.getBankQuestions.bind(this)
     }
 
     async create(req, res, next){
@@ -26,6 +28,17 @@ module.exports = class BankController {
             const getMyBanksCase = new GetMyBanksUseCase(this.repository)
             const { ownerId } = req.params
             const result = await getMyBanksCase.execute(ownerId)
+            res.status(200).send(result)
+        } catch(err){
+            next(err)
+        }
+    }
+
+    async getBankQuestions(req, res, next){
+        try {
+            const getBankQuestionsCase = new GetBankQuestionsUseCase(this.repository)
+            const { bankId } = req.params
+            const result = await getBankQuestionsCase.execute(bankId)
             res.status(200).send(result)
         } catch(err){
             next(err)

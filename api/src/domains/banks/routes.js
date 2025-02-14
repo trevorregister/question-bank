@@ -11,7 +11,9 @@ module.exports = function bankRoutes(){
     const router = express.Router()
 
     router.post('/', authorize('create', Bank), controller.create)
+
     router.get('/owner/:ownerId', authorize('read', Bank, (req) => ({ owner: req.params.ownerId } )), controller.getMyBanks)
+    router.get('/:bankId/questions', authorize('read', Bank), controller.getBankQuestions)
 
     return router
 }
