@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken')
 
 describe('Get bank questions', () => {
 
-    it('returns array of questions from specified bank', async () => {
+    it('returns array of questions from specified bank and 200', async () => {
         const user = await builder.user.teacher()
         const token = builder.token(user)
         const questionA = await builder.question({owner: user._id})
