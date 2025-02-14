@@ -25,6 +25,20 @@ describe('Create User', () => {
         expect(id).toBeTruthy()
     })
 
+    it('given duplicate email, returns 422', async () => {
+        const duplicateEmail = faker.internet.email().toLowerCase()
+        const existingUser = await builder.user.teacher({email: duplicateEmail})
+        const userProps = {
+            email: duplicateEmail,
+            firstName: faker.person.firstName(),
+            lastName: faker.person.lastName(),
+            role: USER_ROLES.Student,
+            password: faker.lorem.word(20)
+        }
+        const res = await request.users.post('/', userProps)
+        expect(res.status).toBe(422)
+    })
+
     it('given invalid inputs, returns 422', async () => {
         const userProps = {
             email: 'fdas',
