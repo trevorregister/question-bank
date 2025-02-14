@@ -17,7 +17,7 @@ describe('Get questions by owner', () => {
 
         expect(res.status).toBe(201)
         res.body.forEach(question => {
-            expect(question.owner === user._id)
+            expect(question.owner).toBe(user._id.toHexString())
         })
     })
 
