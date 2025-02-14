@@ -10,7 +10,6 @@ module.exports = class GetBankQuestionsUseCase extends UseCase {
     async execute (bankId) {
         
         const questions = await this.repository.findQuestionsByBank(bankId)
-        console.log(questions)
         return questions.map(q => Question.toWeb(q))
         }
     }

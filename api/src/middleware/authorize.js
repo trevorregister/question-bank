@@ -26,7 +26,6 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
                     : conditions
 
                 const subject = new SubjectClass(evaluatedConditions)
-
                 if(!ability.can(action, subject)){
                     throw new HttpError(403, 'forbidden')
                 } else {
