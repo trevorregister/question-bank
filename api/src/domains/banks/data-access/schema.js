@@ -25,7 +25,7 @@ const schema = new Schema({
 
     questions: [{
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'Question'
     }]
 })
 module.exports = {
