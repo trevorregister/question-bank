@@ -22,6 +22,7 @@ module.exports = function bankRoutes() {
     authorize("read", Bank),
     controller.getBankQuestions,
   );
+  router.patch('/:bankId/questions', authorize('update', Bank), controller.addQuestionsToBank)
 
   return router;
 };

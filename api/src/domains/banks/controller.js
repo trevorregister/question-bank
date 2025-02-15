@@ -2,7 +2,9 @@ const {
   CreateBankUseCase,
   GetMyBanksUseCase,
   GetBankQuestionsUseCase,
+  AddBankQuestionsUseCase,
 } = require("./use-cases/index");
+const {AddQuestionsToBank} = require("./use-cases");
 
 module.exports = class BankController {
   constructor(repository) {
@@ -10,6 +12,7 @@ module.exports = class BankController {
     this.create = this.create.bind(this);
     this.getMyBanks = this.getMyBanks.bind(this);
     this.getBankQuestions = this.getBankQuestions.bind(this);
+    this.addQuestionsToBank = this.addQuestionsToBank.bind(this);
   }
 
   async create(req, res, next) {
@@ -42,6 +45,19 @@ module.exports = class BankController {
       res.status(200).send(result);
     } catch (err) {
       next(err);
+    }
+  }
+
+  async addQuestionsToBank(req, res, next) {
+    try {
+      const addQuestionsToBankCase = new AddQuestionsToBank(this.repository)
+      const { bankId } = req.params
+      const { questionIdArray } = req.body
+      const data = {bankId: bankId, questionIdArray: questionIdArray}
+      const result = await addQuestionsToBankCase.execute(data)
+      res.status(200).send(result)
+    } catch(err) {
+      next(err)
     }
   }
 };
