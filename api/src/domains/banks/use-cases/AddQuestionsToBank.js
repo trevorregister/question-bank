@@ -13,6 +13,7 @@ module.exports = class AddQuestionsToBank extends UseCase {
       throw new NotFoundError(`Bank ${bankId} not found`)
     }
     const payload = {questionIdArray: questionIdArray, bankId: bank._id};
-    return await this.repository.addQuestionsToBank(payload)
+    const updatedBank = await this.repository.addQuestionsToBank(payload)
+    return Bank.toWeb(updatedBank)
   }
 };
