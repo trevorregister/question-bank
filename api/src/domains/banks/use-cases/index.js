@@ -1,9 +1,11 @@
-const CreateBankUseCase = require('./CreateBank')
-const GetMyBanksUseCase = require('./GetMyBanks')
-const GetBankQuestionsUseCase = require('./GetBankQuestions')
+const CreateBankUseCase = require("./CreateBank");
+const GetMyBanksUseCase = require("./GetMyBanks");
+const GetBankQuestionsUseCase = require("./GetBankQuestions");
+const AddQuestionsToBank = require("./AddQuestionsToBank");
 
 module.exports = {
-    CreateBankUseCase,
-    GetMyBanksUseCase,
-    GetBankQuestionsUseCase
-}
+  CreateBankUseCase,
+  GetMyBanksUseCase,
+  GetBankQuestionsUseCase,
+  AddQuestionsToBank,
+};

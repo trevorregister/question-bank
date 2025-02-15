@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 module.exports = function generateId() {
-    return new mongoose.Types.ObjectId()
-}
+  return new mongoose.Types.ObjectId();
+};

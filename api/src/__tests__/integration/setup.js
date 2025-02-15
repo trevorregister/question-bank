@@ -1,47 +1,45 @@
-const supertest = require('supertest')
-const app = require('../../../app')
+const supertest = require("supertest");
+const app = require("../../../app");
 
-const supertestRequest = supertest(app)
+const supertestRequest = supertest(app);
 
 const routes = {
-    users: '/api/users',
-    questions: '/api/questions',
-    banks: '/api/banks'
-}
+  users: "/api/users",
+  questions: "/api/questions",
+  banks: "/api/banks",
+};
 
-function createRequestMethods(request, domainRoute){
-    return {
-        post: (endpoint, data, token = '') => 
-            request
-                .post(`${domainRoute}${endpoint}`)
-                .set({'Cookie': `token=${token}`})
-                .send(data),
-        get: (endpoint, token = '') => 
-            request
-                .get(`${domainRoute}${endpoint}`)
-                .set({'Cookie': `token=${token}`})
-        ,
-        patch: (endpoint, data, token = '') => 
-            request
-                .patch(`${domainRoute}${endpoint}`)
-                .set({'Cookie': `token=${token}`})
-                .send(data)
-        ,
-        delete: (endpoint, token = '') => 
-            request
-                .delete(`${domainRoute}${endpoint}`)
-                .set({'Cookie': `token=${token}`})        
-    }
+function createRequestMethods(request, domainRoute) {
+  return {
+    post: (endpoint, data, token = "") =>
+      request
+        .post(`${domainRoute}${endpoint}`)
+        .set({ Cookie: `token=${token}` })
+        .send(data),
+    get: (endpoint, token = "") =>
+      request
+        .get(`${domainRoute}${endpoint}`)
+        .set({ Cookie: `token=${token}` }),
+    patch: (endpoint, data, token = "") =>
+      request
+        .patch(`${domainRoute}${endpoint}`)
+        .set({ Cookie: `token=${token}` })
+        .send(data),
+    delete: (endpoint, token = "") =>
+      request
+        .delete(`${domainRoute}${endpoint}`)
+        .set({ Cookie: `token=${token}` }),
+  };
 }
 
 class Request {
-    constructor(request, routes){
-        this.users = createRequestMethods(request, routes.users)
-        this.questions = createRequestMethods(request, routes.questions)
-        this.banks = createRequestMethods(request, routes.banks)
-    }
+  constructor(request, routes) {
+    this.users = createRequestMethods(request, routes.users);
+    this.questions = createRequestMethods(request, routes.questions);
+    this.banks = createRequestMethods(request, routes.banks);
+  }
 }
 
-const request = new Request(supertestRequest, routes)
+const request = new Request(supertestRequest, routes);
 
-module.exports = request
+module.exports = request;
