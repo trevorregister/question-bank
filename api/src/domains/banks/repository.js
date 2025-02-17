@@ -6,6 +6,7 @@ module.exports = class BankRepository extends Repository {
     super(model)
     this.findQuestionsByBank = this.findQuestionsByBank.bind(this)
     this.addQuestionsToBank = this.addQuestionsToBank.bind(this)
+    this.removeQuestionsFromBank = this.removeQuestionsFromBank.bind(this)
   }
 
   async findQuestionsByBank(bankId) {
@@ -21,6 +22,19 @@ module.exports = class BankRepository extends Repository {
       },
       {
         $addToSet: { questions: questionIds },
+      },
+      { new: true },
+    )
+  }
+
+  async removeQuestionsFromBank({ questionIdArray, bankId }) {
+    const questionIds = questionIdArray.map((id) => toOid(id))
+    return await this.model.findOneAndUpdate(
+      {
+        _id: bankId,
+      },
+      {
+        $pull: { questions: { $in: questionIds } },
       },
       { new: true },
     )

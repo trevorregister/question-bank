@@ -23,9 +23,14 @@ module.exports = function bankRoutes() {
     controller.getBankQuestions,
   )
   router.patch(
-    "/:bankId/questions",
+    "/:bankId/questions/add",
     authorize("update", Bank),
     controller.addQuestionsToBank,
+  )
+  router.patch(
+    "/:bankId/questions/remove",
+    authorize("update", Bank),
+    controller.removeQuestionsFromBank,
   )
 
   return router

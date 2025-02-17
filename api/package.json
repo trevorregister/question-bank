@@ -7,7 +7,7 @@
     "test:int": "jest --runInBand --watch  ./src/__tests__/integration",
     "test:watch": "jest --watch impossible-regex",
     "db:seed": "node src/db-seed/seed.js",
-    "prepare": "husky"
+    "format": "npx prettier --write ./src/**"
   },
   "keywords": [],
   "type": "commonjs",
