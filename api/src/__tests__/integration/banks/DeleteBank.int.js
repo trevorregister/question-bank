@@ -1,6 +1,5 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require("../setup.js")
-const { faker } = builder
 
 describe("Remove questions from bank", () => {
   it("returns bank with updated question array and 200", async () => {
