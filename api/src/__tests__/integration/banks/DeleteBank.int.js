@@ -8,15 +8,10 @@ describe("Remove questions from bank", () => {
     const bank = await builder.bank({
       owner: user._id,
     })
-    const res = await request.banks.delete(
-      `/${bank._id}`,
-      token,
-    )
+    const res = await request.banks.delete(`/${bank._id}`, token)
     const { id } = res.body
     expect(res.status).toBe(200)
-    console.log(res.body)
     expect(id).toBe(bank._id.toHexString())
-    
   })
   it("request from non-owner returns 403", async () => {
     const user = await builder.user.teacher()
@@ -24,10 +19,7 @@ describe("Remove questions from bank", () => {
     const bank = await builder.bank({
       owner: builder.randomId(),
     })
-    const res = await request.banks.delete(
-      `/${bank._id}`,
-      token,
-    )
+    const res = await request.banks.delete(`/${bank._id}`, token)
     expect(res.status).toBe(403)
   })
 })

@@ -32,11 +32,7 @@ module.exports = function bankRoutes() {
     authorize("update", Bank),
     controller.removeQuestionsFromBank,
   )
-  router.delete(
-    "/:bankId",
-    authorize("delete", Bank),
-    controller.deleteBank
-  )
+  router.delete("/:bankId", authorize("delete", Bank), controller.deleteBank)
 
   return router
 }

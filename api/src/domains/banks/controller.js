@@ -4,7 +4,7 @@ const {
   GetBankQuestionsUseCase,
   AddQuestionsToBank,
   RemoveQuestionsFromBank,
-  DeleteBank
+  DeleteBank,
 } = require("./use-cases/index")
 
 module.exports = class BankController {
@@ -79,14 +79,13 @@ module.exports = class BankController {
     }
   }
 
-  async deleteBank(req, res, next){
-    try{
+  async deleteBank(req, res, next) {
+    try {
       const deleteBankCase = new DeleteBank(this.repository)
       const { bankId } = req.params
       const result = await deleteBankCase.execute(bankId)
       res.status(200).send(result)
-
-    } catch(err){
+    } catch (err) {
       next(err)
     }
   }

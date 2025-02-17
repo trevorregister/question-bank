@@ -4,6 +4,7 @@ const generateId = require("../domains/utils/generateId")
 const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
+const ActivityModel = require("../domains/activities/data-access/model")
 const { QUESTION_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -38,6 +39,57 @@ const bankFields = {
   isArchived: false,
   isDeleted: false,
 }
+
+const activityFields = {
+  _id: perBuild(() => generateId()),
+  name: perBuild(() => faker.lorem.sentence(5)),
+  owner: perBuild(() => generateId()),
+  sections: perBuild(() =>
+    Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+      sectionBuilder(),
+    ),
+  ),
+  isArchived: false,
+  tags: perBuild(() => Array.from({ length: 5 }, () => faker.lorem.word())),
+  questionCount: 0,
+}
+
+const sectionFields = {
+  id: perBuild(() => generateId()),
+  name: perBuild(() => faker.lorem.sentence(5)),
+  questions: perBuild(() =>
+    Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
+      questionBuilder(),
+    ),
+  ),
+  summary: perBuild(() => faker.lorem.sentence(5)),
+  sectionIndex: 0,
+}
+
+const activityBuilder = build({
+  name: "Activity",
+  fields: {
+    ...activityFields,
+  },
+  postBuild: (activity) => {
+    let sectionIndex = 0
+    activity.questionCount = activity.sections.reduce(
+      (sum, section) => sum + section.questions.length,
+      0,
+    )
+    activity.sections.forEach((section) => {
+      section.sectionIndex = sectionIndex
+      sectionIndex++
+    })
+    return activity
+  },
+})
+
+const sectionBuilder = build({
+  fields: {
+    ...sectionFields,
+  },
+})
 
 const bankBuilder = build({
   name: "Bank",
@@ -102,6 +154,14 @@ function createBuilderMethod(builder, model) {
   }
 }
 
+function createComponentBuilderMethod(builder) {
+  return function (overrides = {}) {
+    const builderInstance = builder.one(overrides)
+    applyOverrides(builderInstance, overrides)
+    return builderInstance
+  }
+}
+
 class Builder {
   constructor() {
     this.faker = faker
@@ -111,6 +171,12 @@ class Builder {
     }
     this.question = createBuilderMethod(questionBuilder, QuestionModel)
     this.bank = createBuilderMethod(bankBuilder, BankModel)
+    this.activity = Object.assign(
+      createBuilderMethod(activityBuilder, ActivityModel),
+      {
+        section: createComponentBuilderMethod(sectionBuilder),
+      },
+    )
   }
   randomId() {
     return generateId()
