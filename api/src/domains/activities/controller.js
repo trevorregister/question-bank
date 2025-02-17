@@ -9,7 +9,8 @@ module.exports = class ActivityController {
   async create(req, res, next) {
     try {
       const createActivityCase = new CreateActivityUseCase(this.repository)
-      const data = { name: req.body.name, ownerId: req.user.id }
+      const { name, sections = [], tags = [] } = req.body
+      const data = { name: name, ownerId: req.user.id, sections: sections, tags: tags }
       const result = await createActivityCase.execute(data)
       res.status(201).send(result)
     } catch (err) {

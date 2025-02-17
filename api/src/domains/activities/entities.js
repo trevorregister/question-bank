@@ -5,6 +5,8 @@ const generateId = require("../utils/generateId")
 const dbActivity = Joi.object({
   owner: Joi.string().trim().required(),
   name: Joi.string().trim().required(),
+  tags: Joi.array().items(Joi.string()).required(),
+  sections: Joi.array().required()
 })
 
 const dbSection = Joi.object({
@@ -15,13 +17,13 @@ const dbSection = Joi.object({
 
 class Activity extends Entity {
   static validator = dbActivity
-  constructor({ owner, name }) {
+  constructor({ owner, name, sections, tags }) {
     super()
     ;(this.owner = owner),
       (this.name = name),
-      (this.sections = []),
+      (this.sections = sections),
       (this.isArchived = false),
-      (this.tags = []),
+      (this.tags = tags),
       (this.questionCount = 0)
   }
 
