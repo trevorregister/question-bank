@@ -9,7 +9,8 @@ module.exports = class UpdateActivityUseCase extends UseCase {
   }
 
   async execute(updatedActivity) {
-    const activity = await this.repository.updateActivity(updatedActivity)
+    const props = Activity.updateToDb(updatedActivity)
+    const activity = await this.repository.updateActivity(props)
     return Activity.toWeb(activity)
   }
 }

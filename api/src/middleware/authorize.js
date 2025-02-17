@@ -45,7 +45,6 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
           resourceId = req.params.bankId
           break
         case Activity:
-          console.log('PARAMS', req.params.activityId)
           resourceId = req.params.activityId
           break
         default:

@@ -1,12 +1,23 @@
 const Joi = require("joi")
 const Entity = require("../../core/entity.js")
 const generateId = require("../utils/generateId")
+const { ValidationError } = require('../../core/errors.js')
 
-const dbActivity = Joi.object({
+const newDbActivity = Joi.object({
   owner: Joi.string().trim().required(),
   name: Joi.string().trim().required(),
   tags: Joi.array().items(Joi.string()).required(),
   sections: Joi.array().required()
+})
+
+const dbActivityUpdate = Joi.object({
+  id: Joi.string().trim().required(),
+  owner: Joi.string().trim().required(),
+  name: Joi.string().trim().required(),
+  tags: Joi.array().items(Joi.string()).required(),
+  sections: Joi.array().required(),
+  isArchived: Joi.boolean().required(),
+  questionCount: Joi.number().integer().greater(-1)
 })
 
 const dbSection = Joi.object({
@@ -16,7 +27,7 @@ const dbSection = Joi.object({
 })
 
 class Activity extends Entity {
-  static validator = dbActivity
+  static validator = newDbActivity
   constructor({ owner, name, sections, tags }) {
     super()
     ;(this.owner = owner),
@@ -36,6 +47,15 @@ class Activity extends Entity {
       tags: data.tags,
       questionCount: data.questionCount,
       name: data.name,
+    }
+  }
+
+  static updateToDb(data) {
+    const validate = dbActivityUpdate.validate(data)
+    if (validate.error) {
+      throw new ValidationError(validate.error)
+    } else {
+      return validate.value
     }
   }
 }
