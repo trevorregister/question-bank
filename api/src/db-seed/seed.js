@@ -3,6 +3,7 @@ const connect = require("../../config/db")
 const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
+const ActivityModel = require('../domains/activities/data-access/model')
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -29,6 +30,10 @@ async function buildUsers() {
     teachers.push(teacher)
     UserModel.create(teacher)
     BankModel.create(bank)
+
+    const section = await builder.activity.section({questions: questionIds})
+    const activity = await builder.activity({owner: teacher._id, sections: [section]})
+    ActivityModel.create(activity)
   }
   return {
     teachers: teachers,
