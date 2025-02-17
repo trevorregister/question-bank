@@ -1,7 +1,7 @@
-const builder = require("../../../db-seed/builder.js");
-const generateId = require("../../../domains/utils/generateId.js");
-const request = require("../setup.js");
-const { faker } = builder;
+const builder = require("../../../db-seed/builder.js")
+const generateId = require("../../../domains/utils/generateId.js")
+const request = require("../setup.js")
+const { faker } = builder
 
 describe("Update question", () => {
   it("returns question with updated prompt, pointValue, variables, and conditions and 201", async () => {
@@ -18,7 +18,7 @@ describe("Update question", () => {
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 10 }),
       },
-    ];
+    ]
     const conditions = [
       {
         id: generateId(),
@@ -32,44 +32,44 @@ describe("Update question", () => {
         feedback: faker.lorem.sentence(10),
         expression: faker.lorem.sentence(10),
       },
-    ];
-    const user = await builder.user.teacher();
-    const token = builder.token(user);
+    ]
+    const user = await builder.user.teacher()
+    const token = builder.token(user)
     const question = await builder.question({
       variables: variables,
       conditions: conditions,
       owner: user._id,
-    });
+    })
 
     const variableUpdate = {
       id: variables[0].id,
       min: faker.number.int({ min: 1, max: 10 }),
       step: faker.number.int({ min: 1, max: 10 }),
-    };
+    }
     const conditionUpdate = {
       id: conditions[0].id,
       isCorrect: false,
       feedback: faker.lorem.sentence(10),
-    };
-    const newPrompt = faker.lorem.sentence(10);
-    const newPointValue = faker.number.int({ min: 100, max: 200 });
+    }
+    const newPrompt = faker.lorem.sentence(10)
+    const newPointValue = faker.number.int({ min: 100, max: 200 })
     const payload = {
       prompt: newPrompt,
       pointValue: newPointValue,
       variables: [variableUpdate],
       conditions: [conditionUpdate],
       isArchived: true,
-    };
+    }
 
     const res = await request.questions.patch(
       `/${question._id}/`,
       payload,
       token,
-    );
-    const updatedQuestion = res.body;
-    const { prompt, pointValue, isArchived, isDeleted } = updatedQuestion;
+    )
+    const updatedQuestion = res.body
+    const { prompt, pointValue, isArchived, isDeleted } = updatedQuestion
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(201)
     expect({
       prompt,
       pointValue,
@@ -80,9 +80,9 @@ describe("Update question", () => {
       pointValue: newPointValue,
       isArchived: true,
       isDeleted: false,
-    });
+    })
     updatedQuestion.variables.forEach((variable) => {
-      const { min, max, step } = variable;
+      const { min, max, step } = variable
       if (variable.id === variableUpdate.id.toHexString()) {
         expect({
           min,
@@ -92,7 +92,7 @@ describe("Update question", () => {
           min: variableUpdate.min,
           max: variables[0].max,
           step: variableUpdate.step,
-        });
+        })
       } else {
         expect({
           min,
@@ -102,11 +102,11 @@ describe("Update question", () => {
           min: variables[1].min,
           max: variables[1].max,
           step: variables[1].step,
-        });
+        })
       }
-    });
+    })
     updatedQuestion.conditions.forEach((condition) => {
-      const { isCorrect, feedback, expression } = condition;
+      const { isCorrect, feedback, expression } = condition
       if (condition.id === conditionUpdate.id.toHexString()) {
         expect({
           isCorrect,
@@ -116,7 +116,7 @@ describe("Update question", () => {
           isCorrect: conditionUpdate.isCorrect,
           feedback: conditionUpdate.feedback,
           expression: conditions[0].expression,
-        });
+        })
       } else {
         expect({
           isCorrect,
@@ -126,29 +126,29 @@ describe("Update question", () => {
           isCorrect: conditions[1].isCorrect,
           feedback: conditions[1].feedback,
           expression: conditions[1].expression,
-        });
+        })
       }
-    });
-  });
+    })
+  })
 
   it("given valid inputs and bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher();
-    const token = builder.token(user);
-    const question = await builder.question({ owner: generateId() });
+    const user = await builder.user.teacher()
+    const token = builder.token(user)
+    const question = await builder.question({ owner: generateId() })
 
-    const newPrompt = faker.lorem.sentence(10);
-    const newPointValue = faker.number.int({ min: 100, max: 200 });
+    const newPrompt = faker.lorem.sentence(10)
+    const newPointValue = faker.number.int({ min: 100, max: 200 })
     const payload = {
       prompt: newPrompt,
       pointValue: newPointValue,
       isArchived: true,
-    };
+    }
 
     const res = await request.questions.patch(
       `/${question._id}/`,
       payload,
       token,
-    );
-    expect(res.status).toBe(403);
-  });
-});
+    )
+    expect(res.status).toBe(403)
+  })
+})

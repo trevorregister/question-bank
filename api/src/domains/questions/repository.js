@@ -1,18 +1,17 @@
-const { NotFoundError } = require("../../core/errors");
-const Repository = require("../../core/repository");
-const toOid = require("../utils/toOid");
+const { NotFoundError } = require("../../core/errors")
+const Repository = require("../../core/repository")
+const toOid = require("../utils/toOid")
 
 module.exports = class QuestionRepository extends Repository {
   constructor(model) {
-    super(model);
-    this.addVariableToQuestion = this.addVariableToQuestion.bind(this);
-    this.deleteVariableFromQuestion =
-      this.deleteVariableFromQuestion.bind(this);
-    this.addConditionToQuestion = this.addConditionToQuestion.bind(this);
+    super(model)
+    this.addVariableToQuestion = this.addVariableToQuestion.bind(this)
+    this.deleteVariableFromQuestion = this.deleteVariableFromQuestion.bind(this)
+    this.addConditionToQuestion = this.addConditionToQuestion.bind(this)
     this.deleteConditionFromQuestion =
-      this.deleteConditionFromQuestion.bind(this);
-    this.updateQuestion = this.updateQuestion.bind(this);
-    this.findQuestionsByOwner = this.findQuestionsByOwner.bind(this);
+      this.deleteConditionFromQuestion.bind(this)
+    this.updateQuestion = this.updateQuestion.bind(this)
+    this.findQuestionsByOwner = this.findQuestionsByOwner.bind(this)
   }
 
   async addVariableToQuestion({ questionId, variable }) {
@@ -20,7 +19,7 @@ module.exports = class QuestionRepository extends Repository {
       { _id: questionId },
       { $push: { variables: variable } },
       { new: true },
-    );
+    )
   }
 
   async deleteVariableFromQuestion({ questionId, variableId }) {
@@ -28,7 +27,7 @@ module.exports = class QuestionRepository extends Repository {
       { _id: questionId },
       { $pull: { variables: { id: toOid(variableId) } } },
       { new: true },
-    );
+    )
   }
 
   async addConditionToQuestion({ questionId, condition }) {
@@ -36,7 +35,7 @@ module.exports = class QuestionRepository extends Repository {
       { _id: questionId },
       { $push: { conditions: condition } },
       { new: true },
-    );
+    )
   }
 
   async deleteConditionFromQuestion({ questionId, conditionId }) {
@@ -44,7 +43,7 @@ module.exports = class QuestionRepository extends Repository {
       { _id: questionId },
       { $pull: { conditions: { id: toOid(conditionId) } } },
       { new: true },
-    );
+    )
   }
 
   async updateQuestion({ questionId, payload }) {
@@ -54,9 +53,9 @@ module.exports = class QuestionRepository extends Repository {
                 setParameters[`variables.$[elem].${key}`] = value
             }
         } */
-    const question = await this.model.findById(questionId);
+    const question = await this.model.findById(questionId)
     if (!question) {
-      throw new NotFoundError(`question ${questionId}`);
+      throw new NotFoundError(`question ${questionId}`)
     }
     Object.entries(payload).forEach(([key, value]) => {
       switch (key) {
@@ -65,28 +64,28 @@ module.exports = class QuestionRepository extends Repository {
             question.variables.forEach((questionVariable) => {
               if (questionVariable.id.toHexString() === payloadVariable.id) {
                 Object.entries(payloadVariable).forEach(([key, value]) => {
-                  questionVariable[key] = value;
-                });
+                  questionVariable[key] = value
+                })
               }
-            });
-          });
-          break;
+            })
+          })
+          break
         case "conditions":
           payload.conditions.forEach((payloadCondition) => {
             question.conditions.forEach((questionCondition) => {
               if (questionCondition.id.toHexString() === payloadCondition.id) {
                 Object.entries(payloadCondition).forEach(([key, value]) => {
-                  questionCondition[key] = value;
-                });
+                  questionCondition[key] = value
+                })
               }
-            });
-          });
-          break;
+            })
+          })
+          break
         default:
-          question[key] = value;
+          question[key] = value
       }
-    });
-    return await question.save();
+    })
+    return await question.save()
     /*         return await this.model.findOneAndUpdate(
             { _id: questionId },
             { $set: setParameters },
@@ -95,6 +94,6 @@ module.exports = class QuestionRepository extends Repository {
   }
 
   async findQuestionsByOwner(ownerId) {
-    return await this.model.find({ owner: toOid(ownerId) });
+    return await this.model.find({ owner: toOid(ownerId) })
   }
-};
+}

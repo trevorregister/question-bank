@@ -1,28 +1,28 @@
-const isTypeOid = require("../utils/isTypeOid");
+const isTypeOid = require("../utils/isTypeOid")
 class Question {
   constructor({ id, owner }) {
-    this.id = id;
-    this.owner = isTypeOid(owner) ? owner.toHexString() : owner;
+    this.id = id
+    this.owner = isTypeOid(owner) ? owner.toHexString() : owner
   }
 }
 
 class Bank {
   constructor({ id, owner }) {
-    this.id = id;
-    this.owner = owner;
+    this.id = id
+    this.owner = owner
   }
 }
 
 class Activity {
   constructor({ id, owner }) {
-    this.id = id;
-    this.owner = owner;
+    this.id = id
+    this.owner = owner
   }
 }
 
 class User {
   constructor({ id }) {
-    this.id = id;
+    this.id = id
   }
 }
 
@@ -31,4 +31,4 @@ module.exports = {
   Activity,
   User,
   Bank,
-};
+}

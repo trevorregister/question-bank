@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const { QUESTION_TYPES } = require("../../../core/enums");
+const mongoose = require("mongoose")
+const { QUESTION_TYPES } = require("../../../core/enums")
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 module.exports = new Schema({
   prompt: {
@@ -46,4 +46,4 @@ module.exports = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-});
+})

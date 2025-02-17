@@ -1,14 +1,14 @@
-const { build, perBuild } = require("@jackfranklin/test-data-bot");
-const { faker } = require("@faker-js/faker");
-const generateId = require("../domains/utils/generateId");
-const UserModel = require("../domains/users/data-access/model");
-const QuestionModel = require("../domains/questions/data-access/model");
-const BankModel = require("../domains/banks/data-access/model");
-const { QUESTION_TYPES } = require("../core/enums");
-const dotenv = require("dotenv").config();
-const jwt = require("jsonwebtoken");
+const { build, perBuild } = require("@jackfranklin/test-data-bot")
+const { faker } = require("@faker-js/faker")
+const generateId = require("../domains/utils/generateId")
+const UserModel = require("../domains/users/data-access/model")
+const QuestionModel = require("../domains/questions/data-access/model")
+const BankModel = require("../domains/banks/data-access/model")
+const { QUESTION_TYPES } = require("../core/enums")
+const dotenv = require("dotenv").config()
+const jwt = require("jsonwebtoken")
 
-faker.seed(123);
+faker.seed(123)
 
 const userFields = {
   _id: perBuild(() => generateId()),
@@ -16,7 +16,7 @@ const userFields = {
   lastName: perBuild(() => faker.person.lastName()),
   email: perBuild(() => faker.internet.email().toLowerCase()),
   hash: "$2b$10$2Qt1dVjd.mH/t6h..Xv.JOkuFZ6Pn6kVUimXjDTZl84vYlF8JtNYW",
-};
+}
 
 const questionFields = {
   _id: perBuild(() => generateId()),
@@ -28,7 +28,7 @@ const questionFields = {
   owner: perBuild(() => generateId()),
   isArchived: false,
   isDeleted: false,
-};
+}
 
 const bankFields = {
   _id: perBuild(() => generateId()),
@@ -37,14 +37,14 @@ const bankFields = {
   questions: [],
   isArchived: false,
   isDeleted: false,
-};
+}
 
 const bankBuilder = build({
   name: "Bank",
   fields: {
     ...bankFields,
   },
-});
+})
 
 const studentBuilder = build({
   name: "User",
@@ -52,7 +52,7 @@ const studentBuilder = build({
     role: "student",
     ...userFields,
   },
-});
+})
 
 const teacherBuilder = build({
   name: "User",
@@ -60,14 +60,14 @@ const teacherBuilder = build({
     role: "teacher",
     ...userFields,
   },
-});
+})
 
 const questionBuilder = build({
   name: "Question",
   fields: {
     ...questionFields,
   },
-});
+})
 
 function generateConditions() {
   return [
@@ -83,43 +83,43 @@ function generateConditions() {
       isCorrect: false,
       feedback: faker.lorem.sentence(10),
     },
-  ];
+  ]
 }
 
 function applyOverrides(builderInstance, overrides) {
   for (const key in overrides) {
     if (overrides.hasOwnProperty(key)) {
-      builderInstance[key] = overrides[key];
+      builderInstance[key] = overrides[key]
     }
   }
 }
 
 function createBuilderMethod(builder, model) {
   return function (overrides = {}) {
-    const builderInstance = builder.one(overrides);
-    applyOverrides(builderInstance, overrides);
-    return model.create(builderInstance);
-  };
+    const builderInstance = builder.one(overrides)
+    applyOverrides(builderInstance, overrides)
+    return model.create(builderInstance)
+  }
 }
 
 class Builder {
   constructor() {
-    this.faker = faker;
+    this.faker = faker
     this.user = {
       student: createBuilderMethod(studentBuilder, UserModel),
       teacher: createBuilderMethod(teacherBuilder, UserModel),
-    };
-    this.question = createBuilderMethod(questionBuilder, QuestionModel);
-    this.bank = createBuilderMethod(bankBuilder, BankModel);
+    }
+    this.question = createBuilderMethod(questionBuilder, QuestionModel)
+    this.bank = createBuilderMethod(bankBuilder, BankModel)
   }
   randomId() {
-    return generateId();
+    return generateId()
   }
   token(user) {
-    return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET);
+    return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET)
   }
 }
 
-const builder = new Builder();
+const builder = new Builder()
 
-module.exports = builder;
+module.exports = builder

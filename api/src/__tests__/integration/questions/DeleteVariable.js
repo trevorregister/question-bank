@@ -1,12 +1,12 @@
-const builder = require("../../../db-seed/builder.js");
-const generateId = require("../../../domains/utils/generateId.js");
-const request = require("../setup.js");
-const { faker } = builder;
+const builder = require("../../../db-seed/builder.js")
+const generateId = require("../../../domains/utils/generateId.js")
+const request = require("../setup.js")
+const { faker } = builder
 
 describe("Delete variable", () => {
   it("returns question with deleted variable removed and 201", async () => {
-    const user = await builder.user.teacher();
-    const token = builder.token(user);
+    const user = await builder.user.teacher()
+    const token = builder.token(user)
 
     const question = await builder.question({
       owner: user._id,
@@ -16,25 +16,23 @@ describe("Delete variable", () => {
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 5 }),
       },
-    });
-    const variableId = question.variables[0].id;
+    })
+    const variableId = question.variables[0].id
     const res = await request.questions.delete(
       `/${question._id}/variable/${variableId}`,
       token,
-    );
+    )
 
-    expect(res.status).toBe(201);
+    expect(res.status).toBe(201)
 
-    const { id, variables } = res.body;
-    expect(id).toBe(question._id.toHexString());
-    expect(variables.some((v) => v.id === variableId.toHexString())).toBe(
-      false,
-    );
-  });
+    const { id, variables } = res.body
+    expect(id).toBe(question._id.toHexString())
+    expect(variables.some((v) => v.id === variableId.toHexString())).toBe(false)
+  })
 
   it("given bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher();
-    const token = builder.token(user);
+    const user = await builder.user.teacher()
+    const token = builder.token(user)
 
     const question = await builder.question({
       owner: generateId(),
@@ -44,13 +42,13 @@ describe("Delete variable", () => {
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 5 }),
       },
-    });
-    const variableId = question.variables[0].id;
+    })
+    const variableId = question.variables[0].id
     const res = await request.questions.delete(
       `/${question._id}/variable/${variableId}`,
       token,
-    );
+    )
 
-    expect(res.status).toBe(403);
-  });
-});
+    expect(res.status).toBe(403)
+  })
+})

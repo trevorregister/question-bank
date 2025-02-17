@@ -1,13 +1,13 @@
-const supertest = require("supertest");
-const app = require("../../../app");
+const supertest = require("supertest")
+const app = require("../../../app")
 
-const supertestRequest = supertest(app);
+const supertestRequest = supertest(app)
 
 const routes = {
   users: "/api/users",
   questions: "/api/questions",
   banks: "/api/banks",
-};
+}
 
 function createRequestMethods(request, domainRoute) {
   return {
@@ -29,17 +29,17 @@ function createRequestMethods(request, domainRoute) {
       request
         .delete(`${domainRoute}${endpoint}`)
         .set({ Cookie: `token=${token}` }),
-  };
+  }
 }
 
 class Request {
   constructor(request, routes) {
-    this.users = createRequestMethods(request, routes.users);
-    this.questions = createRequestMethods(request, routes.questions);
-    this.banks = createRequestMethods(request, routes.banks);
+    this.users = createRequestMethods(request, routes.users)
+    this.questions = createRequestMethods(request, routes.questions)
+    this.banks = createRequestMethods(request, routes.banks)
   }
 }
 
-const request = new Request(supertestRequest, routes);
+const request = new Request(supertestRequest, routes)
 
-module.exports = request;
+module.exports = request

@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
-const { USER_ROLES } = require("../../../core/enums");
+const mongoose = require("mongoose")
+const { USER_ROLES } = require("../../../core/enums")
 
-const Schema = mongoose.Schema;
+const Schema = mongoose.Schema
 
 const schema = new Schema({
   email: {
@@ -32,7 +32,7 @@ const schema = new Schema({
       values: Object.values(USER_ROLES),
     },
   },
-});
+})
 module.exports = {
   schema,
-};
+}

@@ -1,18 +1,18 @@
-const Joi = require("joi");
-const Entity = require("../../core/entity.js");
+const Joi = require("joi")
+const Entity = require("../../core/entity.js")
 
 const dbBank = Joi.object({
   owner: Joi.string().required(),
   name: Joi.string().trim().required(),
-});
+})
 
 module.exports = class Bank extends Entity {
-  static validator = dbBank;
+  static validator = dbBank
   constructor({ owner, name }) {
-    super();
-    (this.owner = owner), (this.name = name), (this.isDeleted = false);
-    this.isArchived = false;
-    this.questions = [];
+    super()
+    ;(this.owner = owner), (this.name = name), (this.isDeleted = false)
+    this.isArchived = false
+    this.questions = []
   }
 
   static toWeb(data) {
@@ -23,6 +23,6 @@ module.exports = class Bank extends Entity {
       isDeleted: data.isDeleted,
       isArchived: data.isArchived,
       questions: data.questions,
-    };
+    }
   }
-};
+}

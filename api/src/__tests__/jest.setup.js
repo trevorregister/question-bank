@@ -1,17 +1,13 @@
-const {
-  setUp,
-  dropCollections,
-  dropDatabase,
-} = require("../../config/test-db");
+const { setUp, dropCollections, dropDatabase } = require("../../config/test-db")
 
 beforeAll(async () => {
-  await setUp();
-});
+  await setUp()
+})
 
 afterEach(async () => {
-  await dropCollections();
-});
+  await dropCollections()
+})
 
 afterAll(async () => {
-  await dropDatabase();
-});
+  await dropDatabase()
+})
