@@ -7,6 +7,7 @@ module.exports = class BankRepository extends Repository {
     this.findQuestionsByBank = this.findQuestionsByBank.bind(this)
     this.addQuestionsToBank = this.addQuestionsToBank.bind(this)
     this.removeQuestionsFromBank = this.removeQuestionsFromBank.bind(this)
+    this.deleteBank = this.deleteBank.bind(this)
   }
 
   async findQuestionsByBank(bankId) {
@@ -38,5 +39,9 @@ module.exports = class BankRepository extends Repository {
       },
       { new: true },
     )
+  }
+
+  async deleteBank(bankId){
+    return await this.model.findByIdAndDelete(bankId)
   }
 }
