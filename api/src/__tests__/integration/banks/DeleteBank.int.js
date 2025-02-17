@@ -15,7 +15,7 @@ describe("Remove questions from bank", () => {
     const { id } = res.body
     expect(res.status).toBe(200)
     console.log(res.body)
-    expect(id).toEqual(bank._id.toHexString())
+    expect(id).toBe(bank._id.toHexString())
     
   })
   it("request from non-owner returns 403", async () => {

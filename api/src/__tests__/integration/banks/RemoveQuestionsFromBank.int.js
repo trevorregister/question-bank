@@ -20,7 +20,7 @@ describe("Remove questions from bank", () => {
       token,
     )
     expect(res.status).toBe(200)
-    expect(res.body.questions.length).toEqual(1)
+    expect(res.body.questions.length).toBe(1)
     expect(res.body.questions[0]).toBe(questionC._id.toHexString())
   })
   it("request from non-owner returns 403", async () => {
