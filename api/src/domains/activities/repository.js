@@ -5,5 +5,16 @@ const toOid = require("../utils/toOid")
 module.exports = class ActivityRepository extends Repository {
   constructor(model) {
     super(model)
+    this.updateActivity = this.updateActivity.bind(this)
+  }
+
+  async updateActivity(updatedActivity){
+    const activity = await this.model.findById(updatedActivity.id)
+    if(!activity){
+      throw new NotFoundError(`activity ${updatedActivity.id}`)
+    }
+    Object.assign(activity, updatedActivity)
+    return await activity.save()
+    
   }
 }

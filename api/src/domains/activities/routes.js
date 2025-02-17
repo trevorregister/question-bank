@@ -10,7 +10,9 @@ module.exports = function questionRoutes() {
   const controller = new ActivityController(repository)
   const router = express.Router()
 
+  router.get("/:activityId", authorize("read", Activity), controller.getActivityById)
   router.post("/", authorize("create", Activity), controller.create)
+  router.patch("/:activityId", authorize("update", Activity), controller.updateActivity)
 
   return router
 }
