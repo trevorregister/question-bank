@@ -10,9 +10,9 @@ describe("Create Activity", () => {
     const tagsProp = [faker.lorem.word(5)]
     const props = { name: faker.lorem.sentence(5), sections: sectionsProp, tags: tagsProp }
     const res = await request.activities.post("/", props, token)
-
-    expect(res.status).toBe(201)
     const { id, owner, sections, isArchived, tags, questionCount, name } = res.body
+    
+    expect(res.status).toBe(201)
     expect(owner).toBe(user._id.toHexString())
     expect(id).toBeTruthy()
     expect({
