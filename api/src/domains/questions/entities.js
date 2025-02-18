@@ -44,6 +44,7 @@ class Question extends Entity {
   static toWeb(data) {
     return {
       id: data._id,
+      parent: data.parent,
       prompt: data.prompt,
       variables: data.variables.map((v) => Variable.toWeb(v)),
       conditions: data.conditions.map((c) => Condition.toWeb(c)),
