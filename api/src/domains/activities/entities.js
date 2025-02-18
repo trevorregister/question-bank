@@ -34,7 +34,7 @@ const dbActivityUpdate = Joi.object({
   owner: Joi.string().trim().required(),
   name: Joi.string().trim().required(),
   tags: Joi.array().items(Joi.string()).required(),
-  sections: Joi.array().required(),
+  sections: Joi.array().items(dbActivitySection).required(),
   isArchived: Joi.boolean().required(),
   questionCount: Joi.number().integer().greater(-1)
 })
