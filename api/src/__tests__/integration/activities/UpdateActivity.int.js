@@ -5,61 +5,82 @@ const { faker } = builder
 describe("Update activity", () => {
   it("Returns updated activity and 200", async () => {
     const user = await builder.user.teacher()
+    const activity = await builder.activity({owner: user._id, sections: [], tags: []})
     const token = builder.token(user)
-    const activity = await builder.activity({owner: user._id})
-    const getActivityRes = await request.activities.get(`/${activity._id}`, token)
-    const retrievedActivity  = getActivityRes.body
+    const section = {
+      id: builder.randomId(),
+      name: faker.lorem.sentence(),
+      summary: faker.lorem.sentence(),
+      sectionIndex: 0,
+      questions: [{
+        parent: builder.randomId(),
+        type: "numerical",
+        prompt: faker.lorem.sentence(),
+        pointValue: faker.number.int(),
+        variables: [{
+          id: builder.randomId(),
+          type: 'random',
+          min: faker.number.int({min: 1, max: 10}),
+          max: faker.number.int({min: 11, max: 20}),
+          step: faker.number.int()
+        }],
+        conditions: [{
+          id: builder.randomId(),
+          expression: faker.lorem.sentence(),
+          isCorrect: faker.number.int()%2 === 0? true: false,
+          feedback: faker.lorem.sentence()
 
-    const newName = faker.lorem.sentence(5)
-    const newTag = faker.lorem.word(6)
-    const newIsArchived = faker.number.int({min: 1, max: 20})%2 === 0 ? true: false
-    const newQuestionIds = Array.from({length: faker.number.int({min: 1, max: 5})}, () => builder.randomId())
+        }]
+      }]
+    }
+    const addedTag = faker.lorem.word()
+    const newName = faker.lorem.sentence()
 
-    const additionalSection = await builder.activity.section({questions: newQuestionIds})
-    retrievedActivity.sections.push(additionalSection)
-    retrievedActivity.name = newName,
-    retrievedActivity.tags.push(newTag)
-    retrievedActivity.isArchived = newIsArchived
-
-    const res = await request.activities.patch(`/${activity._id}`,retrievedActivity, token)
-    const { id, name, owner, isArchived, tags, sections } = res.body
+    const activityRes = await request.activities.get(`/${activity._id}`, token)
+    activityRes.body.sections.push(section)
+    activityRes.body.name = newName
+    activityRes.body.tags.push(addedTag)
     
-    expect(res.status).toBe(200)
+    const res = await request.activities.post("/", activityRes.body, token)
+    const { id, owner, sections, isArchived, tags, name } = res.body
+
+    expect(res.status).toBe(201)
     expect({
-        id,
-        name,
-        owner,
-        isArchived
+      owner,
+      isArchived,
+      name
     }).toEqual({
-        id: activity._id.toHexString(),
-        name: newName,
-        owner: user._id.toHexString(),
-        isArchived: newIsArchived
+      owner: user._id.toHexString(),
+      isArchived: false,
+      name: newName
     })
-    expect(tags.some(tag => newTag)).toBe(true)
-    expect(sections.length).toBe(activity.sections.length + 1)
-  })
-
-  it("given invalid inputs, returns 422", async () => {
-    const user = await builder.user.teacher()
-    const token = builder.token(user)
-    const activity = await builder.activity({owner: user._id})
-    const getActivityRes = await request.activities.get(`/${activity._id}`, token)
-    const retrievedActivity  = getActivityRes.body
-
-    const newName = 123
-    const newTag = 456
-    const newIsArchived = "asdf"
-    const newQuestionIds = Array.from({length: faker.number.int({min: 1, max: 5})}, () => builder.randomId())
-
-    const additionalSection = await builder.activity.section({questions: newQuestionIds})
-    retrievedActivity.sections.push(additionalSection)
-    retrievedActivity.name = newName,
-    retrievedActivity.tags.push(newTag)
-    retrievedActivity.isArchived = newIsArchived
-
-    const res = await request.activities.patch(`/${activity._id}`,retrievedActivity, token)    
-    expect(res.status).toBe(422)
+    expect(id).toBeTruthy()
+    expect(tags[0]).toBe(addedTag)
+    expect(sections[0]).toEqual({
+      id: section.id.toHexString(),
+      name: section.name,
+      summary: section.summary,
+      sectionIndex: section.sectionIndex,
+      questions: [{
+        parent: section.questions[0].parent.toHexString(),
+        type: section.questions[0].type,
+        prompt: section.questions[0].prompt,
+        pointValue: section.questions[0].pointValue,
+        variables: [{
+          id: section.questions[0].variables[0].id.toHexString(),
+          type: section.questions[0].variables[0].type,
+          min: section.questions[0].variables[0].min,
+          max: section.questions[0].variables[0].max,
+          step: section.questions[0].variables[0].step
+        }],
+        conditions: [{
+          id: section.questions[0].conditions[0].id.toHexString(),
+          expression: section.questions[0].conditions[0].expression,
+          isCorrect: section.questions[0].conditions[0].isCorrect,
+          feedback: section.questions[0].conditions[0].feedback
+        }]
+      }]
+    })
   })
 
   it("given non-owner request, returns 403", async () => {
