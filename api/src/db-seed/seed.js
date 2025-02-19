@@ -11,12 +11,13 @@ async function init() {
   await UserModel.deleteMany({})
   await QuestionModel.deleteMany({})
   await BankModel.deleteMany({})
+  await ActivityModel.deleteMany({})
 }
 
 async function buildUsers() {
   const teachers = []
   for (let i = 0; i < 10; i++) {
-    const teacher = await builder.user.teacher()
+    const teacher = await builder.user.teacher({email: `user${i+1}@asdf.com`})
     const questionIds = []
     for (let i = 0; i < 10; i++) {
       const question = await builder.question({ owner: teacher._id })
@@ -31,8 +32,7 @@ async function buildUsers() {
     UserModel.create(teacher)
     BankModel.create(bank)
 
-    const section = await builder.activity.section({questions: questionIds})
-    const activity = await builder.activity({owner: teacher._id, sections: [section]})
+    const activity = await builder.activity({owner: teacher._id})
     ActivityModel.create(activity)
   }
   return {
