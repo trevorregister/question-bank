@@ -17,14 +17,14 @@ async function init() {
 async function buildUsers() {
   const teachers = []
   for (let i = 0; i < 10; i++) {
-    const teacher = await builder.user.teacher({email: `user${i+1}@asdf.com`})
+    const teacher = builder.user.teacher({email: `user${i+1}@asdf.com`})
     const questionIds = []
     for (let i = 0; i < 10; i++) {
-      const question = await builder.question({ owner: teacher._id })
+      const question = builder.question({ owner: teacher._id })
       questionIds.push(question._id)
       QuestionModel.create(question)
     }
-    const bank = await builder.bank({
+    const bank = builder.bank({
       owner: teacher._id,
       questions: questionIds,
     })
@@ -32,7 +32,7 @@ async function buildUsers() {
     UserModel.create(teacher)
     BankModel.create(bank)
 
-    const activity = await builder.activity({owner: teacher._id})
+    const activity = builder.activity({owner: teacher._id})
     ActivityModel.create(activity)
   }
   return {

@@ -178,7 +178,7 @@ function createBuilderMethod(entityBuilder, model, builderClassInstance) {
       default:
         throw new Error(`${model} invalid model`)
     }
-    return model.create(builderResult) //make this return builderResult instead once ready to switch to using builder.seed()
+    return builderResult//return model.create(builderResult) //make this return builderResult instead once ready to switch to using builder.seed()
   }
 }
 

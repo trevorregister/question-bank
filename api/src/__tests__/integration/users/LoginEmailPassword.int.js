@@ -4,7 +4,9 @@ const jwt = require("jsonwebtoken")
 
 describe("Login with email and password", () => {
   it("given correct credentials, returns valid token and 200", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
+    await builder.seed()
+
     const res = await request.users.post(`/login/email-password`, {
       email: user.email,
       password: "asdf",
@@ -24,7 +26,9 @@ describe("Login with email and password", () => {
   })
 
   it("given correct email but wrong password, returns 401", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
+    await builder.seed()
+
     const res = await request.users.post(`/login/email-password`, {
       email: user.email,
       password: "incorrect password",

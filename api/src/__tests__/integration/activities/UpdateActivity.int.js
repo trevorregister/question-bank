@@ -4,8 +4,10 @@ const { faker } = builder
 
 describe("Update activity", () => {
   it("Returns updated activity and 200", async () => {
-    const user = await builder.user.teacher()
-    const activity = await builder.activity({owner: user._id, sections: [], tags: []})
+    const user = builder.user.teacher()
+    const activity = builder.activity({owner: user._id, sections: [], tags: []})
+    await builder.seed()
+
     const token = builder.token(user)
     const section = {
       id: builder.randomId(),
@@ -84,9 +86,11 @@ describe("Update activity", () => {
   })
 
   it("given non-owner request, returns 403", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
-    const activity = await builder.activity({owner: builder.randomId()})
+    const activity = builder.activity({owner: builder.randomId()})
+    await builder.seed()
+    
     const res = await request.activities.patch(`/${activity._id}`, {}, token)
     expect(res.status).toBe(403)
   })

@@ -4,8 +4,10 @@ const { faker } = builder
 
 describe("Create Activity", () => {
   it("given valid inputs, returns new activity and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    await builder.seed()
+    
     const section = {
       id: builder.randomId(),
       name: faker.lorem.sentence(),
@@ -77,8 +79,10 @@ describe("Create Activity", () => {
   })
 
   it("given invalid props, returns 422", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    
+    await builder.seed()
     const props = { name: 123 }
     const res = await request.activities.post("/", props, token)
 
@@ -86,7 +90,7 @@ describe("Create Activity", () => {
   })
 
   it("given request from student, returns 403", async () => {
-    const user = await builder.user.student()
+    const user = builder.user.student()
     const token = builder.token(user)
     const props = { name: faker.lorem.sentence(5) }
     const res = await request.activities.post("/", props, token)

@@ -4,10 +4,11 @@ const generateId = require("../../../domains/utils/generateId.js")
 
 describe("Delete condition", () => {
   it("returns question with deleted condition removed and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    const question = builder.question({ owner: user._id })
+    await builder.seed()
 
-    const question = await builder.question({ owner: user._id })
     const conditionId = question.conditions[0].id
     const res = await request.questions.delete(
       `/${question._id}/condition/${conditionId}`,
@@ -22,10 +23,11 @@ describe("Delete condition", () => {
   })
 
   it("given bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    const question = builder.question({ owner: generateId() })
+    await builder.seed()
 
-    const question = await builder.question({ owner: generateId() })
     const conditionId = question.conditions[0].id
     const res = await request.questions.delete(
       `/${question._id}/condition/${conditionId}`,

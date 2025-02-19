@@ -5,7 +5,7 @@ const { faker } = builder
 
 describe("Create condition", () => {
   it("given valid inputs, returns question with new condition and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
 
     const expression = faker.lorem.word(10)
@@ -16,10 +16,12 @@ describe("Create condition", () => {
       isCorrect: isCorrect,
       feedback: feedback,
     }
-    const question = await builder.question({
+    const question = builder.question({
       conditions: [],
       owner: user._id,
     })
+    await builder.seed()
+
     const res = await request.questions.post(
       `/${question._id}/condition`,
       conditionProps,
@@ -57,7 +59,7 @@ describe("Create condition", () => {
   })
 
   it("given invalid inputs, returns 422", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
     const feedback = faker.lorem.sentence(10)
     const conditionProps = {
@@ -65,7 +67,9 @@ describe("Create condition", () => {
       isCorrect: "isCorrect",
       feedback: feedback,
     }
-    const question = await builder.question({ owner: user._id })
+    const question = builder.question({ owner: user._id })
+    await builder.seed()
+
     const res = await request.questions.post(
       `/${question._id}/condition`,
       conditionProps,
@@ -75,7 +79,7 @@ describe("Create condition", () => {
   })
 
   it("given valid inputs and bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
     const expression = faker.lorem.word(10)
     const isCorrect = faker.number.int(100) % 2 === 0 ? true : false
@@ -85,7 +89,9 @@ describe("Create condition", () => {
       isCorrect: isCorrect,
       feedback: feedback,
     }
-    const question = await builder.question({ owner: generateId() })
+    const question = builder.question({ owner: generateId() })
+    await builder.seed()
+
     const res = await request.questions.post(
       `/${question._id}/condition`,
       conditionProps,

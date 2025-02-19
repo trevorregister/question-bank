@@ -5,8 +5,10 @@ const jwt = require("jsonwebtoken")
 
 describe("Create Bank", () => {
   it("given valid inputs, returns new bank and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    await builder.seed()
+
     const bankProps = {
       name: faker.lorem.word(5),
       owner: user._id,

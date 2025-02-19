@@ -6,8 +6,9 @@ const { QUESTION_TYPES } = require("../../../core/enums.js")
 
 describe("Create Question", () => {
   it("given valid inputs, returns new question and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    await builder.seed()
 
     const questionOwner = generateId()
     const questionProps = {
@@ -40,8 +41,9 @@ describe("Create Question", () => {
   })
 
   it("given invalid inputs, returns 422", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
+    await builder.seed()
 
     const questionProps = {
       prompt: faker.lorem.sentence(10),
@@ -53,7 +55,7 @@ describe("Create Question", () => {
   })
 
   it("given valid inputs and student user returns 403", async () => {
-    const user = await builder.user.student()
+    const user = builder.user.student()
     const token = builder.token(user)
 
     const questionOwner = generateId()
