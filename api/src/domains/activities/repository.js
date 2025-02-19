@@ -6,6 +6,8 @@ module.exports = class ActivityRepository extends Repository {
   constructor(model) {
     super(model)
     this.updateActivity = this.updateActivity.bind(this)
+    this.archiveActivity = this.archiveActivity.bind(this)
+    this.unarchiveActivity = this.unarchiveActivity.bind(this)
   }
 
   async updateActivity(updatedActivity){
@@ -16,5 +18,13 @@ module.exports = class ActivityRepository extends Repository {
     Object.assign(activity, updatedActivity)
     return await activity.save()
     
+  }
+
+  async archiveActivity(id){
+    return await this.model.findOneAndUpdate({_id: toOid(id)}, {$set: {isArchived: true}})
+  }
+
+  async unarchiveActivity(id){
+    return await this.model.findOneAndUpdate({_id: toOid(id)}, {$set: {isArchived: false}})
   }
 }

@@ -13,6 +13,8 @@ module.exports = function questionRoutes() {
   router.get("/:activityId", authorize("read", Activity), controller.getActivityById)
   router.post("/", authorize("create", Activity), controller.create)
   router.patch("/:activityId", authorize("update", Activity), controller.updateActivity)
+  router.patch("/:activityId/archive", authorize("update", Activity), controller.archiveActivity)
+  router.patch("/:activityId/unarchive", authorize("update", Activity), controller.unarchiveActivity)
 
   return router
 }
