@@ -81,15 +81,15 @@ const activityBuilder = build({
       section.sectionIndex = sectionIndex
       sectionIndex++
     })
-    activity.sections.forEach(section => {
-      section.questions = section.questions.map(question => {
+    activity.sections.forEach((section) => {
+      section.questions = section.questions.map((question) => {
         return {
           parent: question._id,
           prompt: question.prompt,
           variables: question.variables,
           conditions: question.conditions,
           pointValue: question.pointValue,
-          type: question.type
+          type: question.type,
         }
       })
     })
@@ -162,7 +162,7 @@ function createBuilderMethod(entityBuilder, model, builderClassInstance) {
   return function (overrides = {}) {
     const builderResult = entityBuilder.one(overrides)
     applyOverrides(builderResult, overrides)
-    switch(model){
+    switch (model) {
       case UserModel:
         builderClassInstance.data.users.push(builderResult)
         break
@@ -196,7 +196,7 @@ class Builder {
       users: [],
       questions: [],
       banks: [],
-      activities: []
+      activities: [],
     }
     this.faker = faker
     this.user = {
@@ -218,12 +218,12 @@ class Builder {
   token(user) {
     return jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET)
   }
-  async seed(){
+  async seed() {
     return {
       users: await UserModel.insertMany(this.data.users),
       questions: await QuestionModel.insertMany(this.data.questions),
       banks: await BankModel.insertMany(this.data.banks),
-      activities: await ActivityModel.insertMany(this.data.activities)
+      activities: await ActivityModel.insertMany(this.data.activities),
     }
   }
 }

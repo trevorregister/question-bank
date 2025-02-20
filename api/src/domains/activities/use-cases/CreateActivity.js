@@ -14,7 +14,12 @@ module.exports = class CreateActivityUseCase extends UseCase {
     if (!user) {
       throw new NotFoundError(`user ${ownerId}`)
     }
-    const props = Activity.toDb({ name: name, owner: ownerId, sections: sections, tags: tags })
+    const props = Activity.toDb({
+      name: name,
+      owner: ownerId,
+      sections: sections,
+      tags: tags,
+    })
     const activity = await this.repository.create(new Activity(props))
     return Activity.toWeb(activity)
   }

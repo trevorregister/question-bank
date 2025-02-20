@@ -1,9 +1,9 @@
 const Joi = require("joi")
 const Entity = require("../../core/entity.js")
 const generateId = require("../utils/generateId")
-const { ValidationError } = require('../../core/errors.js')
-const { Question } = require('../../domains/questions/entities.js')
-const { QUESTION_TYPES } = require('../../core/enums.js')
+const { ValidationError } = require("../../core/errors.js")
+const { Question } = require("../../domains/questions/entities.js")
+const { QUESTION_TYPES } = require("../../core/enums.js")
 
 const dbActivityQuestion = Joi.object({
   parent: Joi.string().trim().required(),
@@ -26,7 +26,7 @@ const newDbActivity = Joi.object({
   owner: Joi.string().trim().required(),
   name: Joi.string().trim().required(),
   tags: Joi.array().items(Joi.string()).required(),
-  sections: Joi.array().items(dbActivitySection).required()
+  sections: Joi.array().items(dbActivitySection).required(),
 })
 
 const dbActivityUpdate = Joi.object({
@@ -36,7 +36,7 @@ const dbActivityUpdate = Joi.object({
   tags: Joi.array().items(Joi.string()).required(),
   sections: Joi.array().items(dbActivitySection).required(),
   isArchived: Joi.boolean().required(),
-  questionCount: Joi.number().integer().greater(-1)
+  questionCount: Joi.number().integer().greater(-1),
 })
 
 class Activity extends Entity {
@@ -55,7 +55,7 @@ class Activity extends Entity {
     return {
       id: data._id,
       owner: data.owner,
-      sections: data.sections.map(s => ActivitySection.toWeb(s)),
+      sections: data.sections.map((s) => ActivitySection.toWeb(s)),
       isArchived: data.isArchived,
       tags: data.tags,
       questionCount: data.questionCount,
@@ -89,7 +89,7 @@ class ActivitySection extends Entity {
       id: data.id,
       name: data.name,
       //questions: data.questions,
-      questions: data.questions.map(q => Question.toWeb(q)),
+      questions: data.questions.map((q) => Question.toWeb(q)),
       summary: data.summary,
       sectionIndex: data.sectionIndex,
     }

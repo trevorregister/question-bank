@@ -8,31 +8,31 @@ const activityQuestionSchema = new Schema(
     parent: {
       type: Schema.Types.ObjectId,
       required: true,
-      ref: "Questions"
+      ref: "Questions",
     },
 
     prompt: {
       type: String,
       required: true,
     },
-  
+
     variables: {
       type: Array,
       required: true,
-      default: []
+      default: [],
     },
-  
+
     conditions: {
       type: Array,
       required: true,
-      default: []
+      default: [],
     },
-  
+
     pointValue: {
       type: Number,
       required: true,
     },
-  
+
     type: {
       type: String,
       required: true,
@@ -41,7 +41,7 @@ const activityQuestionSchema = new Schema(
       },
     },
   },
-  {_id: false}
+  { _id: false },
 )
 
 const activitySectionSchema = new Schema(
@@ -52,7 +52,7 @@ const activitySectionSchema = new Schema(
     summary: { type: String, required: true },
     sectionIndex: { type: Number, required: true },
   },
-  { _id: false }
+  { _id: false },
 )
 
 const schema = new Schema({
@@ -68,7 +68,7 @@ const schema = new Schema({
   sections: {
     type: [activitySectionSchema],
     required: true,
-    default: []
+    default: [],
   },
   isArchived: { type: Boolean, required: true, default: false },
   tags: {

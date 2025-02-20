@@ -8,8 +8,8 @@ module.exports = class UnarchiveActivityUseCase extends UseCase {
 
   async execute(id) {
     const activity = await this.repository.unarchiveActivity(id)
-    if(!activity){
-        throw new NotFoundError(`activity ${id}`)
+    if (!activity) {
+      throw new NotFoundError(`activity ${id}`)
     }
     return activity
   }
