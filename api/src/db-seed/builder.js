@@ -5,6 +5,7 @@ const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
+const ClassModel = require('../domains/classes/data-access/model')
 const { QUESTION_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -40,6 +41,25 @@ const bankFields = {
   isDeleted: false,
 }
 
+const classFields = {
+  _id: perBuild(() => generateId()),
+  name: perBuild(() => faker.lorem.sentence()),
+  owner: perBuild(() => generateId()),
+  roster: [],
+  droppedStudents: [],
+  isArchived: false
+}
+
+const rosteredStudentFields = {
+  student: perBuild(() => generateId()),
+  joinDate: perBuild(() => new Date()),
+}
+
+const droppedStudentFields = {
+  student: perBuild(() => generateId()),
+  dropDate: perBuild(() => new Date()),
+}
+
 const activityFields = {
   _id: perBuild(() => generateId()),
   name: perBuild(() => faker.lorem.sentence(5)),
@@ -65,6 +85,27 @@ const sectionFields = {
   summary: perBuild(() => faker.lorem.sentence(5)),
   sectionIndex: 0,
 }
+
+const classBuilder = build({
+  name: "Class",
+  fields: {
+    ...classFields
+  }
+})
+
+const rosteredStudentBuilder = build({
+  name: "Rostered Student",
+  fields: {
+    ...rosteredStudentFields
+  }
+})
+
+const droppedStudentBuilder = build({
+  name: "Dropped Student",
+  fields: {
+    ...droppedStudentFields
+  }
+})
 
 const activityBuilder = build({
   name: "Activity",
@@ -175,6 +216,9 @@ function createBuilderMethod(entityBuilder, model, builderClassInstance) {
       case ActivityModel:
         builderClassInstance.data.activities.push(builderResult)
         break
+      case ClassModel:
+        builderClassInstance.data.classes.push(builderResult)
+        break
       default:
         throw new Error(`${model} invalid model`)
     }
@@ -197,6 +241,7 @@ class Builder {
       questions: [],
       banks: [],
       activities: [],
+      classes: []
     }
     this.faker = faker
     this.user = {
@@ -209,6 +254,13 @@ class Builder {
       createBuilderMethod(activityBuilder, ActivityModel, this),
       {
         section: createComponentBuilderMethod(sectionBuilder),
+      },
+    )
+    this.class = Object.assign(
+      createBuilderMethod(classBuilder, ClassModel, this),
+      {
+        rosteredStudent: createComponentBuilderMethod(rosteredStudentBuilder),
+        droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
       },
     )
   }
@@ -224,6 +276,7 @@ class Builder {
       questions: await QuestionModel.insertMany(this.data.questions),
       banks: await BankModel.insertMany(this.data.banks),
       activities: await ActivityModel.insertMany(this.data.activities),
+      classes: await ClassModel.insertMany(this.data.classes)
     }
   }
 }

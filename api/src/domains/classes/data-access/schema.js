@@ -2,7 +2,8 @@ const mongoose = require("mongoose")
 
 const Schema = mongoose.Schema
 
-const studentRosterSchema = new Schema({
+const studentRosterSchema = new Schema(
+  {
     student: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -13,9 +14,12 @@ const studentRosterSchema = new Schema({
         required: true,
         default: new Date()
     }
-})
+  },
+  {_id: false}
+)
 
-const droppedStudentSchema = new Schema({
+const droppedStudentSchema = new Schema(
+  {
     student: {
         type: Schema.Types.ObjectId,
         required: true,
@@ -26,7 +30,9 @@ const droppedStudentSchema = new Schema({
         required: true,
         default: new Date()
     }
-})
+  },
+  {_id: false}
+)
 
 const schema = new Schema({
   owner: {
