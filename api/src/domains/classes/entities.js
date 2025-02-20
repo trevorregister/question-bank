@@ -2,10 +2,7 @@ const Joi = require("joi")
 const Entity = require("../../core/entity.js")
 
 
-const dbRosteredStudent = Joi.object({
-    student: Joi.string().trim().required(),
-    joinDate: Joi.date().required()
-})
+const dbRosteredStudent = Joi.string().trim().required()
 
 const dbDroppedStudent = Joi.object({
     student: Joi.string().trim().required(),
@@ -20,8 +17,9 @@ const dbClass = Joi.object({
 
 class RosteredStudent extends Entity {
     static validator = dbRosteredStudent
-    constructor(student){
-        this.student = student
+    constructor(id){
+        super()
+        this.id = id
         this.joinDate = new Date()
     }
 
@@ -36,6 +34,7 @@ class RosteredStudent extends Entity {
 class DroppedStudent extends Entity {
     static validator = dbDroppedStudent
     constructor(student){
+        super()
         this.student = student
         this.dropDate = new Date()
     }

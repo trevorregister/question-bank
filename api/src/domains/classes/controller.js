@@ -1,5 +1,6 @@
 const {
-    CreateClassUseCase
+    CreateClassUseCase,
+    JoinClassUseCase
 } = require('./use-cases/index')
   
   module.exports = class ClassController {
@@ -7,6 +8,7 @@ const {
         this.repository = repository
         this.create = this.create.bind(this)
         this.findById = this.findById.bind(this)
+        this.joinClass = this.joinClass.bind(this)
     }
 
     async create(req, res, next) {
@@ -19,6 +21,17 @@ const {
           next(err)
         }
       }
+
+    async joinClass(req, res, next){
+      try {
+          const joinClassCase = new JoinClassUseCase(this.repository)
+          const data = {userId: req.user.id, ...req.body}
+          const result = await joinClassCase.execute(data)
+          res.status(200).send(result)
+      } catch(err){
+        next(err)
+      }
+    }
   
     async findById(req, res, next) {
       try {
