@@ -44,6 +44,10 @@ const schema = new Schema({
     type: String,
     required: true
   },
+  joinCode: {
+    type: String,
+    required: true
+  },
   roster: {
     type: [studentRosterSchema],
     required: true,

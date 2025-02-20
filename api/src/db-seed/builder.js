@@ -9,6 +9,7 @@ const ClassModel = require('../domains/classes/data-access/model')
 const { QUESTION_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
+const crypto = require('crypto')
 
 faker.seed(123)
 
@@ -45,6 +46,7 @@ const classFields = {
   _id: perBuild(() => generateId()),
   name: perBuild(() => faker.lorem.sentence()),
   owner: perBuild(() => generateId()),
+  joinCode: perBuild(() => crypto.randomBytes(4).toString('hex')),
   roster: [],
   droppedStudents: [],
   isArchived: false

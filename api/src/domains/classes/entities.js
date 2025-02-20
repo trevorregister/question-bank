@@ -15,6 +15,7 @@ const dbDroppedStudent = Joi.object({
 const dbClass = Joi.object({
     name: Joi.string().trim().required(),
     owner: Joi.string().required(),
+    joinCode: Joi.string().required().length(8)
 })
 
 class RosteredStudent extends Entity {
@@ -48,12 +49,13 @@ class DroppedStudent extends Entity {
 
 class Class extends Entity {
   static validator = dbClass
-  constructor({ name, owner }) {
+  constructor({ name, owner, joinCode }) {
     super()
     this.name = name
     this.owner = owner
     this.roster = []
     this.droppedStudents = []
+    this.joinCode = joinCode
   }
 
   static toWeb(data) {
@@ -62,7 +64,8 @@ class Class extends Entity {
       name: data.name,
       owner: data.owner,
       roster: data.roster,
-      droppedStudents: data.droppedStudents
+      droppedStudents: data.droppedStudents,
+      joinCode: data.joinCode
     }
   }
 }
