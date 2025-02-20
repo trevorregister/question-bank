@@ -5,18 +5,20 @@ const { faker } = builder
 
 describe("Delete variable", () => {
   it("returns question with deleted variable removed and 201", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
-
-    const question = await builder.question({
+    const question = builder.question({
       owner: user._id,
-      variables: {
+      variables: [{
         id: generateId(),
         min: faker.number.int({ min: 1, max: 10 }),
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 5 }),
-      },
+      }],
     })
+    await builder.seed()
+
+    console.log('QUESTION', question)
     const variableId = question.variables[0].id
     const res = await request.questions.delete(
       `/${question._id}/variable/${variableId}`,
@@ -31,18 +33,19 @@ describe("Delete variable", () => {
   })
 
   it("given bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
-
-    const question = await builder.question({
+    const question = builder.question({
       owner: generateId(),
-      variables: {
+      variables: [{
         id: generateId(),
         min: faker.number.int({ min: 1, max: 10 }),
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 5 }),
-      },
+      }],
     })
+    await builder.seed()
+
     const variableId = question.variables[0].id
     const res = await request.questions.delete(
       `/${question._id}/variable/${variableId}`,

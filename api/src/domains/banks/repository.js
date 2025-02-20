@@ -41,7 +41,7 @@ module.exports = class BankRepository extends Repository {
     )
   }
 
-  async deleteBank(bankId){
+  async deleteBank(bankId) {
     return await this.model.findByIdAndDelete(bankId)
   }
 }

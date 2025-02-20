@@ -1,7 +1,7 @@
 const { HttpError, NotFoundError } = require("../core/errors")
 const AbilityFactory = require("../domains/auth/AbilityFactory")
 const AuthRepo = require("../domains/auth/repository")
-const { Question, User, Bank } = require("../domains/auth/subjects")
+const { Question, User, Bank, Activity } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {
   return async (req, res, next) => {
@@ -43,6 +43,9 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
           break
         case Bank:
           resourceId = req.params.bankId
+          break
+        case Activity:
+          resourceId = req.params.activityId
           break
         default:
           throw new TypeError(SubjectClass.name)

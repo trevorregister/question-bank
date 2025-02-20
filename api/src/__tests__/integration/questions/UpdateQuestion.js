@@ -33,13 +33,14 @@ describe("Update question", () => {
         expression: faker.lorem.sentence(10),
       },
     ]
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
-    const question = await builder.question({
+    const question = builder.question({
       variables: variables,
       conditions: conditions,
       owner: user._id,
     })
+    await builder.seed()
 
     const variableUpdate = {
       id: variables[0].id,
@@ -132,9 +133,10 @@ describe("Update question", () => {
   })
 
   it("given valid inputs and bad credentials, returns 403", async () => {
-    const user = await builder.user.teacher()
+    const user = builder.user.teacher()
     const token = builder.token(user)
-    const question = await builder.question({ owner: generateId() })
+    const question = builder.question({ owner: generateId() })
+    await builder.seed()
 
     const newPrompt = faker.lorem.sentence(10)
     const newPointValue = faker.number.int({ min: 100, max: 200 })

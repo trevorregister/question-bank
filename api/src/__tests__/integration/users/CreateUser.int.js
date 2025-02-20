@@ -26,7 +26,9 @@ describe("Create User", () => {
 
   it("given duplicate email, returns 422", async () => {
     const duplicateEmail = faker.internet.email().toLowerCase()
-    const existingUser = await builder.user.teacher({ email: duplicateEmail })
+    const existingUser = builder.user.teacher({ email: duplicateEmail })
+    await builder.seed()
+    
     const userProps = {
       email: duplicateEmail,
       firstName: faker.person.firstName(),

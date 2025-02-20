@@ -1,8 +1,9 @@
 const UserModel = require("../users/data-access/model")
 const QuestionModel = require("../questions/data-access/model")
 const BankModel = require("../banks/data-access/model")
-const { NotFoundError } = require("../../core/errors")
-const { Question, User, Bank } = require("./subjects")
+const ActivityModel = require("../activities/data-access/model")
+const { NotFoundError, TypeError } = require("../../core/errors")
+const { Question, User, Bank, Activity } = require("./subjects")
 
 class AuthRepo {
   constructor() {}
@@ -17,6 +18,12 @@ class AuthRepo {
         break
       case Bank:
         resource = await BankModel.findById(resourceId)
+        break
+      case Activity:
+        resource = await ActivityModel.findById(resourceId)
+        break
+      default:
+        throw new TypeError(SubjectClass.name)
     }
     if (resource) {
       return resource
