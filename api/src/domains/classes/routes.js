@@ -13,7 +13,7 @@ module.exports = function classRoutes() {
 
   router.use(authenticate)
   router.post("/", authorize("create", Class), controller.create)
-  router.post("/join", controller.joinClass)
+  router.post("/join", authorize("join", Class), controller.joinClass)
   router.get("/:classId", authorize("read", Class), controller.findById)
 
   return router

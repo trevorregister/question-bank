@@ -39,4 +39,5 @@ function defineTeacherRules(can, cannot, actor) {
 
 function defineStudentRules(can, cannot, actor) {
   can(["read", "update"], [User], { id: actor.id })
+  can(["join"], [Class])
 }

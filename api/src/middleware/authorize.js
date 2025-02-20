@@ -12,7 +12,7 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
 
       const ability = AbilityFactory.defineAbilitiesFor(req.user)
 
-      if (action === "create") {
+      if (action === "create" || action === "join") {
         if (!ability.can(action, SubjectClass)) {
           throw new HttpError(403, "forbidden")
         } else {
