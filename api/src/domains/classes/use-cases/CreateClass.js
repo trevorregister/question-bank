@@ -18,6 +18,7 @@ module.exports = class CreateClassUseCase extends UseCase {
     const joinCode = crypto.randomBytes(4).toString('hex')
 
     const props = Class.toDb({name: name, owner: owner, joinCode: joinCode})
-    return await this.repository.create(new Class(props))
+    const klass = await this.repository.create(new Class(props))
+    return Class.toWeb(klass)
   }
 }

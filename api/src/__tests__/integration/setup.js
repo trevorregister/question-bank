@@ -8,6 +8,7 @@ const routes = {
   questions: "/api/questions",
   banks: "/api/banks",
   activities: "/api/activities",
+  classes: "/api/classes"
 }
 
 function createRequestMethods(request, domainRoute) {
@@ -39,6 +40,7 @@ class Request {
     this.questions = createRequestMethods(request, routes.questions)
     this.banks = createRequestMethods(request, routes.banks)
     this.activities = createRequestMethods(request, routes.activities)
+    this.classes = createRequestMethods(request, routes.classes)
   }
 }
 
