@@ -18,21 +18,31 @@ async function buildUsers() {
   const teachers = []
   for (let i = 0; i < 10; i++) {
     const teacher = builder.user.teacher({email: `user${i+1}@asdf.com`})
-    const questionIds = []
+    const questions = []
     for (let i = 0; i < 10; i++) {
       const question = builder.question({ owner: teacher._id })
-      questionIds.push(question._id)
+      questions.push(question)
       QuestionModel.create(question)
     }
     const bank = builder.bank({
       owner: teacher._id,
-      questions: questionIds,
+      questions: questions.map(q => q._id),
     })
     teachers.push(teacher)
     UserModel.create(teacher)
     BankModel.create(bank)
 
-    const activity = builder.activity({owner: teacher._id})
+    const section = builder.activity.section({questions: questions.map(q => {
+      return {
+        parent: q._id,
+        prompt: q.prompt,
+        variables: q.variables,
+        conditions: q.conditions,
+        pointValue: q.pointValue,
+        type: q.type
+      }
+    })})
+    const activity = builder.activity({owner: teacher._id, sections: [section]})
     ActivityModel.create(activity)
   }
   return {
@@ -43,7 +53,6 @@ async function buildUsers() {
 async function seed() {
   await init()
   await buildUsers()
-  //await buildQuestions(users.teachers)
 }
 
 seed()
