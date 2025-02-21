@@ -1,6 +1,7 @@
 const {
     CreateClassUseCase,
-    JoinClassUseCase
+    JoinClassUseCase,
+    DropStudentUseCase
 } = require('./use-cases/index')
   
   module.exports = class ClassController {
@@ -9,6 +10,7 @@ const {
         this.create = this.create.bind(this)
         this.findById = this.findById.bind(this)
         this.joinClass = this.joinClass.bind(this)
+        this.dropStudent = this.dropStudent.bind(this)
     }
 
     async create(req, res, next) {
@@ -28,6 +30,17 @@ const {
           const data = {userId: req.user.id, ...req.body}
           const result = await joinClassCase.execute(data)
           res.status(200).send(result)
+      } catch(err){
+        next(err)
+      }
+    }
+
+    async dropStudent(req, res, next){
+      try {
+        const dropStudentCase = new DropStudentUseCase(this.repository)
+        const data = {classId: req.params.classId, studentId: req.body.studentId}
+        const result = await dropStudentCase.execute(data)
+        res.status(204).send("success")
       } catch(err){
         next(err)
       }

@@ -4,10 +4,7 @@ const Entity = require("../../core/entity.js")
 
 const dbRosteredStudent = Joi.string().trim().required()
 
-const dbDroppedStudent = Joi.object({
-    student: Joi.string().trim().required(),
-    dropDate: Joi.date().required()
-})
+const dbDroppedStudent = Joi.string().trim().required()
 
 const dbClass = Joi.object({
     name: Joi.string().trim().required(),
@@ -33,9 +30,9 @@ class RosteredStudent extends Entity {
 
 class DroppedStudent extends Entity {
     static validator = dbDroppedStudent
-    constructor(student){
+    constructor(id){
         super()
-        this.student = student
+        this.id = id
         this.dropDate = new Date()
     }
     static toWeb(data){
