@@ -1,6 +1,5 @@
 const builder = require("../../../db-seed/builder.js")
 const request = require("../setup.js")
-const { faker } = builder
 
 describe("Get my classes", () => {
   it("given request from owner teacher, returns array of user classes and 200", async () => {
