@@ -7,24 +7,15 @@ module.exports = class ClassRepository extends Repository {
     super(model)
     this.addStudentToClass = this.addStudentToClass.bind(this)
     this.dropStudentFromClass = this.dropStudentFromClass.bind(this)
+    this.findByJoinCode = this.findByJoinCode.bind(this)
   }
 
-  async addStudentToClass({joinCode, studentToRoster}){
-    studentToRoster.id = toOid(studentToRoster.id)
-    const klass = await this.model.findOne({joinCode: joinCode.trim().toLowerCase()})
-    if(!klass){
-      throw new NotFoundError(`class with join code ${joinCode}`)
-    }
-    let enrolled = false
-    klass.roster.forEach(seat => {
-      if(seat.student.toHexString() === studentToRoster.id.toHexString()){
-        enrolled = true
-      }
-    })
-    if(enrolled){
-      throw new HttpError(422, 'student already enrolled' )
-    }
-    klass.roster.push({student: studentToRoster.id, joinDate: studentToRoster.joinDate})
+  async findByJoinCode(joinCode){
+    return await this.model.findOne({joinCode: joinCode})
+  }
+
+  async addStudentToClass({studentToRoster, klass}){
+    klass.roster.push({student: toOid(studentToRoster.student), joinDate: studentToRoster.joinDate})
     await klass.save()
     return {class: klass._id}
   }

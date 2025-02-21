@@ -21,8 +21,21 @@ module.exports = class JoinClassUseCase extends UseCase {
     if(user.role !== USER_ROLES.Student){
       throw new HttpError(400, `user ${userId} not a student`)
     }
-    const rosteredStudentProps = RosteredStudent.toDb(userId)
-    const props = {joinCode: joinCode, studentToRoster: new RosteredStudent(rosteredStudentProps)}
-    return await this.repository.addStudentToClass(props)
+    const klass = await this.repository.findByJoinCode(joinCode.trim().toLowerCase())
+    if(!klass){
+      throw new NotFoundError(`class with join code ${joinCode}`)
+    }
+    let enrolled = false
+    klass.roster.forEach(seat => {
+      if(seat.student.toHexString() === userId){
+        enrolled = true
+      }
+    })
+    if(enrolled){
+      throw new HttpError(422, 'student already enrolled' )
+    }
+    const studentToRosterProps = RosteredStudent.toDb(userId)
+    const studentToRoster = new RosteredStudent(studentToRosterProps)
+    return await this.repository.addStudentToClass({studentToRoster: studentToRoster, klass: klass})
   }
 }

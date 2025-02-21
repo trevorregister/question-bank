@@ -14,9 +14,9 @@ const dbClass = Joi.object({
 
 class RosteredStudent extends Entity {
     static validator = dbRosteredStudent
-    constructor(id){
+    constructor(student){
         super()
-        this.id = id
+        this.student = student
         this.joinDate = new Date()
     }
 
