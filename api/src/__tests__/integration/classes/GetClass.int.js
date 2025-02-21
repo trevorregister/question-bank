@@ -11,7 +11,7 @@ describe("Get Class", () => {
     await builder.seed()
 
     const res = await request.classes.get(`/${klass._id}/`, token)
-    const { id, name, owner, roster, droppedStudents, joinCode } = res.body
+    const { id, name, owner, roster, droppedStudents, joinCode, isArchived } = res.body
     expect(res.status).toBe(200)
     expect({
         id,

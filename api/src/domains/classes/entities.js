@@ -61,7 +61,8 @@ class Class extends Entity {
       owner: data.owner,
       roster: data.roster.map(s => RosteredStudent.toWeb(s)),
       droppedStudents: data.droppedStudents.map(s => DroppedStudent.toWeb(s)),
-      joinCode: data.joinCode
+      joinCode: data.joinCode,
+      isArchived: data.isArchived
     }
   }
 }
