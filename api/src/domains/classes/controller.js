@@ -100,15 +100,4 @@ module.exports = class ClassController {
       next(err)
     }
   }
-
-  async findById(req, res, next) {
-    try {
-      /*         const getUserByIdCase = new GetUserByIdUseCase(this.repository)
-        const { userId } = req.params
-        const user = await getUserByIdCase.execute(userId)
-        res.status(200).send(user) */
-    } catch (err) {
-      next(err)
-    }
-  }
 }
