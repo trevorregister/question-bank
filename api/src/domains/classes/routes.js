@@ -17,7 +17,7 @@ module.exports = function classRoutes() {
   router.post("/:classId/drop-student", authorize("update", Class), controller.dropStudent)
   router.patch("/:classId/archive", authorize("update", Class), controller.archive)
   router.patch("/:classId/unarchive", authorize("update", Class), controller.unarchive)
-  router.get("/:classId", authorize("read", Class), controller.findById)
+  router.get("/:classId", authorize("read", Class), controller.getClass)
 
   return router
 }
