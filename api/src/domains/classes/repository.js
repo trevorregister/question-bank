@@ -1,7 +1,6 @@
 const { NotFoundError, HttpError } = require("../../core/errors")
 const Repository = require("../../core/repository")
 const toOid = require("../utils/toOid")
-const ClassModel = require("./data-access/model")
 
 module.exports = class ClassRepository extends Repository {
   constructor(model) {
@@ -31,7 +30,7 @@ module.exports = class ClassRepository extends Repository {
   }
 
   async dropStudentFromClass({classId, studentToDrop}){
-    const klass = await ClassModel.findById(classId)
+    const klass = await this.model.findById(classId)
     if(!klass){
       throw new NotFoundError(`class ${classId}`)
     }
