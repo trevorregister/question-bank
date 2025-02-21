@@ -26,11 +26,20 @@ module.exports = class JoinClassUseCase extends UseCase {
       throw new NotFoundError(`class with join code ${joinCode}`)
     }
     let enrolled = false
+    let isDropped = false
     klass.roster.forEach(seat => {
       if(seat.student.toHexString() === userId){
         enrolled = true
       }
     })
+    klass.droppedStudents.forEach(seat => {
+      if(seat.student.toHexString() === userId){
+        isDropped = true
+      }
+    })
+    if(isDropped){
+      throw new HttpError(422, 'student has been dropped from the class')
+    }
     if(enrolled){
       throw new HttpError(422, 'student already enrolled' )
     }
