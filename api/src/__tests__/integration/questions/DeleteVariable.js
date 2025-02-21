@@ -20,7 +20,6 @@ describe("Delete variable", () => {
     })
     await builder.seed()
 
-    console.log("QUESTION", question)
     const variableId = question.variables[0].id
     const res = await request.questions.delete(
       `/${question._id}/variable/${variableId}`,

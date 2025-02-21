@@ -15,8 +15,30 @@ module.exports = class DropStudentUseCase extends UseCase {
     if(!student){
       throw new NotFoundError(`student ${studentId}`)
     }
-    const droppedStudentProps = DroppedStudent.toDb(studentId)
-    const data = {classId: classId, studentToDrop: new DroppedStudent(droppedStudentProps)}
-    return await this.repository.dropStudentFromClass(data)
+    const klass = await this.repository.findById(classId)
+    if(!klass){
+      throw new NotFoundError(`class ${classId}`)
+    }
+    let enrolled = false
+    let alreadyDropped = false
+    klass.roster.forEach(seat => {
+      if(seat.student.toHexString() === studentId){
+        enrolled = true
+      }
+    })
+    klass.droppedStudents.forEach(seat => {
+      if(seat.student.toHexString() === studentId){
+        alreadyDropped = true
+      }
+    })
+    if(alreadyDropped){
+      throw new HttpError(422, 'student already dropped')
+    }
+    if(!enrolled){
+      throw new HttpError(422, 'student not enrolled' )
+    }
+    const studentToDropProps = DroppedStudent.toDb(studentId)
+    const studentToDrop = new DroppedStudent(studentToDropProps)
+    return await this.repository.dropStudentFromClass({studentToDrop: studentToDrop, klass: klass})
   }
 }

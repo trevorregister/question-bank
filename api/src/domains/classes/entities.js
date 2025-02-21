@@ -30,9 +30,9 @@ class RosteredStudent extends Entity {
 
 class DroppedStudent extends Entity {
     static validator = dbDroppedStudent
-    constructor(id){
+    constructor(student){
         super()
-        this.id = id
+        this.student = student
         this.dropDate = new Date()
     }
     static toWeb(data){
