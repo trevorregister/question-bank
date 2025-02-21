@@ -8,6 +8,6 @@ module.exports = class GetMyClassesUseCase extends UseCase {
 
   async execute(ownerId) {
     const classes = await this.repository.findAllByOwner(ownerId)
-    return classes.map(c => Class.toWeb(c))
+    return classes.map((c) => Class.toWeb(c))
   }
 }

@@ -5,11 +5,11 @@ const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
-const ClassModel = require('../domains/classes/data-access/model')
+const ClassModel = require("../domains/classes/data-access/model")
 const { QUESTION_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
-const crypto = require('crypto')
+const crypto = require("crypto")
 
 faker.seed(123)
 
@@ -46,10 +46,10 @@ const classFields = {
   _id: perBuild(() => generateId()),
   name: perBuild(() => faker.lorem.sentence()),
   owner: perBuild(() => generateId()),
-  joinCode: perBuild(() => crypto.randomBytes(4).toString('hex')),
+  joinCode: perBuild(() => crypto.randomBytes(4).toString("hex")),
   roster: [],
   droppedStudents: [],
-  isArchived: false
+  isArchived: false,
 }
 
 const rosteredStudentFields = {
@@ -91,22 +91,22 @@ const sectionFields = {
 const classBuilder = build({
   name: "Class",
   fields: {
-    ...classFields
-  }
+    ...classFields,
+  },
 })
 
 const rosteredStudentBuilder = build({
   name: "Rostered Student",
   fields: {
-    ...rosteredStudentFields
-  }
+    ...rosteredStudentFields,
+  },
 })
 
 const droppedStudentBuilder = build({
   name: "Dropped Student",
   fields: {
-    ...droppedStudentFields
-  }
+    ...droppedStudentFields,
+  },
 })
 
 const activityBuilder = build({
@@ -243,7 +243,7 @@ class Builder {
       questions: [],
       banks: [],
       activities: [],
-      classes: []
+      classes: [],
     }
     this.faker = faker
     this.user = {
@@ -278,7 +278,7 @@ class Builder {
       questions: await QuestionModel.insertMany(this.data.questions),
       banks: await BankModel.insertMany(this.data.banks),
       activities: await ActivityModel.insertMany(this.data.activities),
-      classes: await ClassModel.insertMany(this.data.classes)
+      classes: await ClassModel.insertMany(this.data.classes),
     }
   }
 }

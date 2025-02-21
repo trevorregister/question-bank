@@ -27,7 +27,7 @@ class User {
 }
 
 class Class {
-  constructor ({id, owner}) {
+  constructor({ id, owner }) {
     this.id = id
     this.owner = owner
   }
@@ -38,5 +38,5 @@ module.exports = {
   Activity,
   User,
   Bank,
-  Class
+  Class,
 }

@@ -8,10 +8,10 @@ module.exports = class ArchiveClassUseCase extends UseCase {
 
   async execute(classId) {
     const klass = await this.repository.findById(classId)
-    if(klass.isArchived){
-        throw new HttpError(422, `class ${classId} already archived`)
+    if (klass.isArchived) {
+      throw new HttpError(422, `class ${classId} already archived`)
     } else {
-        return await this.repository.toggleArchive(classId)
+      return await this.repository.toggleArchive(classId)
     }
   }
 }

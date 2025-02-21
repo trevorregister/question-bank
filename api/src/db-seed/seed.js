@@ -4,7 +4,7 @@ const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
-const ClassModel = require('../domains/classes/data-access/model')
+const ClassModel = require("../domains/classes/data-access/model")
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -26,7 +26,7 @@ async function buildUsers() {
       const question = builder.question({ owner: teacher._id })
       questions.push(question)
       QuestionModel.create(question)
-      
+
       const student = builder.user.student()
       students.push(student)
       UserModel.create(student)
@@ -37,12 +37,12 @@ async function buildUsers() {
     })
     const klass = builder.class({
       owner: teacher._id,
-      roster: students.map(student => {
+      roster: students.map((student) => {
         return {
           student: student._id,
-          joinDate: new Date()
+          joinDate: new Date(),
         }
-      })
+      }),
     })
     teachers.push(teacher)
     UserModel.create(teacher)

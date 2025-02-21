@@ -8,7 +8,7 @@ const routes = {
   questions: "/api/questions",
   banks: "/api/banks",
   activities: "/api/activities",
-  classes: "/api/classes"
+  classes: "/api/classes",
 }
 
 function createRequestMethods(request, domainRoute) {

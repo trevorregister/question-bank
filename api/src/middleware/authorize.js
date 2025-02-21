@@ -1,7 +1,13 @@
 const { HttpError, NotFoundError } = require("../core/errors")
 const AbilityFactory = require("../domains/auth/AbilityFactory")
 const AuthRepo = require("../domains/auth/repository")
-const { Question, User, Bank, Activity, Class } = require("../domains/auth/subjects")
+const {
+  Question,
+  User,
+  Bank,
+  Activity,
+  Class,
+} = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {
   return async (req, res, next) => {

@@ -10,23 +10,22 @@ describe("Create Class", () => {
     await builder.seed()
 
     const props = {
-        name: faker.lorem.sentence(),
+      name: faker.lorem.sentence(),
     }
     const res = await request.classes.post("/", props, token)
-    const { id, name, owner, roster, droppedStudents, joinCode } =
-    res.body
+    const { id, name, owner, roster, droppedStudents, joinCode } = res.body
 
     expect(res.status).toBe(201)
     expect({
       name,
       owner,
       roster,
-      droppedStudents
+      droppedStudents,
     }).toEqual({
       name: props.name,
       owner: user._id.toHexString(),
       roster: [],
-      droppedStudents: []
+      droppedStudents: [],
     })
     expect(id).toBeTruthy()
     expect(joinCode).toBeTruthy()
@@ -38,7 +37,7 @@ describe("Create Class", () => {
     await builder.seed()
 
     const props = {
-        name: faker.lorem.sentence(),
+      name: faker.lorem.sentence(),
     }
     const res = await request.classes.post("/", props, token)
     expect(res.status).toBe(403)

@@ -5,33 +5,33 @@ const Schema = mongoose.Schema
 const studentRosterSchema = new Schema(
   {
     student: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: "Users"
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Users",
     },
     joinDate: {
-        type: Date,
-        required: true,
-        default: new Date()
-    }
+      type: Date,
+      required: true,
+      default: new Date(),
+    },
   },
-  {_id: false}
+  { _id: false },
 )
 
 const droppedStudentSchema = new Schema(
   {
     student: {
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: "Users"
+      type: Schema.Types.ObjectId,
+      required: true,
+      ref: "Users",
     },
     dropDate: {
-        type: Date,
-        required: true,
-        default: new Date()
-    }
+      type: Date,
+      required: true,
+      default: new Date(),
+    },
   },
-  {_id: false}
+  { _id: false },
 )
 
 const schema = new Schema({
@@ -42,28 +42,27 @@ const schema = new Schema({
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   joinCode: {
     type: String,
-    required: true
+    required: true,
   },
   roster: {
     type: [studentRosterSchema],
     required: true,
-    default: []
+    default: [],
   },
   droppedStudents: {
     type: [droppedStudentSchema],
     required: true,
-    default: []
+    default: [],
   },
   isArchived: {
     type: Boolean,
     required: true,
-    default: false
-  }
-
+    default: false,
+  },
 })
 module.exports = {
   schema,

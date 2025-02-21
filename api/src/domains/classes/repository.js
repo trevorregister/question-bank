@@ -11,26 +11,33 @@ module.exports = class ClassRepository extends Repository {
     this.toggleArchive = this.toggleArchive.bind(this)
   }
 
-  async findByJoinCode(joinCode){
-    return await this.model.findOne({joinCode: joinCode})
+  async findByJoinCode(joinCode) {
+    return await this.model.findOne({ joinCode: joinCode })
   }
 
-  async addStudentToClass({studentToRoster, klass}){
-    klass.roster.push({student: toOid(studentToRoster.student), joinDate: studentToRoster.joinDate})
+  async addStudentToClass({ studentToRoster, klass }) {
+    klass.roster.push({
+      student: toOid(studentToRoster.student),
+      joinDate: studentToRoster.joinDate,
+    })
     await klass.save()
-    return {class: klass._id}
+    return { class: klass._id }
   }
 
-  async dropStudentFromClass({studentToDrop, klass}){
-    klass.roster = klass.roster.filter(seat => seat.student.toHexString() !== studentToDrop.student)
-    klass.droppedStudents.push({student: toOid(studentToDrop.student), dropDate: studentToDrop.dropDate})
-    await klass.save()
-  }
-
-  async toggleArchive(classId){
-    return await this.model.findOneAndUpdate(
-      {_id: toOid(classId)},
-      [{ $set: { isArchived: { $not: ["$isArchived"] } } }]
+  async dropStudentFromClass({ studentToDrop, klass }) {
+    klass.roster = klass.roster.filter(
+      (seat) => seat.student.toHexString() !== studentToDrop.student,
     )
+    klass.droppedStudents.push({
+      student: toOid(studentToDrop.student),
+      dropDate: studentToDrop.dropDate,
+    })
+    await klass.save()
+  }
+
+  async toggleArchive(classId) {
+    return await this.model.findOneAndUpdate({ _id: toOid(classId) }, [
+      { $set: { isArchived: { $not: ["$isArchived"] } } },
+    ])
   }
 }
