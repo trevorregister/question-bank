@@ -31,7 +31,6 @@ module.exports = class ClassRepository extends Repository {
   }
 
   async dropStudentFromClass({classId, studentToDrop}){
-    console.log(studentToDrop)
     const klass = await ClassModel.findById(classId)
     if(!klass){
       throw new NotFoundError(`class ${classId}`)
