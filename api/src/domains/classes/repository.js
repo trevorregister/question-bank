@@ -8,6 +8,7 @@ module.exports = class ClassRepository extends Repository {
     this.addStudentToClass = this.addStudentToClass.bind(this)
     this.dropStudentFromClass = this.dropStudentFromClass.bind(this)
     this.findByJoinCode = this.findByJoinCode.bind(this)
+    this.toggleArchive = this.toggleArchive.bind(this)
   }
 
   async findByJoinCode(joinCode){
@@ -21,9 +22,15 @@ module.exports = class ClassRepository extends Repository {
   }
 
   async dropStudentFromClass({studentToDrop, klass}){
-    console.log(klass)
     klass.roster = klass.roster.filter(seat => seat.student.toHexString() !== studentToDrop.student)
     klass.droppedStudents.push({student: toOid(studentToDrop.student), dropDate: studentToDrop.dropDate})
     await klass.save()
+  }
+
+  async toggleArchive(classId){
+    return await this.model.findOneAndUpdate(
+      {_id: toOid(classId)},
+      [{ $set: { isArchived: { $not: ["$isArchived"] } } }]
+    )
   }
 }

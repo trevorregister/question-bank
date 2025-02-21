@@ -1,7 +1,9 @@
 const {
     CreateClassUseCase,
     JoinClassUseCase,
-    DropStudentUseCase
+    DropStudentUseCase,
+    ArchiveClassUseCase,
+    UnarchiveClassUseCase
 } = require('./use-cases/index')
   
   module.exports = class ClassController {
@@ -11,6 +13,8 @@ const {
         this.findById = this.findById.bind(this)
         this.joinClass = this.joinClass.bind(this)
         this.dropStudent = this.dropStudent.bind(this)
+        this.archive = this.archive.bind(this)
+        this.unarchive = this.unarchive.bind(this)
     }
 
     async create(req, res, next) {
@@ -40,6 +44,28 @@ const {
         const dropStudentCase = new DropStudentUseCase(this.repository)
         const data = {classId: req.params.classId, studentId: req.body.studentId}
         const result = await dropStudentCase.execute(data)
+        res.status(204).send("success")
+      } catch(err){
+        next(err)
+      }
+    }
+
+    async archive(req, res, next){
+      try {
+        const archiveClassCase = new ArchiveClassUseCase(this.repository)
+        const data = req.params.classId
+        const result = await archiveClassCase.execute(data)
+        res.status(204).send("success")
+      } catch(err){
+        next(err)
+      }
+    }
+
+    async unarchive(req, res, next){
+      try {
+        const archiveClassCase = new UnarchiveClassUseCase(this.repository)
+        const data = req.params.classId
+        const result = await archiveClassCase.execute(data)
         res.status(204).send("success")
       } catch(err){
         next(err)
