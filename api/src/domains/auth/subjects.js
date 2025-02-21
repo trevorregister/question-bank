@@ -26,9 +26,17 @@ class User {
   }
 }
 
+class Class {
+  constructor ({id, owner}) {
+    this.id = id
+    this.owner = owner
+  }
+}
+
 module.exports = {
   Question,
   Activity,
   User,
   Bank,
+  Class
 }

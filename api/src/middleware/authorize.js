@@ -1,7 +1,7 @@
 const { HttpError, NotFoundError } = require("../core/errors")
 const AbilityFactory = require("../domains/auth/AbilityFactory")
 const AuthRepo = require("../domains/auth/repository")
-const { Question, User, Bank, Activity } = require("../domains/auth/subjects")
+const { Question, User, Bank, Activity, Class } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {
   return async (req, res, next) => {
@@ -12,7 +12,7 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
 
       const ability = AbilityFactory.defineAbilitiesFor(req.user)
 
-      if (action === "create") {
+      if (action === "create" || action === "join") {
         if (!ability.can(action, SubjectClass)) {
           throw new HttpError(403, "forbidden")
         } else {
@@ -46,6 +46,9 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
           break
         case Activity:
           resourceId = req.params.activityId
+          break
+        case Class:
+          resourceId = req.params.classId
           break
         default:
           throw new TypeError(SubjectClass.name)
