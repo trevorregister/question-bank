@@ -17,12 +17,14 @@ describe("Get Class", () => {
         id,
         name,
         owner,
-        joinCode
+        joinCode,
+        isArchived
     }).toEqual({
         id: klass._id.toHexString(),
         name: klass.name,
         owner: teacher._id.toHexString(),
-        joinCode: klass.joinCode
+        joinCode: klass.joinCode,
+        isArchived: klass.isArchived
     })
     expect(roster.some(seat => seat.student === rosteredStudent.student.toHexString())).toBe(true)
     expect(droppedStudents.some(seat => seat.student === droppedStudent.student.toHexString())).toBe(true)
