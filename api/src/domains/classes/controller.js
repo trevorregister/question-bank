@@ -4,7 +4,8 @@ const {
     DropStudentUseCase,
     ArchiveClassUseCase,
     UnarchiveClassUseCase,
-    GetClassUseCase
+    GetClassUseCase,
+    GetMyClassesUseCase
 } = require('./use-cases/index')
   
   module.exports = class ClassController {
@@ -17,6 +18,7 @@ const {
         this.archive = this.archive.bind(this)
         this.unarchive = this.unarchive.bind(this)
         this.getClass = this.getClass.bind(this)
+        this.getMyClasses = this.getMyClasses.bind(this)
     }
 
     async create(req, res, next) {
@@ -37,6 +39,17 @@ const {
         const result = await getClassCase.execute(data)
         res.status(200).send(result)
       } catch(err){
+        next(err)
+      }
+    }
+
+    async getMyClasses(req, res, next) {
+      try {
+        const getMyClassesCase = new GetMyClassesUseCase(this.repository)
+        const { ownerId } = req.params
+        const result = await getMyClassesCase.execute(ownerId)
+        res.status(200).send(result)
+      } catch (err) {
         next(err)
       }
     }

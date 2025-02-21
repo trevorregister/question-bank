@@ -18,6 +18,11 @@ module.exports = function classRoutes() {
   router.patch("/:classId/archive", authorize("update", Class), controller.archive)
   router.patch("/:classId/unarchive", authorize("update", Class), controller.unarchive)
   router.get("/:classId", authorize("read", Class), controller.getClass)
+  router.get(
+    "/owner/:ownerId",
+    authorize("read", Class, (req) => ({ owner: req.params.ownerId })),
+    controller.getMyClasses,
+  )
 
   return router
 }

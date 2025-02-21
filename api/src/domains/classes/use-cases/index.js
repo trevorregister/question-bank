@@ -4,6 +4,7 @@ const DropStudentUseCase = require('./DropStudent')
 const ArchiveClassUseCase = require('./ArchiveClass')
 const UnarchiveClassUseCase = require('./UnarchiveClass')
 const GetClassUseCase = require('./GetClass')
+const GetMyClassesUseCase = require('./GetMyClasses')
 
 module.exports = {
     CreateClassUseCase,
@@ -11,5 +12,6 @@ module.exports = {
     DropStudentUseCase,
     ArchiveClassUseCase,
     UnarchiveClassUseCase,
-    GetClassUseCase
+    GetClassUseCase,
+    GetMyClassesUseCase
 }
