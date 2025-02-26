@@ -5,6 +5,7 @@ const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
+const AssignmentModel = require('../domains/assignments/data-access/model')
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -14,13 +15,14 @@ async function init() {
   await BankModel.deleteMany({})
   await ActivityModel.deleteMany({})
   await ClassModel.deleteMany({})
+  await AssignmentModel.deleteMany({})
 }
 
 async function buildUsers() {
   const teachers = []
   const students = []
   for (let i = 0; i < 10; i++) {
-    const teacher = builder.user.teacher({ email: `user${i + 1}@asdf.com` })
+    const teacher = builder.user.teacher({ email: `teacher${i + 1}@asdf.com` })
     const questions = []
     for (let i = 0; i < 10; i++) {
       const question = builder.question({ owner: teacher._id })
@@ -65,6 +67,12 @@ async function buildUsers() {
       owner: teacher._id,
       sections: [section],
     })
+    const assignment = builder.assignment({
+      owner: teacher._id,
+      class: klass._id,
+      activity: activity._id
+    })
+    AssignmentModel.create(assignment)
     ActivityModel.create(activity)
   }
   return {
