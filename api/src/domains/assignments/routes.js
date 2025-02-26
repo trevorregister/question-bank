@@ -11,6 +11,7 @@ module.exports = function assignmentRoutes() {
   const router = express.Router()
 
   router.post("/", authorize("create", Assignment), controller.create)
+  router.delete("/:assignmentId", authorize("delete", Assignment), controller.delete)
 
   return router
 }

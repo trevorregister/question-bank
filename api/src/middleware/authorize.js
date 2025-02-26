@@ -7,6 +7,7 @@ const {
   Bank,
   Activity,
   Class,
+  Assignment
 } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {
@@ -55,6 +56,9 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
           break
         case Class:
           resourceId = req.params.classId
+          break
+        case Assignment:
+          resourceId = req.params.assignmentId
           break
         default:
           throw new TypeError(SubjectClass.name)
