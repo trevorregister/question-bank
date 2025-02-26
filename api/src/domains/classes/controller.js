@@ -12,7 +12,6 @@ module.exports = class ClassController {
   constructor(repository) {
     this.repository = repository
     this.create = this.create.bind(this)
-    this.findById = this.findById.bind(this)
     this.joinClass = this.joinClass.bind(this)
     this.dropStudent = this.dropStudent.bind(this)
     this.archive = this.archive.bind(this)

@@ -33,10 +33,17 @@ class Class {
   }
 }
 
+class Assignment {
+  constructor({owner}){
+    this.owner = owner
+  }
+}
+
 module.exports = {
   Question,
   Activity,
   User,
   Bank,
   Class,
+  Assignment
 }
