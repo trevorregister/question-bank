@@ -6,6 +6,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const Routes = require("./routes");
 const errorHandler = require("./src/middleware/errorHandler");
+const subscribers = require('./src/events/subscribers/index')
 
 const app = express();
 const corsOptions = {

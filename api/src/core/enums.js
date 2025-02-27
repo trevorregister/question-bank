@@ -19,9 +19,15 @@ const SUBJECTS = {
   Question: "Question",
 }
 
+const EVENTS = {
+  JoinClass: "join-class",
+  DeleteAssignment: "delete-assignment"
+}
+
 module.exports = {
   USER_ROLES,
   QUESTION_TYPES,
   VARIABLE_TYPES,
   SUBJECTS,
+  EVENTS
 }

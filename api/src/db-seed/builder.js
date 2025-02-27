@@ -6,6 +6,7 @@ const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
+const AssignmentModel = require('../domains/assignments/data-access/model')
 const { QUESTION_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -87,6 +88,22 @@ const sectionFields = {
   summary: perBuild(() => faker.lorem.sentence(5)),
   sectionIndex: 0,
 }
+
+const assignmentFields = {
+  _id: perBuild(() => generateId()),
+  class: perBuild(() => generateId()),
+  activity: perBuild(() => generateId()),
+  owner: perBuild(() => generateId()),
+  startDate: perBuild(() => faker.date.soon()),
+  dueDate: perBuild(() => faker.date.soon())
+}
+
+const assignmentBuilder = build({
+  name: "Assignment",
+  fields: {
+    ...assignmentFields
+  }
+})
 
 const classBuilder = build({
   name: "Class",
@@ -221,6 +238,9 @@ function createBuilderMethod(entityBuilder, model, builderClassInstance) {
       case ClassModel:
         builderClassInstance.data.classes.push(builderResult)
         break
+      case AssignmentModel:
+        builderClassInstance.data.assignments.push(builderResult)
+        break
       default:
         throw new Error(`${model} invalid model`)
     }
@@ -244,6 +264,7 @@ class Builder {
       banks: [],
       activities: [],
       classes: [],
+      assignments: []
     }
     this.faker = faker
     this.user = {
@@ -265,6 +286,7 @@ class Builder {
         droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
       },
     )
+    this.assignment = createBuilderMethod(assignmentBuilder, AssignmentModel, this)
   }
   randomId() {
     return generateId()
@@ -279,6 +301,7 @@ class Builder {
       banks: await BankModel.insertMany(this.data.banks),
       activities: await ActivityModel.insertMany(this.data.activities),
       classes: await ClassModel.insertMany(this.data.classes),
+      assignments: await AssignmentModel.insertMany(this.data.assignments)
     }
   }
 }
