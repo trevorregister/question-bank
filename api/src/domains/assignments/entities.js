@@ -22,6 +22,7 @@ module.exports = class Assignment extends Entity {
 
   static toWeb(data) {
     return {
+      id: data._id,
       activity: data.activity,
       class: data.class,
       owner: data.owner,

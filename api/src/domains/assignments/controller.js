@@ -24,7 +24,7 @@ const {
     async delete(req, res, next) {
       try {
         const deleteAssignmentCase = new DeleteAssignmentUseCase(this.repository)
-        const { assignmentId }= req.params
+        const { assignmentId } = req.params
         const result = await deleteAssignmentCase.execute(assignmentId)
         res.status(204).end()
       } catch (err) {
