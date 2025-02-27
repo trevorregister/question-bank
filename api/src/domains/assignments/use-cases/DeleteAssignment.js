@@ -13,7 +13,7 @@ module.exports = class DeleteAssignmentUseCase extends UseCase {
     const assignment = await this.repository.delete(assignmentId)
     if(assignment){
         const assignmentDeletedEvent = new Event(EVENTS.DeleteAssignment, assignmentId)
-        EventBus.emitEvent(assignmentDeletedEvent)
+        EventBus.publish(assignmentDeletedEvent)
     } else {
         throw new NotFoundError(`assignment ${assignmentId}`)
     }

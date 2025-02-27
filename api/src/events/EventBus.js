@@ -5,15 +5,15 @@ const { EVENTS } = require('../core/enums.js')
 
 module.exports = class EventBus extends EventEmitter {
     static eventInstance = new EventBus()
-    static emitEvent(event){
+    static publish(event){
         if(!(event instanceof Event)){
             throw new TypeError(`must be of type ${Event.name}`)
         }
         this.eventInstance.emit(event.name, event.payload)
     }
-    static onEvent(event, callback){
-        const eventCheck = Object.values(EVENTS).includes(event)
-        if(!eventCheck){
+    static subscribe(event, callback){
+        const validEvent = Object.values(EVENTS).includes(event)
+        if(!validEvent){
             throw new TypeError(`invalid event ${event}`)
         }
        if(typeof callback !== 'function'){
