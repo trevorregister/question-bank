@@ -90,8 +90,8 @@ const sectionFields = {
 }
 
 const assignmentFields = {
-  id: perBuild(() => generateId()),
-  klass: perBuild(() => generateId()),
+  _id: perBuild(() => generateId()),
+  class: perBuild(() => generateId()),
   activity: perBuild(() => generateId()),
   owner: perBuild(() => generateId()),
   startDate: perBuild(() => faker.date.soon()),
