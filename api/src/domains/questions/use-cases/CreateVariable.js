@@ -7,8 +7,8 @@ module.exports = class CreateVariableUseCase extends UseCase {
     super(repository)
   }
 
-  async execute({ questionId, type, min, max, step }) {
-    const variableProps = Variable.toDb({ type, min, max, step })
+  async execute({ questionId, type, min, max, step, label }) {
+    const variableProps = Variable.toDb({ type, min, max, step, label })
     const question = await this.repository.findById(questionId)
     if (!question) {
       throw new NotFoundError(`question ${questionId}`)

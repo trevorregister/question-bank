@@ -11,12 +11,14 @@ describe("Update question", () => {
         min: faker.number.int({ min: 1, max: 10 }),
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 10 }),
+        label: faker.lorem.word(),
       },
       {
         id: generateId(),
         min: faker.number.int({ min: 1, max: 10 }),
         max: faker.number.int({ min: 11, max: 20 }),
         step: faker.number.int({ min: 1, max: 10 }),
+        label: faker.lorem.word(),
       },
     ]
     const conditions = [
@@ -46,6 +48,7 @@ describe("Update question", () => {
       id: variables[0].id,
       min: faker.number.int({ min: 1, max: 10 }),
       step: faker.number.int({ min: 1, max: 10 }),
+      label: faker.lorem.word(),
     }
     const conditionUpdate = {
       id: conditions[0].id,
@@ -83,26 +86,30 @@ describe("Update question", () => {
       isDeleted: false,
     })
     updatedQuestion.variables.forEach((variable) => {
-      const { min, max, step } = variable
+      const { min, max, step, label } = variable
       if (variable.id === variableUpdate.id.toHexString()) {
         expect({
           min,
           max,
           step,
+          label
         }).toEqual({
           min: variableUpdate.min,
           max: variables[0].max,
           step: variableUpdate.step,
+          label: variableUpdate.label
         })
       } else {
         expect({
           min,
           max,
           step,
+          label
         }).toEqual({
           min: variables[1].min,
           max: variables[1].max,
           step: variables[1].step,
+          label: variables[1].label
         })
       }
     })
