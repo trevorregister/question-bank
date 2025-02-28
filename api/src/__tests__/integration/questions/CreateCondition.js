@@ -19,6 +19,7 @@ describe("Create condition", () => {
     const question = builder.question({
       conditions: [],
       owner: user._id,
+      variables: []
     })
     await builder.seed()
 

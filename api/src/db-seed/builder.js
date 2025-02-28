@@ -7,7 +7,7 @@ const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
-const { QUESTION_TYPES } = require("../core/enums")
+const { QUESTION_TYPES, VARIABLE_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
 const crypto = require("crypto")
@@ -25,13 +25,29 @@ const userFields = {
 const questionFields = {
   _id: perBuild(() => generateId()),
   prompt: perBuild(() => faker.lorem.sentence(5)),
-  variables: perBuild(() => generateRandomVariables()),
-  conditions: perBuild(() => generateConditions()),
+  variables: perBuild(() => Array.from({ length: 5 }, () => variableBuilder())),
+  conditions: perBuild(() => Array.from({ length: 5 }, () => conditionBuilder())),
   pointValue: perBuild(() => faker.number.int({ min: 10, max: 100 })),
   type: QUESTION_TYPES.Numerical,
   owner: perBuild(() => generateId()),
   isArchived: false,
   isDeleted: false,
+}
+
+const variableFields = {
+    id: perBuild(() => generateId()),
+    label: perBuild(() => faker.lorem.word()),
+    type: VARIABLE_TYPES.Random,
+    min: perBuild(() => faker.number.int({ min: 10, max: 100 })),
+    max: perBuild(() => faker.number.int({ min: 101, max: 200 })),
+    step: perBuild(() => faker.number.int({ min: 1, max: 5 })),
+}
+
+const conditionFields = {
+  id: perBuild(() => generateId()),
+  expression: perBuild(() => faker.lorem.word()),
+  isCorrect: true,
+  feedback: perBuild(() => faker.lorem.sentence())
 }
 
 const bankFields = {
@@ -97,6 +113,20 @@ const assignmentFields = {
   startDate: perBuild(() => faker.date.soon()),
   dueDate: perBuild(() => faker.date.soon()),
 }
+
+const variableBuilder = build({
+  name: "Variable",
+  fields: {
+    ...variableFields,
+  }
+})
+
+const conditionBuilder = build({
+  name: "Condition",
+  fields: {
+    ...conditionFields,
+  }
+})
 
 const assignmentBuilder = build({
   name: "Assignment",
@@ -193,44 +223,6 @@ const questionBuilder = build({
   },
 })
 
-function generateConditions() {
-  return [
-    {
-      id: generateId(),
-      expression: faker.lorem.word(10),
-      isCorrect: true,
-      feedback: faker.lorem.sentence(10),
-    },
-    {
-      id: generateId(),
-      expression: faker.lorem.word(10),
-      isCorrect: false,
-      feedback: faker.lorem.sentence(10),
-    },
-  ]
-}
-
-function generateRandomVariables() {
-  return [
-    {
-      id: generateId(),
-      label: faker.lorem.word(),
-      type: "random",
-      min: faker.number.int({ min: 10, max: 100 }),
-      max: faker.number.int({ min: 101, max: 200 }),
-      step: faker.number.int({ min: 1, max: 5 }),
-    },
-    {
-      id: generateId(),
-      type: "random",
-      label: faker.lorem.word(),
-      min: faker.number.int({ min: 10, max: 100 }),
-      max: faker.number.int({ min: 101, max: 200 }),
-      step: faker.number.int({ min: 1, max: 5 }),
-    }
-  ]
-}
-
 function applyOverrides(builderInstance, overrides) {
   for (const key in overrides) {
     if (overrides.hasOwnProperty(key)) {
@@ -292,7 +284,11 @@ class Builder {
       student: createBuilderMethod(studentBuilder, UserModel, this),
       teacher: createBuilderMethod(teacherBuilder, UserModel, this),
     }
-    this.question = createBuilderMethod(questionBuilder, QuestionModel, this)
+    this.question = Object.assign(createBuilderMethod(questionBuilder, QuestionModel, this),
+    {
+      variable: createComponentBuilderMethod(variableBuilder),
+      condition: createComponentBuilderMethod(conditionBuilder),
+    })
     this.bank = createBuilderMethod(bankBuilder, BankModel, this)
     this.activity = Object.assign(
       createBuilderMethod(activityBuilder, ActivityModel, this),
