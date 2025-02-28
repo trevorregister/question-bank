@@ -34,7 +34,7 @@ class Class {
 }
 
 class Assignment {
-  constructor({owner}){
+  constructor({ owner }) {
     this.owner = owner
   }
 }
@@ -45,5 +45,5 @@ module.exports = {
   User,
   Bank,
   Class,
-  Assignment
+  Assignment,
 }

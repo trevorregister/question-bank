@@ -3,9 +3,16 @@ const QuestionModel = require("../questions/data-access/model")
 const BankModel = require("../banks/data-access/model")
 const ActivityModel = require("../activities/data-access/model")
 const ClassModel = require("../classes/data-access/model")
-const AssignmentModel = require('../assignments/data-access/model')
+const AssignmentModel = require("../assignments/data-access/model")
 const { NotFoundError, TypeError } = require("../../core/errors")
-const { Question, User, Bank, Activity, Class, Assignment } = require("./subjects")
+const {
+  Question,
+  User,
+  Bank,
+  Activity,
+  Class,
+  Assignment,
+} = require("./subjects")
 
 class AuthRepo {
   constructor() {}

@@ -1,7 +1,7 @@
-const deleteAssignment = require('./deleteAssignment')
-const joinClass = require('./joinClass')
+const deleteAssignment = require("./deleteAssignment")
+const joinClass = require("./joinClass")
 
 module.exports = {
-    deleteAssignment,
-    joinClass
+  deleteAssignment,
+  joinClass,
 }

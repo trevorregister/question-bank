@@ -10,8 +10,17 @@ module.exports = function assignmentRoutes() {
   const controller = new AssignmentController(repository)
   const router = express.Router()
 
-  router.post("/", authorize("update", Class), authorize("create", Assignment), controller.create)
-  router.delete("/:assignmentId", authorize("delete", Assignment), controller.delete)
+  router.post(
+    "/",
+    authorize("update", Class),
+    authorize("create", Assignment),
+    controller.create,
+  )
+  router.delete(
+    "/:assignmentId",
+    authorize("delete", Assignment),
+    controller.delete,
+  )
 
   return router
 }

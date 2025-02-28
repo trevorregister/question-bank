@@ -1,7 +1,7 @@
-const CreateAssignmentUseCase = require('./CreateAssignment')
-const DeleteAssignmentUseCase = require('./DeleteAssignment')
+const CreateAssignmentUseCase = require("./CreateAssignment")
+const DeleteAssignmentUseCase = require("./DeleteAssignment")
 
 module.exports = {
-    CreateAssignmentUseCase,
-    DeleteAssignmentUseCase
+  CreateAssignmentUseCase,
+  DeleteAssignmentUseCase,
 }

@@ -21,7 +21,7 @@ module.exports = class Repository {
     return await this.model.create(data)
   }
 
-  async delete(id){
+  async delete(id) {
     return await this.model.findByIdAndDelete(id)
   }
 }

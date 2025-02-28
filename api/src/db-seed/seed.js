@@ -5,7 +5,7 @@ const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
-const AssignmentModel = require('../domains/assignments/data-access/model')
+const AssignmentModel = require("../domains/assignments/data-access/model")
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -70,7 +70,7 @@ async function buildUsers() {
     const assignment = builder.assignment({
       owner: teacher._id,
       class: klass._id,
-      activity: activity._id
+      activity: activity._id,
     })
     AssignmentModel.create(assignment)
     ActivityModel.create(activity)

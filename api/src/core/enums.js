@@ -21,7 +21,7 @@ const SUBJECTS = {
 
 const EVENTS = {
   JoinClass: "join-class",
-  DeleteAssignment: "delete-assignment"
+  DeleteAssignment: "delete-assignment",
 }
 
 module.exports = {
@@ -29,5 +29,5 @@ module.exports = {
   QUESTION_TYPES,
   VARIABLE_TYPES,
   SUBJECTS,
-  EVENTS
+  EVENTS,
 }

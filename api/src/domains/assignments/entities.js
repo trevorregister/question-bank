@@ -6,18 +6,18 @@ const dbAssignment = Joi.object({
   activity: Joi.string().trim().required(),
   owner: Joi.string().trim().required(),
   startDate: Joi.date(),
-  dueDate: Joi.date()
+  dueDate: Joi.date(),
 })
 
 module.exports = class Assignment extends Entity {
   static validator = dbAssignment
-  constructor({klass, activity, startDate, dueDate, owner }) {
+  constructor({ klass, activity, startDate, dueDate, owner }) {
     super()
-    this.class = klass,
-    this.activity = activity,
-    this.startDate = startDate,
-    this.dueDate = dueDate,
-    this.owner = owner
+    ;(this.class = klass),
+      (this.activity = activity),
+      (this.startDate = startDate),
+      (this.dueDate = dueDate),
+      (this.owner = owner)
   }
 
   static toWeb(data) {
@@ -28,7 +28,6 @@ module.exports = class Assignment extends Entity {
       owner: data.owner,
       startDate: data.startDate,
       dueDate: data.dueDate,
-
     }
   }
 }

@@ -7,7 +7,7 @@ const {
   Bank,
   Activity,
   Class,
-  Assignment
+  Assignment,
 } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {

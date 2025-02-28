@@ -5,5 +5,4 @@ module.exports = class AssignmentRepository extends Repository {
   constructor(model) {
     super(model)
   }
-
 }
