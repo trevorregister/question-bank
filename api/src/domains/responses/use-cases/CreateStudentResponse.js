@@ -3,14 +3,7 @@ const AssignmentResponse = require("../entities.js")
 const AssignmentModel = require("../../../domains/assignments/data-access/model.js")
 const { NotFoundError, HttpError } = require("../../../core/errors.js")
 const { VARIABLE_TYPES } = require('../../../core/enums.js')
-
-function generateRandomVariableValue({min, max, step}){
-    const range = (max - min) / step
-    const randomStep = Math.floor(Math.random() * (range + 1))
-    const randomNumber = min + randomStep * step
-    const decimalPlaces = (step.toString().split('.')[1] || '').length
-    return parseFloat(randomNumber.toFixed(decimalPlaces))
-}
+const generateRandomVariableValue = require('../../../domains/utils/generateRandomVariableValue.js')
 
 module.exports = class CreateAssignmentResponseUseCase extends UseCase {
   constructor(repository) {

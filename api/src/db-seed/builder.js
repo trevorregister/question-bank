@@ -7,6 +7,7 @@ const BankModel = require("../domains/banks/data-access/model")
 const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
+const AssignmentResponseModel = require("../domains/responses/data-access/model")
 const { QUESTION_TYPES, VARIABLE_TYPES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -57,6 +58,15 @@ const bankFields = {
   questions: [],
   isArchived: false,
   isDeleted: false,
+}
+
+const assignmentResponseFields = {
+  _id: perBuild(() => generateId()),
+  assignment: perBuild(() => generateId()),
+  owner: perBuild(() => generateId()),
+  variables: [],
+  responses: [],
+  totalScore: 0,
 }
 
 const classFields = {
@@ -113,6 +123,13 @@ const assignmentFields = {
   startDate: perBuild(() => faker.date.soon()),
   dueDate: perBuild(() => faker.date.soon()),
 }
+
+const assignmentResponseBuilder = build({
+  name: "AssignmentResponse",
+  fields: {
+    ...assignmentResponseFields
+  }
+})
 
 const variableBuilder = build({
   name: "Variable",
@@ -254,6 +271,9 @@ function createBuilderMethod(entityBuilder, model, builderClassInstance) {
       case AssignmentModel:
         builderClassInstance.data.assignments.push(builderResult)
         break
+      case AssignmentResponseModel:
+        builderClassInstance.data.assignmentResponses.push(builderResult)
+        break
       default:
         throw new Error(`${model} invalid model`)
     }
@@ -278,6 +298,7 @@ class Builder {
       activities: [],
       classes: [],
       assignments: [],
+      assignmentResponses: []
     }
     this.faker = faker
     this.user = {
@@ -308,6 +329,11 @@ class Builder {
       AssignmentModel,
       this,
     )
+    this.assignmentResponse = createBuilderMethod(
+      assignmentResponseBuilder,
+      AssignmentResponseModel,
+      this,
+    )
   }
   randomId() {
     return generateId()
@@ -323,6 +349,7 @@ class Builder {
       activities: await ActivityModel.insertMany(this.data.activities),
       classes: await ClassModel.insertMany(this.data.classes),
       assignments: await AssignmentModel.insertMany(this.data.assignments),
+      assignmentResponses: await AssignmentResponseModel.insertMany(this.data.assignmentResponses),
     }
   }
 }
