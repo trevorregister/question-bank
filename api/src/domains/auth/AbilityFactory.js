@@ -6,6 +6,7 @@ const {
   Activity,
   Class,
   Assignment,
+  AssignmentResponse
 } = require("./subjects")
 const { USER_ROLES } = require("../../core/enums")
 const { TypeError, HttpError } = require("../../core/errors")
@@ -50,5 +51,6 @@ function defineTeacherRules(can, cannot, actor) {
 
 function defineStudentRules(can, cannot, actor) {
   can(["read", "update"], [User], { id: actor.id })
+  can(["read", "update"], [AssignmentResponse], { owner: actor.id })
   can(["join"], [Class])
 }

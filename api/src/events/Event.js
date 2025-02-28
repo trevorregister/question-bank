@@ -1,5 +1,5 @@
 const Joi = require("joi")
-const { EVENTS } = require("../core/enums")
+const EVENTS = require("./types")
 const { ValidationError } = require("../core/errors")
 
 const eventValidator = Joi.object({
