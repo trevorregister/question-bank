@@ -25,7 +25,7 @@ const userFields = {
 const questionFields = {
   _id: perBuild(() => generateId()),
   prompt: perBuild(() => faker.lorem.sentence(5)),
-  variables: [],
+  variables: perBuild(() => generateRandomVariables()),
   conditions: perBuild(() => generateConditions()),
   pointValue: perBuild(() => faker.number.int({ min: 10, max: 100 })),
   type: QUESTION_TYPES.Numerical,
@@ -207,6 +207,27 @@ function generateConditions() {
       isCorrect: false,
       feedback: faker.lorem.sentence(10),
     },
+  ]
+}
+
+function generateRandomVariables() {
+  return [
+    {
+      id: generateId(),
+      label: faker.lorem.word(),
+      type: "random",
+      min: faker.number.int({ min: 10, max: 100 }),
+      max: faker.number.int({ min: 101, max: 200 }),
+      step: faker.number.int({ min: 1, max: 5 }),
+    },
+    {
+      id: generateId(),
+      type: "random",
+      label: faker.lorem.word(),
+      min: faker.number.int({ min: 10, max: 100 }),
+      max: faker.number.int({ min: 101, max: 200 }),
+      step: faker.number.int({ min: 1, max: 5 }),
+    }
   ]
 }
 

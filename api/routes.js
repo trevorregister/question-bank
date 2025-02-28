@@ -5,6 +5,7 @@ const bankRoutes = require("./src/domains/banks/routes.js");
 const activityRoutes = require('./src/domains/activities/routes.js')
 const classRoutes = require('./src/domains/classes/routes.js')
 const assignmentRoutes = require('./src/domains/assignments/routes.js')
+const studentResponseRoutes = require('./src/domains/responses/routes.js')
 const authenticate = require("./src/middleware/authenticate.js");
 
 function Routes() {
@@ -18,6 +19,7 @@ function Routes() {
   router.use("/activities", activityRoutes())
   router.use('/classes', classRoutes())
   router.use('/assignments', assignmentRoutes())
+  router.use('/responses', studentResponseRoutes())
 
   router.get("/", (req, res, next) => {
     res.status(201).send("hello");
