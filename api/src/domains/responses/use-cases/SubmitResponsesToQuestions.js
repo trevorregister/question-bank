@@ -67,6 +67,7 @@ module.exports = class SubmitResponsesToQuestions extends UseCase {
       return assignmentResponse
     })
     
-    return await this.repository.updateResponses({responseId: responseId, responses: assignmentResponse.responses})
+    const updatedAssignmentResponse = await this.repository.updateResponses({responseId: responseId, responses: assignmentResponse.responses})
+    return AssignmentResponse.toWeb(updatedAssignmentResponse)
   }
 }
