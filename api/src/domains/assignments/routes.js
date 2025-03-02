@@ -21,6 +21,11 @@ module.exports = function assignmentRoutes() {
     authorize("delete", Assignment),
     controller.delete,
   )
+  router.get(
+    "/:assignmentId/responses",
+    authorize("read", Assignment),
+    controller.getResponsesForAssignment,
+  )
 
   return router
 }

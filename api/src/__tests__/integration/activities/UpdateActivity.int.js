@@ -14,7 +14,6 @@ describe("Update activity", () => {
 
     const token = builder.token(user)
     const section = {
-      id: builder.randomId(),
       name: faker.lorem.sentence(),
       summary: faker.lorem.sentence(),
       sectionIndex: 0,
@@ -68,12 +67,13 @@ describe("Update activity", () => {
     expect(id).toBeTruthy()
     expect(tags[0]).toBe(addedTag)
     expect(sections[0]).toEqual({
-      id: section.id.toHexString(),
+      id: expect.any(String),
       name: section.name,
       summary: section.summary,
       sectionIndex: section.sectionIndex,
       questions: [
         {
+          id: expect.any(String),
           parent: section.questions[0].parent.toHexString(),
           type: section.questions[0].type,
           prompt: section.questions[0].prompt,

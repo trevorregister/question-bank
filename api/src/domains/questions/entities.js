@@ -19,6 +19,7 @@ const dbVariable = Joi.object({
   min: Joi.number().required(),
   max: Joi.number().greater(Joi.ref("min")).required(),
   step: Joi.number().greater(0).required(),
+  label: Joi.string().required(),
 })
 
 const dbCondition = Joi.object({
@@ -59,9 +60,10 @@ class Question extends Entity {
 
 class Variable extends Entity {
   static validator = dbVariable
-  constructor({ type, min, max, step }) {
+  constructor({ label, type, min, max, step }) {
     super()
     this.id = generateId()
+    this.label = label
     this.type = type
     this.min = min
     this.max = max
@@ -75,6 +77,7 @@ class Variable extends Entity {
       min: data.min,
       max: data.max,
       step: data.step,
+      label: data.label,
     }
   }
 }

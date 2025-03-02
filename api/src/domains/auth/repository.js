@@ -4,6 +4,7 @@ const BankModel = require("../banks/data-access/model")
 const ActivityModel = require("../activities/data-access/model")
 const ClassModel = require("../classes/data-access/model")
 const AssignmentModel = require("../assignments/data-access/model")
+const AssignmentResponseModel = require("../responses/data-access/model")
 const { NotFoundError, TypeError } = require("../../core/errors")
 const {
   Question,
@@ -12,6 +13,7 @@ const {
   Activity,
   Class,
   Assignment,
+  AssignmentResponse,
 } = require("./subjects")
 
 class AuthRepo {
@@ -36,6 +38,9 @@ class AuthRepo {
         break
       case Assignment:
         resource = await AssignmentModel.findById(resourceId)
+        break
+      case AssignmentResponse:
+        resource = await AssignmentResponseModel.findById(resourceId)
         break
       default:
         throw new TypeError(SubjectClass.name)

@@ -39,6 +39,13 @@ class Assignment {
   }
 }
 
+class AssignmentResponse {
+  constructor({ id, owner }) {
+    this.id = id
+    this.owner = owner
+  }
+}
+
 module.exports = {
   Question,
   Activity,
@@ -46,4 +53,5 @@ module.exports = {
   Bank,
   Class,
   Assignment,
+  AssignmentResponse,
 }

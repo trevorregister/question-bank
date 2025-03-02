@@ -15,6 +15,7 @@ describe("Delete variable", () => {
           min: faker.number.int({ min: 1, max: 10 }),
           max: faker.number.int({ min: 11, max: 20 }),
           step: faker.number.int({ min: 1, max: 5 }),
+          label: faker.lorem.word(),
         },
       ],
     })
@@ -44,6 +45,7 @@ describe("Delete variable", () => {
           min: faker.number.int({ min: 1, max: 10 }),
           max: faker.number.int({ min: 11, max: 20 }),
           step: faker.number.int({ min: 1, max: 5 }),
+          label: faker.lorem.word(),
         },
       ],
     })

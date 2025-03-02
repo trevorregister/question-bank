@@ -1,8 +1,7 @@
 const EventEmitter = require("events")
 const Event = require("./Event.js")
 const { TypeError } = require("../core/errors.js")
-const { EVENTS } = require("../core/enums.js")
-
+const EVENTS = require("./types.js")
 module.exports = class EventBus extends EventEmitter {
   static eventInstance = new EventBus()
   static publish(event) {

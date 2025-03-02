@@ -8,6 +8,7 @@ const {
   Activity,
   Class,
   Assignment,
+  AssignmentResponse,
 } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {
@@ -59,6 +60,9 @@ const authorize = (action, SubjectClass, conditions = undefined) => {
           break
         case Assignment:
           resourceId = req.params.assignmentId
+          break
+        case AssignmentResponse:
+          resourceId = req.params.responseId
           break
         default:
           throw new TypeError(SubjectClass.name)

@@ -3,6 +3,9 @@ const { NotFoundError, HttpError } = require("../../../core/errors.js")
 const UserModel = require("../../users/data-access/model.js")
 const { RosteredStudent } = require("../entities.js")
 const { USER_ROLES } = require("../../../core/enums.js")
+const Event = require("../../../events/Event.js")
+const EventBus = require("../../../events/EventBus.js")
+const EVENTS = require("../../../events/types.js")
 
 module.exports = class JoinClassUseCase extends UseCase {
   constructor(repository) {
@@ -50,9 +53,15 @@ module.exports = class JoinClassUseCase extends UseCase {
     }
     const studentToRosterProps = RosteredStudent.toDb(userId)
     const studentToRoster = new RosteredStudent(studentToRosterProps)
-    return await this.repository.addStudentToClass({
+    const joined = await this.repository.addStudentToClass({
       studentToRoster: studentToRoster,
       klass: klass,
     })
+    if (joined) {
+      const payload = { classId: joined.class, studentId: userId }
+      const joinClassEvent = new Event(EVENTS.JoinClass, payload)
+      EventBus.publish(joinClassEvent)
+      return joined
+    }
   }
 }

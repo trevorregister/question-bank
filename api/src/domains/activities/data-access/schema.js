@@ -11,6 +11,11 @@ const activityQuestionSchema = new Schema(
       ref: "Questions",
     },
 
+    id: {
+      type: String,
+      required: true,
+    },
+
     prompt: {
       type: String,
       required: true,

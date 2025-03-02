@@ -11,17 +11,20 @@ describe("Create Variable", () => {
     const question = builder.question({
       conditions: [],
       owner: user._id,
+      variables: [],
     })
     await builder.seed()
 
     const min = faker.number.int({ min: 1, max: 10 })
     const max = faker.number.int({ min: 11, max: 20 })
     const step = faker.number.int({ min: 1, max: 10 })
+    const label = faker.lorem.word()
     const variableProps = {
       type: VARIABLE_TYPES.Random,
       min: min,
       max: max,
       step: step,
+      label: label,
     }
     const res = await request.questions.post(
       `/${question._id}/variable`,
@@ -51,6 +54,7 @@ describe("Create Variable", () => {
           max: max,
           step: step,
           type: VARIABLE_TYPES.Random,
+          label: variableProps.label,
         },
       ],
       conditions: question.conditions,
