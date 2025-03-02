@@ -1,6 +1,7 @@
 const {
     CreateAssignmentResponseUseCase,
-    GetResponseForStudent
+    GetResponseForStudent,
+    SubmitResponsesToQuestions
   } = require("./use-cases/index")
   
   module.exports = class AssignmentResponseController {
@@ -9,6 +10,8 @@ const {
       this.create = this.create.bind(this)
       this.delete = this.delete.bind(this)
       this.getResponseForStudent = this.getResponseForStudent.bind(this)
+      this.submitResponsesToQuestions = this.submitResponsesToQuestions.bind(this
+        )
     }
   
     async create(req, res, next) {
@@ -27,6 +30,19 @@ const {
         const getResponseForStudentCase = new GetResponseForStudent(this.repository)
         const { responseId } = req.params
         const result = await getResponseForStudentCase.execute(responseId)
+        res.status(200).send(result)
+      } catch (err) {
+        next(err)
+      }
+    }
+
+    async submitResponsesToQuestions(req, res, next){
+      try {
+        const submitResponsesToQuestionsCase = new SubmitResponsesToQuestions(this.repository)
+        const { responseId } = req.params
+        const { responses } = req.body
+        const data = {responseId: responseId, responses: responses}
+        const result = await submitResponsesToQuestionsCase.execute(data)
         res.status(200).send(result)
       } catch (err) {
         next(err)

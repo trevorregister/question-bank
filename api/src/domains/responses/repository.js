@@ -9,6 +9,7 @@ module.exports = class AssignmentResponseRepository extends Repository {
     this.activityModel = new ActivityModel()
     this.activityRepo = new ActivityRepository(this.activityModel)
     this.getActivityContent = this.getActivityContent.bind(this)
+    this.updateResponses = this.updateResponses.bind(this)
   }
 
   async getActivityContent(activityId){
@@ -20,5 +21,12 @@ module.exports = class AssignmentResponseRepository extends Repository {
     const variables = activity.sections.map(section => section.questions.map(question => question.variables).flat()).flat()
     const questions = activity.sections.map(section => section.questions.map(question => question)).flat()
     return {variables: variables, questions: questions}
+  }
+
+  async updateResponses({responseId, responses}){
+    const assignmentResponse = await this.model.findById(responseId)
+    assignmentResponse.responses = responses
+    assignmentResponse.totalScore = responses.reduce((acc, response) => acc + response.score, 0)
+    return await assignmentResponse.save()
   }
 }

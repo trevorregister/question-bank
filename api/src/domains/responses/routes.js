@@ -22,5 +22,11 @@ module.exports = function studentResponseRoutes() {
     controller.getResponseForStudent,
   )
 
+  router.patch(
+    "/:responseId/submit-responses",
+    authorize("update", AssignmentResponse),
+    controller.submitResponsesToQuestions,
+  )
+
   return router
 }
