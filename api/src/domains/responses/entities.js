@@ -11,12 +11,12 @@ const dbAssignmentResponse = Joi.object({
 
 module.exports = class AssignmentResponse extends Entity {
   static validator = dbAssignmentResponse
-  constructor({ assignment, owner, variables = []  }) {
+  constructor({ assignment, owner, variables = [], responses }) {
     super()
     this.assignment = assignment
     this.owner = owner
     this.variables = variables
-    this.responses = []
+    this.responses = responses
     this.totalScore = 0
   }
 

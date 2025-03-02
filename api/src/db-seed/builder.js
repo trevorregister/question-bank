@@ -192,6 +192,7 @@ const activityBuilder = build({
       section.questions = section.questions.map((question) => {
         return {
           parent: question._id,
+          id: generateId().toHexString(),
           prompt: question.prompt,
           variables: question.variables,
           conditions: question.conditions,

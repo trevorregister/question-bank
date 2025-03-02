@@ -16,7 +16,6 @@ const dbActivityQuestion = Joi.object({
 
 const dbActivitySection = Joi.object({
   name: Joi.string().required(),
-  id: Joi.string().required(),
   summary: Joi.string().required(),
   sectionIndex: Joi.number().integer().greater(-1),
   questions: Joi.array().items(dbActivityQuestion).required().default([]),
@@ -40,15 +39,16 @@ const dbActivityUpdate = Joi.object({
 })
 
 class Activity extends Entity {
-  static validator = newDbActivity
-  constructor({ owner, name, sections, tags }) {
+  static validator= newDbActivity
+  constructor({ owner, name, sections, tags}){
+    
     super()
-    ;(this.owner = owner),
-      (this.name = name),
-      (this.sections = sections),
-      (this.isArchived = false),
-      (this.tags = tags),
-      (this.questionCount = 0)
+    this.owner = owner
+    this.name = name
+    this.sections = sections.map((s) => new ActivitySection(s))
+    this.isArchived = false
+    this.tags = tags
+    this.questionCount = 0
   }
 
   static toWeb(data) {
@@ -73,15 +73,41 @@ class Activity extends Entity {
   }
 }
 
-class ActivitySection extends Entity {
-  static validator = dbActivitySection
-  constructor({ name, summary, sectionIndex = 0 }) {
+class ActivityQuestion extends Entity {
+  static validator = dbActivityQuestion
+  constructor({ parent, prompt, variables = [], conditions = [], pointValue, type }) {
     super()
     this.id = generateId()
-    ;(this.name = name),
-      (this.questions = []),
-      (this.summary = summary),
-      (this.sectionIndex = sectionIndex)
+    this.parent = parent
+    this.prompt = prompt
+    this.variables = variables
+    this.conditions = conditions
+    this.pointValue = pointValue
+    this.type = type
+  }
+
+  static toWeb(data) {
+    return {
+      id: data.id,
+      parent: data.parent,
+      prompt: data.prompt,
+      variables: data.variables,
+      conditions: data.conditions,
+      pointValue: data.pointValue,
+      type: data.type,
+    }
+  }
+}
+
+class ActivitySection extends Entity {
+  static validator = dbActivitySection
+  constructor( {name, summary, questions, sectionIndex = 0}){
+    super()
+    this.id = generateId()
+    this.name = name
+    this.questions = questions.map((q) => new ActivityQuestion(q))
+    this.summary = summary
+    this.sectionIndex = sectionIndex
   }
 
   static toWeb(data) {
@@ -89,7 +115,7 @@ class ActivitySection extends Entity {
       id: data.id,
       name: data.name,
       //questions: data.questions,
-      questions: data.questions.map((q) => Question.toWeb(q)),
+      questions: data.questions.map((q) => ActivityQuestion.toWeb(q)),
       summary: data.summary,
       sectionIndex: data.sectionIndex,
     }

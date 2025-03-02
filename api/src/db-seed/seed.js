@@ -56,6 +56,7 @@ async function buildUsers() {
     const section = builder.activity.section({
       questions: questions.map((q) => {
         return {
+          id: builder.randomId().toHexString(),
           parent: q._id,
           prompt: q.prompt,
           variables: q.variables,

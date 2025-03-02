@@ -8,15 +8,17 @@ module.exports = class AssignmentResponseRepository extends Repository {
     super(model)
     this.activityModel = new ActivityModel()
     this.activityRepo = new ActivityRepository(this.activityModel)
-    this.getActivityVariables = this.getActivityVariables.bind(this)
+    this.getActivityContent = this.getActivityContent.bind(this)
   }
 
-  async getActivityVariables(activityId){
+  async getActivityContent(activityId){
     const activity = await ActivityModel.findById(activityId)
     
     if(!activity){
         throw new NotFoundError(`activity ${activityId}`)
     }
-    return activity.sections.map(section => section.questions.map(question => question.variables).flat()).flat()
+    const variables = activity.sections.map(section => section.questions.map(question => question.variables).flat()).flat()
+    const questions = activity.sections.map(section => section.questions.map(question => question)).flat()
+    return {variables: variables, questions: questions}
   }
 }

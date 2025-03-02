@@ -9,7 +9,6 @@ describe("Create Activity", () => {
     await builder.seed()
 
     const section = {
-      id: builder.randomId(),
       name: faker.lorem.sentence(),
       summary: faker.lorem.sentence(),
       sectionIndex: 0,
@@ -61,13 +60,14 @@ describe("Create Activity", () => {
     expect(id).toBeTruthy()
     expect(tags[0]).toBe(tagsProp[0])
     expect(sections[0]).toEqual({
-      id: section.id.toHexString(),
+      id: expect.any(String),
       name: section.name,
       summary: section.summary,
       sectionIndex: section.sectionIndex,
       questions: [
         {
           parent: section.questions[0].parent.toHexString(),
+          id: expect.any(String),
           type: section.questions[0].type,
           prompt: section.questions[0].prompt,
           pointValue: section.questions[0].pointValue,

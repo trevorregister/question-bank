@@ -16,9 +16,10 @@ module.exports = class CreateAssignmentResponseUseCase extends UseCase {
       throw new NotFoundError(`assignment ${assignmentId}`)
     }
 
-    const activityVariables = await this.repository.getActivityVariables(assignment.activity)
-    const assignmentResponseVariables = activityVariables.length > 0 
-        ? activityVariables.map(variable => {
+    const activityContent = await this.repository.getActivityContent(assignment.activity)
+    
+    const assignmentResponseVariables = activityContent.variables.length > 0 
+        ? activityContent.variables.map(variable => {
             let value
             switch(variable.type){
                 case VARIABLE_TYPES.Random:
@@ -37,7 +38,17 @@ module.exports = class CreateAssignmentResponseUseCase extends UseCase {
             }
         })
         : []
-    const assignmentResponseProps = AssignmentResponse.toDb({ assignment: assignmentId, owner, variables: assignmentResponseVariables })
+
+    const assignmentResponseQuestions = activityContent.questions.length > 0
+        ? activityContent.questions.map(question => {
+            return {
+                question: question.id,
+                content: '',
+                score: 0
+            }
+        })
+        : []
+    const assignmentResponseProps = AssignmentResponse.toDb({ assignment: assignmentId, owner: owner, variables: assignmentResponseVariables, responses: assignmentResponseQuestions })
     const assignmentResponse = await this.repository.create(new AssignmentResponse(assignmentResponseProps))
     return AssignmentResponse.toWeb(assignmentResponse)
   }
