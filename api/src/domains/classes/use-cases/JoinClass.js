@@ -53,11 +53,11 @@ module.exports = class JoinClassUseCase extends UseCase {
     }
     const studentToRosterProps = RosteredStudent.toDb(userId)
     const studentToRoster = new RosteredStudent(studentToRosterProps)
-    const joined =  await this.repository.addStudentToClass({
+    const joined = await this.repository.addStudentToClass({
       studentToRoster: studentToRoster,
       klass: klass,
     })
-    if(joined){
+    if (joined) {
       const payload = { classId: joined.class, studentId: userId }
       const joinClassEvent = new Event(EVENTS.JoinClass, payload)
       EventBus.publish(joinClassEvent)

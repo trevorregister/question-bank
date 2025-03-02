@@ -8,7 +8,7 @@ const {
   Activity,
   Class,
   Assignment,
-  AssignmentResponse
+  AssignmentResponse,
 } = require("../domains/auth/subjects")
 
 const authorize = (action, SubjectClass, conditions = undefined) => {

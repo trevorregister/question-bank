@@ -43,7 +43,7 @@ class AssignmentResponse {
   constructor({ id, owner }) {
     this.id = id
     this.owner = owner
-  } 
+  }
 }
 
 module.exports = {
@@ -53,5 +53,5 @@ module.exports = {
   Bank,
   Class,
   Assignment,
-  AssignmentResponse
+  AssignmentResponse,
 }

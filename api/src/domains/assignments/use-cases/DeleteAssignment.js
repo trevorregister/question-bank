@@ -2,7 +2,7 @@ const UseCase = require("../../../core/usecase")
 const { NotFoundError } = require("../../../core/errors.js")
 const EventBus = require("../../../events/EventBus.js")
 const Event = require("../../../events/Event.js")
-const EVENTS = require('../../../events/types.js')
+const EVENTS = require("../../../events/types.js")
 
 module.exports = class DeleteAssignmentUseCase extends UseCase {
   constructor(repository) {

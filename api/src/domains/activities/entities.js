@@ -39,9 +39,8 @@ const dbActivityUpdate = Joi.object({
 })
 
 class Activity extends Entity {
-  static validator= newDbActivity
-  constructor({ owner, name, sections, tags}){
-    
+  static validator = newDbActivity
+  constructor({ owner, name, sections, tags }) {
     super()
     this.owner = owner
     this.name = name
@@ -75,7 +74,14 @@ class Activity extends Entity {
 
 class ActivityQuestion extends Entity {
   static validator = dbActivityQuestion
-  constructor({ parent, prompt, variables = [], conditions = [], pointValue, type }) {
+  constructor({
+    parent,
+    prompt,
+    variables = [],
+    conditions = [],
+    pointValue,
+    type,
+  }) {
     super()
     this.id = generateId()
     this.parent = parent
@@ -101,7 +107,7 @@ class ActivityQuestion extends Entity {
 
 class ActivitySection extends Entity {
   static validator = dbActivitySection
-  constructor( {name, summary, questions, sectionIndex = 0}){
+  constructor({ name, summary, questions, sectionIndex = 0 }) {
     super()
     this.id = generateId()
     this.name = name

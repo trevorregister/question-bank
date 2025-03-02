@@ -5,5 +5,5 @@ const GetResponsesForAssignment = require("./GetResponsesForAssignment")
 module.exports = {
   CreateAssignmentUseCase,
   DeleteAssignmentUseCase,
-  GetResponsesForAssignment
+  GetResponsesForAssignment,
 }

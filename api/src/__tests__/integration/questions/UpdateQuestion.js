@@ -92,24 +92,24 @@ describe("Update question", () => {
           min,
           max,
           step,
-          label
+          label,
         }).toEqual({
           min: variableUpdate.min,
           max: variables[0].max,
           step: variableUpdate.step,
-          label: variableUpdate.label
+          label: variableUpdate.label,
         })
       } else {
         expect({
           min,
           max,
           step,
-          label
+          label,
         }).toEqual({
           min: variables[1].min,
           max: variables[1].max,
           step: variables[1].step,
-          label: variables[1].label
+          label: variables[1].label,
         })
       }
     })

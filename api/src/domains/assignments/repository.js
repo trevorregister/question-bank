@@ -9,7 +9,7 @@ module.exports = class AssignmentRepository extends Repository {
   }
 
   async findByClassId(classId) {
-    classId = typeof classId === 'string' ? toOid(classId) : classId
+    classId = typeof classId === "string" ? toOid(classId) : classId
     return await this.model.find({ class: classId })
   }
 
@@ -17,17 +17,17 @@ module.exports = class AssignmentRepository extends Repository {
     const assignment = await this.model.aggregate([
       {
         $match: {
-          _id: toOid(assignmentId)
-        }
+          _id: toOid(assignmentId),
+        },
       },
       {
         $lookup: {
-          from: 'assignmentresponses',
-          localField: '_id',
-          foreignField: 'assignment',
-          as: 'responses'
-        }
-      }
+          from: "assignmentresponses",
+          localField: "_id",
+          foreignField: "assignment",
+          as: "responses",
+        },
+      },
     ])
     return assignment[0].responses
   }

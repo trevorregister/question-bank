@@ -6,7 +6,7 @@ const {
   Activity,
   Class,
   Assignment,
-  AssignmentResponse
+  AssignmentResponse,
 } = require("./subjects")
 const { USER_ROLES } = require("../../core/enums")
 const { TypeError, HttpError } = require("../../core/errors")

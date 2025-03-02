@@ -13,7 +13,7 @@ const {
   Activity,
   Class,
   Assignment,
-  AssignmentResponse
+  AssignmentResponse,
 } = require("./subjects")
 
 class AuthRepo {

@@ -18,20 +18,20 @@ const schema = new Schema({
   variables: {
     type: Array,
     required: true,
-    default: []
+    default: [],
   },
 
   responses: {
     type: Array,
     required: true,
-    default: []
+    default: [],
   },
 
   totalScore: {
     type: Number,
     required: true,
-    default: 0
-  }
+    default: 0,
+  },
 })
 module.exports = {
   schema,

@@ -1,7 +1,7 @@
 const {
   CreateAssignmentUseCase,
   DeleteAssignmentUseCase,
-  GetResponsesForAssignment
+  GetResponsesForAssignment,
 } = require("./use-cases/index")
 
 module.exports = class AssignmentController {
@@ -36,7 +36,9 @@ module.exports = class AssignmentController {
 
   async getResponsesForAssignment(req, res, next) {
     try {
-      const getResponsesForAssignmentCase = new GetResponsesForAssignment(this.repository)
+      const getResponsesForAssignmentCase = new GetResponsesForAssignment(
+        this.repository,
+      )
       const { assignmentId } = req.params
       const result = await getResponsesForAssignmentCase.execute(assignmentId)
       res.status(200).send(result)

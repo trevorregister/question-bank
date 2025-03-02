@@ -77,7 +77,7 @@ class Variable extends Entity {
       min: data.min,
       max: data.max,
       step: data.step,
-      label: data.label
+      label: data.label,
     }
   }
 }

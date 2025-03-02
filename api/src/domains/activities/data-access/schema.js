@@ -13,7 +13,7 @@ const activityQuestionSchema = new Schema(
 
     id: {
       type: String,
-      required: true
+      required: true,
     },
 
     prompt: {

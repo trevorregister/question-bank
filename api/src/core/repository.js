@@ -27,11 +27,11 @@ module.exports = class Repository {
     return await this.model.findByIdAndDelete(id)
   }
 
-  async find(query){
+  async find(query) {
     return await this.model.find(query)
   }
 
-  async findOne(query){
+  async findOne(query) {
     return await this.model.findOne(query)
   }
 }

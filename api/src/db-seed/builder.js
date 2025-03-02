@@ -27,7 +27,9 @@ const questionFields = {
   _id: perBuild(() => generateId()),
   prompt: perBuild(() => faker.lorem.sentence(5)),
   variables: perBuild(() => Array.from({ length: 5 }, () => variableBuilder())),
-  conditions: perBuild(() => Array.from({ length: 5 }, () => conditionBuilder())),
+  conditions: perBuild(() =>
+    Array.from({ length: 5 }, () => conditionBuilder()),
+  ),
   pointValue: perBuild(() => faker.number.int({ min: 10, max: 100 })),
   type: QUESTION_TYPES.Numerical,
   owner: perBuild(() => generateId()),
@@ -36,19 +38,19 @@ const questionFields = {
 }
 
 const variableFields = {
-    id: perBuild(() => generateId()),
-    label: perBuild(() => faker.lorem.word()),
-    type: VARIABLE_TYPES.Random,
-    min: perBuild(() => faker.number.int({ min: 10, max: 100 })),
-    max: perBuild(() => faker.number.int({ min: 101, max: 200 })),
-    step: perBuild(() => faker.number.int({ min: 1, max: 5 })),
+  id: perBuild(() => generateId()),
+  label: perBuild(() => faker.lorem.word()),
+  type: VARIABLE_TYPES.Random,
+  min: perBuild(() => faker.number.int({ min: 10, max: 100 })),
+  max: perBuild(() => faker.number.int({ min: 101, max: 200 })),
+  step: perBuild(() => faker.number.int({ min: 1, max: 5 })),
 }
 
 const conditionFields = {
   id: perBuild(() => generateId()),
   expression: perBuild(() => faker.lorem.word()),
   isCorrect: true,
-  feedback: perBuild(() => faker.lorem.sentence())
+  feedback: perBuild(() => faker.lorem.sentence()),
 }
 
 const bankFields = {
@@ -127,22 +129,22 @@ const assignmentFields = {
 const assignmentResponseBuilder = build({
   name: "AssignmentResponse",
   fields: {
-    ...assignmentResponseFields
-  }
+    ...assignmentResponseFields,
+  },
 })
 
 const variableBuilder = build({
   name: "Variable",
   fields: {
     ...variableFields,
-  }
+  },
 })
 
 const conditionBuilder = build({
   name: "Condition",
   fields: {
     ...conditionFields,
-  }
+  },
 })
 
 const assignmentBuilder = build({
@@ -299,18 +301,20 @@ class Builder {
       activities: [],
       classes: [],
       assignments: [],
-      assignmentResponses: []
+      assignmentResponses: [],
     }
     this.faker = faker
     this.user = {
       student: createBuilderMethod(studentBuilder, UserModel, this),
       teacher: createBuilderMethod(teacherBuilder, UserModel, this),
     }
-    this.question = Object.assign(createBuilderMethod(questionBuilder, QuestionModel, this),
-    {
-      variable: createComponentBuilderMethod(variableBuilder),
-      condition: createComponentBuilderMethod(conditionBuilder),
-    })
+    this.question = Object.assign(
+      createBuilderMethod(questionBuilder, QuestionModel, this),
+      {
+        variable: createComponentBuilderMethod(variableBuilder),
+        condition: createComponentBuilderMethod(conditionBuilder),
+      },
+    )
     this.bank = createBuilderMethod(bankBuilder, BankModel, this)
     this.activity = Object.assign(
       createBuilderMethod(activityBuilder, ActivityModel, this),
@@ -350,7 +354,9 @@ class Builder {
       activities: await ActivityModel.insertMany(this.data.activities),
       classes: await ClassModel.insertMany(this.data.classes),
       assignments: await AssignmentModel.insertMany(this.data.assignments),
-      assignmentResponses: await AssignmentResponseModel.insertMany(this.data.assignmentResponses),
+      assignmentResponses: await AssignmentResponseModel.insertMany(
+        this.data.assignmentResponses,
+      ),
     }
   }
 }
