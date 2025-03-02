@@ -44,7 +44,8 @@ module.exports = class CreateAssignmentResponseUseCase extends UseCase {
             return {
                 question: question.id,
                 content: '',
-                score: 0
+                score: 0,
+                isCorrect: null
             }
         })
         : []

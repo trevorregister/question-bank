@@ -16,5 +16,11 @@ module.exports = function studentResponseRoutes() {
     controller.create,
   )
 
+  router.get(
+    "/:responseId",
+    authorize("read", AssignmentResponse),
+    controller.getResponseForStudent,
+  )
+
   return router
 }
