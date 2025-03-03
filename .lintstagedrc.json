@@ -1,5 +1,5 @@
 {
-    "./src/**":
+    ".":
         [
             "npx prettier --write ./src/**",
             "npx eslint ."
