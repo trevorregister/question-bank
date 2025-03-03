@@ -10,6 +10,10 @@ const authenticate = require("./src/middleware/authenticate.js")
 
 function Routes() {
   const router = express.Router()
+
+  router.get("/", (req, res, next) => {
+    res.status(201).send("hello")
+  })
   router.use("/users", userRoutes())
 
   router.use(authenticate)
@@ -20,10 +24,6 @@ function Routes() {
   router.use("/classes", classRoutes())
   router.use("/assignments", assignmentRoutes())
   router.use("/responses", assignmentResponseRoutes())
-
-  router.get("/", (req, res, next) => {
-    res.status(201).send("hello")
-  })
   return router
 }
 
