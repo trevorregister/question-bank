@@ -5,7 +5,7 @@ const AssignmentResponseController = require("./controller")
 const { AssignmentResponse } = require("../auth/subjects")
 const authorize = require("../../middleware/authorize")
 
-module.exports = function studentResponseRoutes() {
+module.exports = function assignmentResponseRoutes() {
   const repository = new AssignmentResponseRepository(AssignmentResponseModel)
   const controller = new AssignmentResponseController(repository)
   const router = express.Router()
