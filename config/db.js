@@ -1,12 +1,13 @@
 const mongoose = require("mongoose");
 
 module.exports = async function connect(environment) {
+  let uri
   switch (environment) {
     case "local":
-      var uri = process.env.MONGO_LOCAL_URI;
+      uri = process.env.MONGO_LOCAL_URI;
       break;
     case "production":
-      var uri = process.env.MONGO_PRODUCTION_URI;
+      uri = process.env.MONGO_PRODUCTION_URI;
       break;
   }
 

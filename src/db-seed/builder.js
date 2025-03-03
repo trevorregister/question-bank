@@ -24,7 +24,7 @@ const assignmentResponseBuilder = build({
     variables: [],
     responses: [],
     totalScore: 0,
-  }
+  },
 })
 
 const variableBuilder = build({
@@ -36,7 +36,7 @@ const variableBuilder = build({
     min: perBuild(() => faker.number.int({ min: 10, max: 100 })),
     max: perBuild(() => faker.number.int({ min: 101, max: 200 })),
     step: perBuild(() => faker.number.int({ min: 1, max: 5 })),
-  }
+  },
 })
 
 const conditionBuilder = build({
@@ -46,7 +46,7 @@ const conditionBuilder = build({
     expression: perBuild(() => faker.lorem.word()),
     isCorrect: true,
     feedback: perBuild(() => faker.lorem.sentence()),
-  }
+  },
 })
 
 const assignmentBuilder = build({
@@ -58,8 +58,7 @@ const assignmentBuilder = build({
     owner: perBuild(() => generateId()),
     startDate: perBuild(() => faker.date.soon()),
     dueDate: perBuild(() => faker.date.soon()),
-  }
-  
+  },
 })
 
 const classBuilder = build({
@@ -72,15 +71,15 @@ const classBuilder = build({
     roster: [],
     droppedStudents: [],
     isArchived: false,
-  }
+  },
 })
 
 const rosteredStudentBuilder = build({
   name: "Rostered Student",
-  fields:{
+  fields: {
     student: perBuild(() => generateId()),
     joinDate: perBuild(() => new Date()),
-  }
+  },
 })
 
 const droppedStudentBuilder = build({
@@ -88,12 +87,12 @@ const droppedStudentBuilder = build({
   fields: {
     student: perBuild(() => generateId()),
     dropDate: perBuild(() => new Date()),
-  }
+  },
 })
 
 const activityBuilder = build({
   name: "Activity",
-  fields:{
+  fields: {
     _id: perBuild(() => generateId()),
     name: perBuild(() => faker.lorem.sentence(5)),
     owner: perBuild(() => generateId()),
@@ -134,7 +133,7 @@ const activityBuilder = build({
 })
 
 const sectionBuilder = build({
-  fields:{
+  fields: {
     id: perBuild(() => generateId()),
     name: perBuild(() => faker.lorem.sentence(5)),
     questions: perBuild(() =>
@@ -144,7 +143,7 @@ const sectionBuilder = build({
     ),
     summary: perBuild(() => faker.lorem.sentence(5)),
     sectionIndex: 0,
-  }
+  },
 })
 
 const bankBuilder = build({
@@ -156,7 +155,7 @@ const bankBuilder = build({
     questions: [],
     isArchived: false,
     isDeleted: false,
-  }
+  },
 })
 
 const studentBuilder = build({
@@ -167,8 +166,8 @@ const studentBuilder = build({
     lastName: perBuild(() => faker.person.lastName()),
     email: perBuild(() => faker.internet.email().toLowerCase()),
     hash: "$2b$10$2Qt1dVjd.mH/t6h..Xv.JOkuFZ6Pn6kVUimXjDTZl84vYlF8JtNYW",
-    role: USER_ROLES.Student
-  }
+    role: USER_ROLES.Student,
+  },
 })
 
 const teacherBuilder = build({
@@ -179,8 +178,8 @@ const teacherBuilder = build({
     lastName: perBuild(() => faker.person.lastName()),
     email: perBuild(() => faker.internet.email().toLowerCase()),
     hash: "$2b$10$2Qt1dVjd.mH/t6h..Xv.JOkuFZ6Pn6kVUimXjDTZl84vYlF8JtNYW",
-    role: USER_ROLES.Teacher
-  }
+    role: USER_ROLES.Teacher,
+  },
 })
 
 const questionBuilder = build({
@@ -188,7 +187,9 @@ const questionBuilder = build({
   fields: {
     _id: perBuild(() => generateId()),
     prompt: perBuild(() => faker.lorem.sentence(5)),
-    variables: perBuild(() => Array.from({ length: 5 }, () => variableBuilder())),
+    variables: perBuild(() =>
+      Array.from({ length: 5 }, () => variableBuilder()),
+    ),
     conditions: perBuild(() =>
       Array.from({ length: 5 }, () => conditionBuilder()),
     ),
@@ -197,11 +198,12 @@ const questionBuilder = build({
     owner: perBuild(() => generateId()),
     isArchived: false,
     isDeleted: false,
-  }
+  },
 })
 
 function applyOverrides(builderInstance, overrides) {
   for (const key in overrides) {
+    //eslint-disable-next-line
     if (overrides.hasOwnProperty(key)) {
       builderInstance[key] = overrides[key]
     }
