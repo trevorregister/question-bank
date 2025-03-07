@@ -10,7 +10,7 @@ I recommend creating a question-bank directory, then a directory for each one.
 2. Clone repo
 3. `npm i` from the root of api and web. I haven't been able to figure out how to run api-client on it's own yet, so currently the only way to use it is through web (more on that below).
 
-### web
+### api
 * `npm start` to run the api on the `PORT` from the .env file
 * `npm run test:int` to run integration tests in watch mode
 * `npm run db:seed` to seed the database with everything but assignment responses. Still working on that.
