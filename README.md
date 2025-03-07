@@ -43,7 +43,7 @@ Initial routes are defined in `routes.js` in the root.
 ### web
 * `npm run dev` to start the app
 * not much on `main` at the moment. Most anything non-trivial is on the `feat/question-editor` branch
-* uses [quasar](https://quasar.dev/) ui library.
+* uses [quasar](https://quasar.dev/components) ui library.
 * api-client
   * separate github repo that's set as a project dependency in `package.json`
   * uses src/shared/api-client.ts to make calls to the api. most of that is untested currently, though it has calls for all routes. 
