@@ -49,6 +49,10 @@ Initial routes are defined in `routes.js` in the root.
   * uses src/shared/api-client.ts to make calls to the api. most of that is untested currently, though it has calls for all routes. 
   * `npm update question-bank-api-client` to pull the most recent version of the api-client from it's repo
 
+The aim is to mirror the api structure by splitting things into domains. Each domain will have a components, pages, and views folder. Shared components go in src/shared. src/shared/global will eventually have components (like buttons. hyperlinks, etc.) that won't need to be manually imported and are just globally available.
+
+Pinia will eventually be used for state management.
+
 ### api-client
 Typescript client that bridges web and api. Calls for all api routes are there, but much of it is untested.
 
