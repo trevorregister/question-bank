@@ -6,8 +6,22 @@ module.exports = class CreateQuestionUseCase extends UseCase {
     super(repository)
   }
 
-  async execute({ prompt, pointValue, type, owner }) {
-    const questionProps = Question.toDb({ prompt, pointValue, type, owner })
+  async execute({
+    prompt,
+    pointValue,
+    type,
+    owner,
+    variables = [],
+    conditions = [],
+  }) {
+    const questionProps = Question.toDb({
+      prompt,
+      pointValue,
+      type,
+      owner,
+      variables,
+      conditions,
+    })
     const question = await this.repository.create(new Question(questionProps))
     return Question.toWeb(question)
   }

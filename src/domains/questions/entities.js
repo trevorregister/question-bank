@@ -1,7 +1,7 @@
 const Joi = require("joi")
 const Entity = require("../../core/entity.js")
 const generateId = require("../utils/generateId.js")
-const { QUESTION_TYPES } = require("../../core/enums.js")
+const { QUESTION_TYPES, VARIABLE_TYPES } = require("../../core/enums.js")
 
 const dbQuestion = Joi.object({
   prompt: Joi.string().required(),
@@ -15,7 +15,10 @@ const dbQuestion = Joi.object({
 })
 
 const dbVariable = Joi.object({
-  type: Joi.string().trim().lowercase(),
+  id: Joi.string().trim().required(),
+  type: Joi.string()
+    .required()
+    .valid(...Object.values(VARIABLE_TYPES)),
   min: Joi.number().required(),
   max: Joi.number().greater(Joi.ref("min")).required(),
   step: Joi.number().greater(0).required(),
@@ -30,16 +33,23 @@ const dbCondition = Joi.object({
 
 class Question extends Entity {
   static validator = dbQuestion
-  constructor({ prompt, pointValue, type, owner }) {
+  constructor({
+    prompt,
+    pointValue,
+    type,
+    owner,
+    variables = [],
+    conditions = [],
+  }) {
     super()
-    ;(this.prompt = prompt),
-      (this.variables = []),
-      (this.conditions = []),
-      (this.pointValue = pointValue),
-      (this.type = type),
-      (this.isArchived = false),
-      (this.isDeleted = false)
+    this.prompt = prompt
+    this.variables = variables.map((v) => new Variable(Variable.toDb(v)))
+    this.conditions = conditions
+    this.pointValue = pointValue
+    this.type = type
     this.owner = owner
+    this.isArchived = false
+    this.isDeleted = false
   }
 
   static toWeb(data) {
@@ -57,12 +67,11 @@ class Question extends Entity {
     }
   }
 }
-
 class Variable extends Entity {
   static validator = dbVariable
-  constructor({ label, type, min, max, step }) {
+  constructor({ id, label, type, min, max, step }) {
     super()
-    this.id = generateId()
+    this.id = id
     this.label = label
     this.type = type
     this.min = min
