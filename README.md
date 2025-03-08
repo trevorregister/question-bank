@@ -5,10 +5,8 @@ web: https://github.com/trevorregister/question-bank-web
 api-client: https://github.com/trevorregister/question-bank-api-client
 
 ## Install
-I recommend creating a question-bank directory, then a directory for each one.
-1. Navigate to approriate sub-directory (api, web, or api-client)
-2. Clone repo
-3. `npm i` from the root of api and web. I haven't been able to figure out how to run api-client on it's own yet, so currently the only way to use it is through web (more on that below).
+1. Clone repo
+2. `npm i` from the root of api and web. I haven't been able to figure out how to run api-client on it's own yet, so currently the only way to use it is through web (more on that below).
 
 ### api
 * `npm start` to run the api on the `PORT` from the .env file
