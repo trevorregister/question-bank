@@ -26,6 +26,7 @@ const dbVariable = Joi.object({
 })
 
 const dbCondition = Joi.object({
+  id: Joi.string().trim().required(),
   expression: Joi.string().required(),
   isCorrect: Joi.boolean().required(),
   feedback: Joi.string().required(),
@@ -44,7 +45,7 @@ class Question extends Entity {
     super()
     this.prompt = prompt
     this.variables = variables.map((v) => new Variable(Variable.toDb(v)))
-    this.conditions = conditions
+    this.conditions = conditions.map((c) => new Condition(Condition.toDb(c)))
     this.pointValue = pointValue
     this.type = type
     this.owner = owner
@@ -93,11 +94,12 @@ class Variable extends Entity {
 
 class Condition extends Entity {
   static validator = dbCondition
-  constructor({ expression, isCorrect, feedback }) {
+  constructor({ id, expression, isCorrect, feedback = "" }) {
     super()
-    this.id = generateId()
+    this.id = id
     this.expression = expression
-    ;(this.isCorrect = isCorrect), (this.feedback = feedback ?? "")
+    this.isCorrect = isCorrect
+    this.feedback = feedback
   }
 
   static toWeb(data) {

@@ -3,6 +3,7 @@ const generateId = require("../../../domains/utils/generateId.js")
 const request = require("../setup.js")
 const { faker } = builder
 const { QUESTION_TYPES, VARIABLE_TYPES } = require("../../../core/enums.js")
+const { expression } = require("joi")
 
 describe("Create Question", () => {
   it("given valid inputs, returns new question and 201", async () => {
@@ -24,7 +25,14 @@ describe("Create Question", () => {
           type: VARIABLE_TYPES.Random,
         },
       ],
-      conditions: [],
+      conditions: [
+        {
+          id: faker.lorem.word(),
+          expression: faker.lorem.sentence(),
+          isCorrect: true,
+          feedback: faker.lorem.sentence(),
+        },
+      ],
     }
     const res = await request.questions.post("/", questionProps, token)
 
