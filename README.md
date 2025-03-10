@@ -2,11 +2,9 @@ Api for question bank.
 
 web: https://github.com/trevorregister/question-bank-web
 
-api-client: https://github.com/trevorregister/question-bank-api-client
-
 ## Install
 1. Clone repo
-2. `npm i` from the root of api and web. I haven't been able to figure out how to run api-client on it's own yet, so currently the only way to use it is through web (more on that below).
+2. `npm i` from the root of api and web.
 
 ## api
 * `npm start` to run the api on the `PORT` from the .env file
@@ -38,19 +36,21 @@ Initial routes are defined in `routes.js` in the root.
 6. model performs functions on the db
 7. response sent back up the chain
 
+### To-do
+* implement mathjs evaluation of student answers vs conditons in src/domains/responses/use-cases/SubmitResponsesToQuestions.js
+* refactor login route to return '{userId: id, role: role}'
+* refactor getMyBanks to get ownerId from req.user instead of req.params. then update the corresponding api-client call.  
+
 ## web
 * `npm run dev` to start the app
-* not much on `main` at the moment. Most anything non-trivial is on the `feat/question-editor` branch
+* main branch - login by manually navigating to /login. teacher1@asdf.com, password is asdf. navigate to /playgound to see the question editor. 
 * uses [quasar](https://quasar.dev/components) ui library.
-* api-client
-  * separate github repo that's set as a project dependency in `package.json`
-  * uses src/shared/api-client.ts to make calls to the api. most of that is untested currently, though it has calls for all routes. 
-  * `npm update question-bank-api-client` to pull the most recent version of the api-client from it's repo
+* calls to api made by importing client from src/shared/api-client.ts
 
-The aim is to mirror the api structure by splitting things into domains. Each domain will have a components, pages, and views folder. Shared components go in src/shared. src/shared/global will eventually have components (like buttons. hyperlinks, etc.) that won't need to be manually imported and are just globally available.
+Folder structure: The aim is to mirror the api structure by splitting things into domains. Each domain will have a components, pages, and views folder. Shared components go in src/shared. src/shared/global will eventually have components (like buttons. hyperlinks, etc.) that won't need to be manually imported and are just globally available.
 
-Pinia will eventually be used for state management.
+Pinia will eventually be used for state management. 
 
-## api-client
-Typescript client that bridges web and api. Calls for all api routes are there, but much of it is untested.
-
+### To-do
+* implement pinia with userStore that stores user id and role upon login
+* so much more
