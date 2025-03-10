@@ -47,50 +47,14 @@ module.exports = class QuestionRepository extends Repository {
   }
 
   async updateQuestion({ questionId, payload }) {
-    /*         let setParameters = {}
-        if(payload.variables){
-            for (const [key, value] of Object.entries(payload.variables)){
-                setParameters[`variables.$[elem].${key}`] = value
-            }
-        } */
     const question = await this.model.findById(questionId)
     if (!question) {
       throw new NotFoundError(`question ${questionId}`)
     }
-    Object.entries(payload).forEach(([key, value]) => {
-      switch (key) {
-        case "variables":
-          payload.variables.forEach((payloadVariable) => {
-            question.variables.forEach((questionVariable) => {
-              if (questionVariable.id.toHexString() === payloadVariable.id) {
-                Object.entries(payloadVariable).forEach(([key, value]) => {
-                  questionVariable[key] = value
-                })
-              }
-            })
-          })
-          break
-        case "conditions":
-          payload.conditions.forEach((payloadCondition) => {
-            question.conditions.forEach((questionCondition) => {
-              if (questionCondition.id.toHexString() === payloadCondition.id) {
-                Object.entries(payloadCondition).forEach(([key, value]) => {
-                  questionCondition[key] = value
-                })
-              }
-            })
-          })
-          break
-        default:
-          question[key] = value
-      }
+    Object.entries(payload.payload).forEach(([key, value]) => {
+      question[key] = value
     })
     return await question.save()
-    /*         return await this.model.findOneAndUpdate(
-            { _id: questionId },
-            { $set: setParameters },
-            { new: true }
-        ) */
   }
 
   async findQuestionsByOwner(ownerId) {
