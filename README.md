@@ -39,7 +39,9 @@ Initial routes are defined in `routes.js` in the root.
 ### To-do
 * implement mathjs evaluation of student answers vs conditons in src/domains/responses/use-cases/SubmitResponsesToQuestions.js
 * refactor login route to return '{userId: id, role: role}'
-* refactor getMyBanks to get ownerId from req.user instead of req.params. then update the corresponding api-client call.  
+* refactor getMyBanks to get ownerId from req.user instead of req.params. then update the corresponding api-client call.
+* have db-seed script build assignment responses
+* assignment responses tests
 
 ## web
 * `npm run dev` to start the app
@@ -53,4 +55,8 @@ Pinia will eventually be used for state management.
 
 ### To-do
 * implement pinia with userStore that stores user id and role upon login
+* port builder from api over to web
+* setup playwright
+* user dashboard
+* assignment response view
 * so much more
