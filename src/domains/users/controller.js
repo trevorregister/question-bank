@@ -28,7 +28,15 @@ module.exports = class UserController {
       const createUserCase = new CreateUserUseCase(this.repository)
       const data = req.body
       const result = await createUserCase.execute(data)
-      res.status(201).send(result)
+      res
+        .status(201)
+        .cookie("token", result.token, {
+          httpOnly: true,
+          sameSite: "none",
+          secure: true,
+          domain: process.env.DOMAIN,
+        })
+        .send({ id: result.id, role: result.role })
     } catch (err) {
       next(err)
     }

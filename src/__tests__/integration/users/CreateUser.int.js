@@ -15,12 +15,14 @@ describe("Create User", () => {
       password: faker.lorem.word(20),
     }
     const res = await request.users.post("/", userProps)
-    const { token } = res.body
-    const valid = jwt.verify(token, process.env.JWT_SECRET)
-    const { id, role } = valid
+    const { id, role } = res.body
 
     expect(res.status).toBe(201)
-    expect(role).toBe(userProps.role)
+    expect({
+      role,
+    }).toEqual({
+      role: userProps.role,
+    })
     expect(id).toBeTruthy()
   })
 

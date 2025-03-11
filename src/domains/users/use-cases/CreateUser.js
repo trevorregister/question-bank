@@ -44,7 +44,7 @@ module.exports = class CreateUserUseCase extends UseCase {
         { id: user._id, role: user.role },
         process.env.JWT_SECRET,
       )
-      return { token: token }
+      return { id: user._id, role: user.role, token: token }
     } catch (err) {
       await session.abortTransaction()
       throw new HttpError(500, "session commit error with user creation")
