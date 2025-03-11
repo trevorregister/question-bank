@@ -38,7 +38,6 @@ describe("Create Question", () => {
     expect(res.status).toBe(201)
     const { id, prompt, variables, conditions, pointValue, owner, type } =
       res.body
-    console.log(variables)
     expect({
       prompt,
       variables,

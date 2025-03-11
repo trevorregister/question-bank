@@ -12,7 +12,6 @@ describe("Delete Assignment", () => {
 
     const res = await request.assignments.delete(`/${assignment._id}`, token)
     const assignmentLookup = await AssignmentModel.findById(assignment._id)
-    console.log("lookup", assignmentLookup)
 
     expect(res.status).toBe(204)
     expect(!!assignmentLookup).toBe(false)
