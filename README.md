@@ -51,12 +51,11 @@ Initial routes are defined in `routes.js` in the root.
 
 Folder structure: The aim is to mirror the api structure by splitting things into domains. Each domain will have a components, pages, and views folder. Shared components go in src/shared. src/shared/global will eventually have components (like buttons. hyperlinks, etc.) that won't need to be manually imported and are just globally available.
 
-Pinia will eventually be used for state management. 
-
 ### To-do
 * sanitize html before hitting api-client
 * port builder from api over to web
 * setup playwright
 * user dashboard
 * assignment response view
+* question preview view
 * so much more
