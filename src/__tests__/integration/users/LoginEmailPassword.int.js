@@ -11,9 +11,7 @@ describe("Login with email and password", () => {
       email: user.email,
       password: "asdf",
     })
-    const { token } = res.body
-    const valid = jwt.verify(token, process.env.JWT_SECRET)
-    const { id, role } = valid
+    const { id, role } = res.body
 
     expect(res.status).toBe(200)
     expect({

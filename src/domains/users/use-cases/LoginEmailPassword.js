@@ -17,7 +17,7 @@ module.exports = class LoginEmailPasswordUseCase extends UseCase {
         { id: user._id, role: user.role },
         process.env.JWT_SECRET,
       )
-      return { token: token }
+      return { id: user._id, role: user.role, token: token }
     } else {
       throw new HttpError(401, "user not found or incorrect password")
     }

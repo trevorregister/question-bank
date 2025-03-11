@@ -49,7 +49,7 @@ module.exports = class UserController {
           secure: true,
           domain: process.env.DOMAIN,
         })
-        .send(result)
+        .send({ id: result.id, role: result.role })
     } catch (err) {
       next(err)
     }
