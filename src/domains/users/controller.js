@@ -10,6 +10,7 @@ module.exports = class UserController {
     this.findById = this.findById.bind(this)
     this.create = this.create.bind(this)
     this.loginEmailPassword = this.loginEmailPassword.bind(this)
+    this.logout = this.logout.bind(this)
   }
 
   async findById(req, res, next) {
@@ -18,6 +19,14 @@ module.exports = class UserController {
       const { userId } = req.params
       const user = await getUserByIdCase.execute(userId)
       res.status(200).send(user)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  async logout(req, res, next) {
+    try {
+      res.clearCookie("token").status(200).end()
     } catch (err) {
       next(err)
     }

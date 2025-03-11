@@ -16,6 +16,7 @@ module.exports = function userRoutes() {
   router.use(authenticate)
 
   router.get("/:userId", authorize("read", User), controller.findById)
+  router.post("/logout", controller.logout)
 
   return router
 }
