@@ -45,7 +45,7 @@ Initial routes are defined in `routes.js` in the root.
 
 ## web
 * `npm run dev` to start the app
-* main branch - login by manually navigating to /login. teacher1@asdf.com, password is asdf. navigate to /playgound to see the question editor. 
+* main branch - login by manually navigating to /login. teacher1@asdf.com, password is asdf.
 * uses [quasar](https://quasar.dev/components) ui library.
 * calls to api made by importing client from src/shared/api-client.ts
 
