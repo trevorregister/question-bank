@@ -7,7 +7,7 @@ module.exports = class GetBankByIdUseCase extends UseCase {
   }
 
   async execute(bankId) {
-    const bank = await this.repository.findById(bankId)
+    const bank = await this.repository.getBankAndQuestions(bankId)
     return Bank.withQuestionsToWeb(bank)
   }
 }
