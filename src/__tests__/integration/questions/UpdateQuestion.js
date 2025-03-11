@@ -47,6 +47,7 @@ describe("Update question", () => {
     const variableUpdate = {
       id: variables[0].id,
       min: faker.number.int({ min: 1, max: 10 }),
+      max: variables[0].max,
       step: faker.number.int({ min: 1, max: 10 }),
       label: faker.lorem.word(),
     }
@@ -54,6 +55,7 @@ describe("Update question", () => {
       id: conditions[0].id,
       isCorrect: false,
       feedback: faker.lorem.sentence(10),
+      expression: conditions[0].expression,
     }
     const newPrompt = faker.lorem.sentence(10)
     const newPointValue = faker.number.int({ min: 100, max: 200 })
@@ -67,7 +69,7 @@ describe("Update question", () => {
 
     const res = await request.questions.patch(
       `/${question._id}/`,
-      payload,
+      { payload: payload },
       token,
     )
     const updatedQuestion = res.body

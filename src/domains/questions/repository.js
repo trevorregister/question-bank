@@ -51,6 +51,7 @@ module.exports = class QuestionRepository extends Repository {
     if (!question) {
       throw new NotFoundError(`question ${questionId}`)
     }
+    console.log(payload)
     Object.entries(payload.payload).forEach(([key, value]) => {
       question[key] = value
     })

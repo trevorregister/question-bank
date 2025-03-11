@@ -6,8 +6,8 @@ module.exports = class CreateBankUseCase extends UseCase {
     super(repository)
   }
 
-  async execute({ owner, name }) {
-    const props = Bank.toDb({ owner, name })
+  async execute({ owner, name, description = "" }) {
+    const props = Bank.toDb({ owner, name, description })
     const bank = await this.repository.create(new Bank(props))
     return Bank.toWeb(bank)
   }

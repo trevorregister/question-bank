@@ -150,8 +150,9 @@ const bankBuilder = build({
   name: "Bank",
   fields: {
     _id: perBuild(() => generateId()),
-    name: perBuild(() => faker.lorem.sentence(5)),
+    name: perBuild(() => faker.lorem.sentence()),
     owner: perBuild(() => generateId()),
+    description: perBuild(() => faker.lorem.sentence()),
     questions: [],
     isArchived: false,
     isDeleted: false,

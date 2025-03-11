@@ -8,6 +8,12 @@ const schema = new Schema({
     ref: "users",
   },
 
+  description: {
+    type: String,
+    required: true,
+    default: "",
+  },
+
   name: {
     type: String,
     required: true,
