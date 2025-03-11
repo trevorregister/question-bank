@@ -8,11 +8,16 @@ module.exports = class BankRepository extends Repository {
     this.addQuestionsToBank = this.addQuestionsToBank.bind(this)
     this.removeQuestionsFromBank = this.removeQuestionsFromBank.bind(this)
     this.deleteBank = this.deleteBank.bind(this)
+    this.getBankAndQuestions = this.getBankAndQuestions.bind(this)
   }
 
   async findQuestionsByBank(bankId) {
     const bank = await this.model.findById(bankId).populate("questions").exec()
     return bank ? bank.questions : []
+  }
+
+  async getBankAndQuestions(bankId) {
+    return await this.model.findById(bankId).populate("questions").exec()
   }
 
   async addQuestionsToBank({ questionIdArray, bankId }) {

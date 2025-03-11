@@ -12,6 +12,7 @@ module.exports = function bankRoutes() {
 
   router.post("/", authorize("create", Bank), controller.create)
 
+  router.get("/:bankId", authorize("read", Bank), controller.getBankById)
   router.get(
     "/owner/:ownerId",
     authorize("read", Bank, (req) => ({ owner: req.params.ownerId })),

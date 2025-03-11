@@ -1,5 +1,6 @@
 const Joi = require("joi")
 const Entity = require("../../core/entity.js")
+const { Question } = require("../questions/entities.js")
 
 const dbBank = Joi.object({
   owner: Joi.string().required(),
@@ -27,6 +28,18 @@ module.exports = class Bank extends Entity {
       isDeleted: data.isDeleted,
       isArchived: data.isArchived,
       questions: data.questions,
+    }
+  }
+
+  static withQuestionsToWeb(data) {
+    return {
+      id: data._id,
+      owner: data.owner,
+      description: data.description,
+      name: data.name,
+      isDeleted: data.isDeleted,
+      isArchived: data.isArchived,
+      questions: data.questions.map((q) => Question.toWeb(q)),
     }
   }
 }

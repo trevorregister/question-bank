@@ -4,6 +4,7 @@ const GetBankQuestionsUseCase = require("./GetBankQuestions")
 const AddQuestionsToBank = require("./AddQuestionsToBank")
 const RemoveQuestionsFromBank = require("./RemoveQuestionsFromBank")
 const DeleteBank = require("./DeleteBank")
+const GetBankByIdUseCase = require("./GetBankById")
 
 module.exports = {
   CreateBankUseCase,
@@ -12,4 +13,5 @@ module.exports = {
   AddQuestionsToBank,
   RemoveQuestionsFromBank,
   DeleteBank,
+  GetBankByIdUseCase,
 }
