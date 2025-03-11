@@ -42,6 +42,7 @@ Initial routes are defined in `routes.js` in the root.
 * refactor getMyBanks to get ownerId from req.user instead of req.params. then update the corresponding api-client call.
 * have db-seed script build assignment responses
 * assignment responses tests
+* implement express-sanitizer
 
 ## web
 * `npm run dev` to start the app
@@ -54,6 +55,7 @@ Folder structure: The aim is to mirror the api structure by splitting things int
 Pinia will eventually be used for state management. 
 
 ### To-do
+* sanitize html before hitting api-client
 * implement pinia with userStore that stores user id and role upon login
 * port builder from api over to web
 * setup playwright
