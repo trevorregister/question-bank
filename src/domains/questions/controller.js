@@ -6,6 +6,7 @@ const {
   DeleteConditionUseCase,
   UpdateQuestionUseCase,
   GetQuestionsByOwnerUseCase,
+  DeleteQuestionUseCase,
 } = require("./use-cases/index")
 
 module.exports = class QuestionController {
@@ -18,6 +19,7 @@ module.exports = class QuestionController {
     this.deleteCondition = this.deleteCondition.bind(this)
     this.updateQuestion = this.updateQuestion.bind(this)
     this.getByOwner = this.getByOwner.bind(this)
+    this.delete = this.delete.bind(this)
   }
 
   async create(req, res, next) {
@@ -26,6 +28,17 @@ module.exports = class QuestionController {
       const data = { ...req.body, owner: req.user.id }
       const result = await createQuestionCase.execute(data)
       res.status(201).send(result)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  async delete(req, res, next) {
+    try {
+      const deleteQuestionCase = new DeleteQuestionUseCase(this.repository)
+      const { questionId } = req.params
+      await deleteQuestionCase.execute(questionId)
+      res.status(204)
     } catch (err) {
       next(err)
     }

@@ -9,6 +9,7 @@ module.exports = class Repository {
     this.delete = this.delete.bind(this)
     this.find = this.find.bind(this)
     this.findOne = this.findOne.bind(this)
+    this.findOneAndDelete = this.findOneAndDelete.bind(this)
   }
 
   async findById(id) {
@@ -33,5 +34,9 @@ module.exports = class Repository {
 
   async findOne(query) {
     return await this.model.findOne(query)
+  }
+
+  async findOneAndDelete(query) {
+    return await this.model.findOneAndDelete(query)
   }
 }

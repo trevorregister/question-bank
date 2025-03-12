@@ -18,6 +18,11 @@ module.exports = function questionRoutes() {
     controller.updateQuestion,
   )
   router.delete(
+    "/:questionId",
+    authorize("delete", Question),
+    controller.delete,
+  )
+  router.delete(
     "/:questionId/variable/:variableId",
     authorize("update", Question),
     controller.deleteVariable,
