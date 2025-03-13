@@ -4,6 +4,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
+    "build": "node server.js",
     "test:int": "jest --runInBand --watch  ./src/__tests__/integration",
     "test:watch": "jest --watch impossible-regex",
     "db:seed": "node src/db-seed/seed.js",
