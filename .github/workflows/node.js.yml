@@ -13,7 +13,8 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      JWT_SECRET: 'jwt_secret'
     strategy:
       matrix:
         node-version: [22.x]
