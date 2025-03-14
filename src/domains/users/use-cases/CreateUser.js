@@ -14,9 +14,9 @@ module.exports = class CreateUserUseCase extends UseCase {
   }
 
   async execute({ email, firstName, lastName, role, password }) {
-    const session = await mongoose.startSession()
+    /*     const session = await mongoose.startSession()
     session.startTransaction()
-
+ */
     const existingUser = await this.repository.findByEmail(email)
 
     if (existingUser) {
@@ -46,7 +46,7 @@ module.exports = class CreateUserUseCase extends UseCase {
       )
       return { id: user._id, role: user.role, token: token }
     } catch (err) {
-      await session.abortTransaction()
+      //await session.abortTransaction()
       throw new HttpError(500, "session commit error with user creation")
     }
   }
