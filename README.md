@@ -10,6 +10,7 @@ web: https://github.com/trevorregister/question-bank-web
 * `npm start` to run the api on the `PORT` from the .env file
 * `npm run test:int` to run integration tests in watch mode
 * `npm run db:seed` to seed the database with everything but assignment responses. Still working on that.
+* `npm run start:e2e` to run api configured for e2e tests
 
 Initial routes are defined in `routes.js` in the root. 
 
@@ -45,6 +46,7 @@ Initial routes are defined in `routes.js` in the root.
 
 ## web
 * `npm run dev` to start the app
+* `npx playwright test --ui` to open ui for running e2e tests
 * main branch - login by manually navigating to /login. teacher1@asdf.com, password is asdf.
 * uses [quasar](https://quasar.dev/components) ui library.
 * calls to api made by importing client from src/shared/api-client.ts
@@ -53,8 +55,6 @@ Folder structure: The aim is to mirror the api structure by splitting things int
 
 ### To-do
 * sanitize html before hitting api-client
-* port builder from api over to web
-* setup playwright
 * user dashboard
 * assignment response view
 * question preview view
