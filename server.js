@@ -14,6 +14,6 @@ switch (process.env.NODE_ENV) {
   default:
     throw new Error(`${process.env.NODE_ENV} is invalid environment`)
 }
-app.listen(process.env.PORT, () =>
+app.listen(process.env.PORT, "0.0.0.0", () =>
   console.log(`Listening on port ${process.env.PORT}...`),
 )
