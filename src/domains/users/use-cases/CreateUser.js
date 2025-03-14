@@ -37,8 +37,8 @@ module.exports = class CreateUserUseCase extends UseCase {
         const bank = await BankModel.create(new Bank(bankProps))
       }
 
-      await session.commitTransaction()
-      session.endSession()
+      /*       await session.commitTransaction()
+      session.endSession() */
 
       const token = jwt.sign(
         { id: user._id, role: user.role },
