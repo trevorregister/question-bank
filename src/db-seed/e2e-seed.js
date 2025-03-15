@@ -7,7 +7,11 @@ const AssignmentModel = require("../domains/assignments/data-access/model")
 const AssignmentResponseModel = require("../domains/responses/data-access/model")
 
 module.exports = async (seed) => {
-  await UserModel.insertMany(seed.users)
-  await QuestionModel.insertMany(seed.questions)
-  await BankModel.insertMany(seed.banks)
+  await UserModel.deleteMany({})
+  await BankModel.deleteMany({})
+  await QuestionModel.deleteMany({})
+
+  if (seed.users?.length > 0) await UserModel.insertMany(seed.users)
+  if (seed.questions?.length > 0) await QuestionModel.insertMany(seed.questions)
+  if (seed.banks?.length > 0) await BankModel.insertMany(seed.banks)
 }
