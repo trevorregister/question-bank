@@ -23,31 +23,27 @@ module.exports = class CreateUserUseCase extends UseCase {
       throw new HttpError(422, `user with ${email} already exists`)
     }
 
-    try {
-      const salt = await bcrypt.genSalt(10)
-      const hash = await bcrypt.hash(password, salt)
-      const userProps = User.toDb({ email, firstName, lastName, role, hash })
-      const user = await this.repository.create(new User(userProps))
+    const salt = await bcrypt.genSalt(10)
+    const hash = await bcrypt.hash(password, salt)
+    const userProps = User.toDb({ email, firstName, lastName, role, hash })
+    const user = await this.repository.create(new User(userProps))
 
-      if (role === USER_ROLES.Teacher) {
-        const bankProps = Bank.toDb({
-          owner: user._id.toHexString(),
-          name: "Personal",
-        })
-        const bank = await BankModel.create(new Bank(bankProps))
-      }
+    if (role === USER_ROLES.Teacher) {
+      const bankProps = Bank.toDb({
+        owner: user._id.toHexString(),
+        name: "Personal",
+        description: "First bank",
+      })
+      const bank = await BankModel.create(new Bank(bankProps))
+    }
 
-      /*       await session.commitTransaction()
+    /*       await session.commitTransaction()
       session.endSession() */
 
-      const token = jwt.sign(
-        { id: user._id, role: user.role },
-        process.env.JWT_SECRET,
-      )
-      return { id: user._id, role: user.role, token: token }
-    } catch (err) {
-      //await session.abortTransaction()
-      throw new HttpError(500, "session commit error with user creation")
-    }
+    const token = jwt.sign(
+      { id: user._id, role: user.role },
+      process.env.JWT_SECRET,
+    )
+    return { id: user._id, role: user.role, token: token }
   }
 }
