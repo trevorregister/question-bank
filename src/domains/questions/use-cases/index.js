@@ -6,6 +6,7 @@ const DeleteConditionUseCase = require("./DeleteCondition")
 const UpdateQuestionUseCase = require("./UpdateQuestion")
 const GetQuestionsByOwnerUseCase = require("./GetQuestionsByOwner")
 const DeleteQuestionUseCase = require("./DeleteQuestion")
+const GetQuestionById = require("./GetQuestionById")
 
 module.exports = {
   CreateQuestionUseCase,
@@ -16,4 +17,5 @@ module.exports = {
   UpdateQuestionUseCase,
   GetQuestionsByOwnerUseCase,
   DeleteQuestionUseCase,
+  GetQuestionById,
 }
