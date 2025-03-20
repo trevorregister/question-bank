@@ -12,6 +12,11 @@ module.exports = function questionRoutes() {
 
   router.post("/", authorize("create", Question), controller.create)
 
+  router.get(
+    "/:questionId",
+    authorize("read", Question),
+    controller.getQuestion,
+  )
   router.patch(
     "/:questionId",
     authorize("update", Question),
