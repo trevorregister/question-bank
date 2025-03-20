@@ -15,6 +15,11 @@ module.exports = function questionRoutes() {
     authorize("read", Activity),
     controller.getActivityById,
   )
+  router.get(
+    "/owner/:ownerId",
+    authorize("read", Activity, (req) => ({ owner: req.params.ownerId })),
+    controller.getMyActivities,
+  )
   router.post("/", authorize("create", Activity), controller.create)
   router.patch(
     "/:activityId",

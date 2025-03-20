@@ -4,6 +4,7 @@ const {
   GetActivityByIdUseCase,
   ArchiveActivityUseCase,
   UnarchiveActivityUseCase,
+  GetMyActivitiesUseCase,
 } = require("./use-cases/index")
 
 module.exports = class ActivityController {
@@ -14,6 +15,7 @@ module.exports = class ActivityController {
     this.getActivityById = this.getActivityById.bind(this)
     this.archiveActivity = this.archiveActivity.bind(this)
     this.unarchiveActivity = this.unarchiveActivity.bind(this)
+    this.getMyActivities = this.getMyActivities.bind(this)
   }
 
   async create(req, res, next) {
@@ -28,6 +30,17 @@ module.exports = class ActivityController {
       }
       const result = await createActivityCase.execute(data)
       res.status(201).send(result)
+    } catch (err) {
+      next(err)
+    }
+  }
+
+  async getMyActivities(req, res, next) {
+    try {
+      const getMyActivitiesCase = new GetMyActivitiesUseCase(this.repository)
+      const { ownerId } = req.params
+      const result = await getMyActivitiesCase.execute(ownerId)
+      res.status(200).send(result)
     } catch (err) {
       next(err)
     }
