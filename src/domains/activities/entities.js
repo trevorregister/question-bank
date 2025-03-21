@@ -26,6 +26,7 @@ const newDbActivity = Joi.object({
   name: Joi.string().trim().required(),
   tags: Joi.array().items(Joi.string()).required(),
   sections: Joi.array().items(dbActivitySection).required(),
+  code: Joi.string().required(),
 })
 
 const dbActivityUpdate = Joi.object({
@@ -40,7 +41,7 @@ const dbActivityUpdate = Joi.object({
 
 class Activity extends Entity {
   static validator = newDbActivity
-  constructor({ owner, name, sections, tags }) {
+  constructor({ owner, name, sections, tags, code }) {
     super()
     this.owner = owner
     this.name = name
@@ -48,6 +49,7 @@ class Activity extends Entity {
     this.isArchived = false
     this.tags = tags
     this.questionCount = 0
+    this.code = code
   }
 
   static toWeb(data) {
@@ -59,6 +61,7 @@ class Activity extends Entity {
       tags: data.tags,
       questionCount: data.questionCount,
       name: data.name,
+      code: data.code,
     }
   }
 

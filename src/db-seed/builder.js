@@ -96,6 +96,7 @@ const activityBuilder = build({
     _id: perBuild(() => generateId()),
     name: perBuild(() => faker.lorem.sentence(5)),
     owner: perBuild(() => generateId()),
+    code: perBuild(() => crypto.randomBytes(4).toString("hex")),
     sections: perBuild(() =>
       Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
         sectionBuilder(),

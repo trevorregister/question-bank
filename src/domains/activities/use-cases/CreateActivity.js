@@ -3,6 +3,7 @@ const { Activity } = require("../entities.js")
 const UserModel = require("../../users/data-access/model.js")
 const { NotFoundError } = require("../../../core/errors.js")
 const toOid = require("../../utils/toOid.js")
+const crypto = require("crypto")
 
 module.exports = class CreateActivityUseCase extends UseCase {
   constructor(repository) {
@@ -14,11 +15,13 @@ module.exports = class CreateActivityUseCase extends UseCase {
     if (!user) {
       throw new NotFoundError(`user ${ownerId}`)
     }
+    const code = crypto.randomBytes(4).toString("hex")
     const props = Activity.toDb({
       name: name,
       owner: ownerId,
       sections: sections,
       tags: tags,
+      code: code,
     })
     const activity = await this.repository.create(new Activity(props))
     return Activity.toWeb(activity)

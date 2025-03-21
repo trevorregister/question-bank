@@ -70,6 +70,10 @@ const schema = new Schema({
     required: true,
     ref: "Users",
   },
+  code: {
+    type: String,
+    required: true,
+  },
   sections: {
     type: [activitySectionSchema],
     required: true,
