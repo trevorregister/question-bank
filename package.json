@@ -36,7 +36,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.13.0",
     "mongoose": "^8.9.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "random-words": "^2.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
