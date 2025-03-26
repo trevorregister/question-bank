@@ -30,7 +30,7 @@ const assignmentResponseBuilder = build({
 const variableBuilder = build({
   name: "Variable",
   fields: {
-    id: perBuild(() => generateId()),
+    id: perBuild(() => Math.random().toString(36).substring(2, 15)),
     label: perBuild(() => faker.lorem.word()),
     type: VARIABLE_TYPES.Random,
     min: perBuild(() => faker.number.int({ min: 10, max: 100 })),

@@ -1,4 +1,4 @@
-/* const mongoose = require("mongoose")
+const mongoose = require("mongoose")
 
 const Schema = mongoose.Schema
 
@@ -9,7 +9,7 @@ const schema = new Schema({
     ref: "Activities",
   },
 
-  owner: {
+  teacher: {
     type: Schema.Types.ObjectId,
     required: true,
     ref: "Users",
@@ -17,7 +17,7 @@ const schema = new Schema({
 
   student: {
     type: String,
-    required: true
+    required: true,
   },
 
   variables: {
@@ -40,4 +40,4 @@ const schema = new Schema({
 })
 module.exports = {
   schema,
-} */
+}
