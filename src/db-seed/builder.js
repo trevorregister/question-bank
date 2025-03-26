@@ -8,6 +8,7 @@ const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
 const AssignmentResponseModel = require("../domains/responses/data-access/model")
+const ActivityResponseModel = require("../domains/activityresponses/data-access/model")
 const { QUESTION_TYPES, VARIABLE_TYPES, USER_ROLES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -21,6 +22,18 @@ const assignmentResponseBuilder = build({
     _id: perBuild(() => generateId()),
     assignment: perBuild(() => generateId()),
     owner: perBuild(() => generateId()),
+    variables: [],
+    responses: [],
+    totalScore: 0,
+  },
+})
+
+const activityResponseBuilder = build({
+  fields: {
+    _id: perBuild(() => generateId()),
+    activity: perBuild(() => generateId()),
+    teacher: perBuild(() => generateId()),
+    student: perBuild(() => faker.lorem.word()),
     variables: [],
     responses: [],
     totalScore: 0,
@@ -263,6 +276,7 @@ class Builder {
       classes: [],
       assignments: [],
       assignmentResponses: [],
+      activityResponses: [],
     }
     this.faker = faker
     this.user = {
@@ -289,6 +303,11 @@ class Builder {
         rosteredStudent: createComponentBuilderMethod(rosteredStudentBuilder),
         droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
       },
+    )
+    this.activityResponse = createBuilderMethod(
+      activityResponseBuilder,
+      ActivityModel,
+      this,
     )
     this.assignment = createBuilderMethod(
       assignmentBuilder,
@@ -317,6 +336,9 @@ class Builder {
       assignments: await AssignmentModel.insertMany(this.data.assignments),
       assignmentResponses: await AssignmentResponseModel.insertMany(
         this.data.assignmentResponses,
+      ),
+      activityResponses: await ActivityResponseModel.insertMany(
+        this.data.activityResponses,
       ),
     }
   }

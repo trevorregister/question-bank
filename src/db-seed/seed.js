@@ -7,6 +7,7 @@ const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
 const AssignmentResponseModel = require("../domains/responses/data-access/model")
+const ActivityResponseModel = require("../domains/activityresponses/data-access/model")
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -18,6 +19,7 @@ async function init() {
   await ClassModel.deleteMany({})
   await AssignmentModel.deleteMany({})
   await AssignmentResponseModel.deleteMany({})
+  await ActivityResponseModel.deleteMany({})
 }
 
 async function buildUsers() {
