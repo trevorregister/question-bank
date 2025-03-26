@@ -2,7 +2,7 @@ const builder = require("../../../db-seed/builder.js")
 const request = require("../setup.js")
 const { faker } = builder
 
-describe("Create Assignment", () => {
+describe("Create activity response", () => {
   it("given valid inputs, returns new activity response and 201", async () => {
     const user = builder.user.teacher()
     const teacherActivity = builder.activity({ owner: user._id })
