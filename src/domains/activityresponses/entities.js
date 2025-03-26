@@ -9,7 +9,7 @@ const dbActivityResponseVariable = Joi.object({
 
 const dbActivityResponseResponse = Joi.object({
   question: Joi.required(),
-  content: Joi.string().allow("").required(),
+  content: Joi.required(),
   score: Joi.number().required(),
   isCorrect: Joi.boolean().allow(null).required(),
 })

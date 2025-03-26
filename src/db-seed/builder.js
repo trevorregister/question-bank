@@ -34,9 +34,26 @@ const activityResponseBuilder = build({
     activity: perBuild(() => generateId()),
     teacher: perBuild(() => generateId()),
     student: perBuild(() => faker.lorem.word()),
-    variables: [],
-    responses: [],
-    totalScore: 0,
+    variables: perBuild(() => []),
+    responses: perBuild(() => []),
+    totalScore: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+  },
+})
+
+const activityResponseVariableBuilder = build({
+  fields: {
+    id: perBuild(() => Math.random().toString(36).substring(2, 15)),
+    value: perBuild(() => faker.number.int({ min: 1, max: 50 })),
+    label: perBuild(() => faker.lorem.word()),
+  },
+})
+
+const activityResponseResponseBuilder = build({
+  fields: {
+    question: perBuild(() => generateId()),
+    content: perBuild(() => faker.number.int({ min: 1, max: 100 })),
+    score: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+    isCorrect: perBuild(() => faker.number.int({ min: 1, max: 100 }) % 2 === 0),
   },
 })
 
@@ -304,10 +321,12 @@ class Builder {
         droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
       },
     )
-    this.activityResponse = createBuilderMethod(
-      activityResponseBuilder,
-      ActivityModel,
-      this,
+    this.activityResponse = Object.assign(
+      createBuilderMethod(activityResponseBuilder, ActivityModel, this),
+      {
+        variable: createComponentBuilderMethod(activityResponseVariableBuilder),
+        response: createComponentBuilderMethod(activityResponseResponseBuilder),
+      },
     )
     this.assignment = createBuilderMethod(
       assignmentBuilder,
