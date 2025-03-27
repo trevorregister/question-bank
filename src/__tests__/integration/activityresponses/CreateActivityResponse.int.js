@@ -14,10 +14,13 @@ describe("Create activity response", () => {
     const studentName = faker.lorem.word()
     await builder.seed()
 
-    const res = await request.activityresponses.post("/", {
-      activityCode: teacherActivity.code,
-      student: studentName,
-    })
+    const res = await request.activityresponses.post(
+      `/?activityCode=${teacherActivity.code}`,
+      {
+        activityCode: teacherActivity.code,
+        student: studentName,
+      },
+    )
     const { id, activity, teacher, student, totalScore, variables, responses } =
       res.body
     expect(res.status).toBe(201)
