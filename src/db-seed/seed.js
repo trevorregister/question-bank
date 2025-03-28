@@ -95,6 +95,7 @@ async function buildUsers() {
         activity: activity._id,
         teacher: teacher._id,
         variables: activityResponseVariables,
+        activityCode: activity.code,
       })
       ActivityResponseModel.create(activityResponse)
     }

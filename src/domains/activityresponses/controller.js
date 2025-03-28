@@ -16,7 +16,7 @@ module.exports = class ActivityResponseController {
         this.repository,
       )
       const data = {
-        activityCode: req.query.activityCode,
+        activityCode: req.body.activityCode,
         student: req.body.student,
       }
       const result = await createResponseCase.execute(data)

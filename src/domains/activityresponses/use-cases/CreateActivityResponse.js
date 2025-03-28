@@ -66,6 +66,7 @@ module.exports = class CreateActivityResponseUseCase extends UseCase {
       student: student,
       variables: activityResponseVariables,
       responses: activityResponses,
+      activityCode: activityCode,
     })
     const activityResponse = await this.repository.create(
       new ActivityResponse(activityResponseProps),

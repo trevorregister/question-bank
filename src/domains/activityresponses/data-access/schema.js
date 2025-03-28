@@ -9,6 +9,11 @@ const schema = new Schema({
     ref: "Activities",
   },
 
+  activityCode: {
+    type: String,
+    required: true,
+  },
+
   teacher: {
     type: Schema.Types.ObjectId,
     required: true,

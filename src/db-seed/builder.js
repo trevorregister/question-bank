@@ -37,6 +37,7 @@ const activityResponseBuilder = build({
     variables: perBuild(() => []),
     responses: perBuild(() => []),
     totalScore: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+    activityCode: perBuild(() => crypto.randomBytes(4).toString("hex")),
   },
 })
 

@@ -21,17 +21,27 @@ const dbActivityResponse = Joi.object({
   variables: Joi.array().items(dbActivityResponseVariable),
   responses: Joi.array().items(dbActivityResponseResponse),
   totalScore: Joi.number(),
+  activityCode: Joi.string().required(),
 })
 
 module.exports = class ActivityResponse extends Entity {
   static validator = dbActivityResponse
-  constructor({ activity, teacher, student, variables, responses = [] }) {
+  constructor({
+    activity,
+    teacher,
+    student,
+    variables,
+    activityCode,
+    responses = [],
+  }) {
     super()
     this.activity = activity
     this.teacher = teacher
     this.student = student
-    ;(this.totalScore = 0), (this.variables = variables)
+    this.totalScore = 0
+    this.variables = variables
     this.responses = responses
+    this.activityCode = activityCode
   }
 
   static toWeb(data) {
@@ -43,6 +53,7 @@ module.exports = class ActivityResponse extends Entity {
       totalScore: data.totalScore,
       variables: data.variables,
       responses: data.responses,
+      activityCode: data.activityCode,
     }
   }
 }
