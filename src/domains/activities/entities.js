@@ -2,7 +2,7 @@ const Joi = require("joi")
 const Entity = require("../../core/entity.js")
 const generateId = require("../utils/generateId")
 const { ValidationError } = require("../../core/errors.js")
-const { Question } = require("../../domains/questions/entities.js")
+//const { Question } = require("../../domains/questions/entities.js")
 const { QUESTION_TYPES } = require("../../core/enums.js")
 
 const dbActivityQuestion = Joi.object({

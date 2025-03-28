@@ -21,8 +21,16 @@ describe("Create activity response", () => {
         student: studentName,
       },
     )
-    const { id, activity, teacher, student, totalScore, variables, responses } =
-      res.body
+    const {
+      id,
+      activity,
+      teacher,
+      student,
+      totalScore,
+      variables,
+      responses,
+      activityCode,
+    } = res.body
     expect(res.status).toBe(201)
     expect(id).toBeTruthy()
     expect({
@@ -30,11 +38,13 @@ describe("Create activity response", () => {
       teacher,
       student,
       totalScore,
+      activityCode,
     }).toEqual({
       activity: teacherActivity._id.toHexString(),
       teacher: user._id.toHexString(),
       student: studentName,
       totalScore: 0,
+      activityCode: teacherActivity.code,
     })
     variables.forEach((variable) => {
       expect(activityVariables.some((v) => v.id === variable.id)).toBe(true)

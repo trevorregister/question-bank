@@ -2,7 +2,6 @@ const UseCase = require("../../../core/usecase")
 const { Activity } = require("../entities.js")
 const UserModel = require("../../users/data-access/model.js")
 const { NotFoundError } = require("../../../core/errors.js")
-const toOid = require("../../utils/toOid.js")
 const crypto = require("crypto")
 
 module.exports = class CreateActivityUseCase extends UseCase {
