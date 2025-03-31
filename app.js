@@ -8,14 +8,9 @@ const Routes = require("./routes")
 const errorHandler = require("./src/middleware/errorHandler")
 const subscribers = require("./src/events/subscribers/index")
 
-const allowedOrigins = [
-  process.env.WEB_HOST,
-  process.env.WEB_HOST.replace("https://", "https://www."),
-]
-
 const app = express()
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: process.env.WEB_HOST,
   credentials: true,
 }
 
