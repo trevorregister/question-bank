@@ -1,5 +1,6 @@
 const builder = require("../db-seed/builder")
 const connect = require("../../config/db")
+const generateRandomVariableValue = require("../domains/utils/generateRandomVariableValue")
 const UserModel = require("../domains/users/data-access/model")
 const QuestionModel = require("../domains/questions/data-access/model")
 const BankModel = require("../domains/banks/data-access/model")
@@ -7,6 +8,7 @@ const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
 const AssignmentResponseModel = require("../domains/responses/data-access/model")
+const ActivityResponseModel = require("../domains/activityresponses/data-access/model")
 const dotenv = require("dotenv").config()
 
 async function init() {
@@ -18,6 +20,7 @@ async function init() {
   await ClassModel.deleteMany({})
   await AssignmentModel.deleteMany({})
   await AssignmentResponseModel.deleteMany({})
+  await ActivityResponseModel.deleteMany({})
 }
 
 async function buildUsers() {
@@ -30,10 +33,6 @@ async function buildUsers() {
       const question = builder.question({ owner: teacher._id })
       questions.push(question)
       QuestionModel.create(question)
-
-      const student = builder.user.student()
-      students.push(student)
-      UserModel.create(student)
     }
     const bank = builder.bank({
       owner: teacher._id,
@@ -75,6 +74,31 @@ async function buildUsers() {
       class: klass._id,
       activity: activity._id,
     })
+    for (let i = 0; i < 10; i++) {
+      const activityVariables = questions
+        .map((question) => {
+          return question.variables
+        })
+        .flat()
+      const activityResponseVariables = activityVariables.map((variable) => {
+        return builder.activityResponse.variable({
+          id: variable.id,
+          label: variable.label,
+          value: generateRandomVariableValue({
+            min: variable.min,
+            max: variable.max,
+            step: variable.step,
+          }),
+        })
+      })
+      const activityResponse = builder.activityResponse({
+        activity: activity._id,
+        teacher: teacher._id,
+        variables: activityResponseVariables,
+        activityCode: activity.code,
+      })
+      ActivityResponseModel.create(activityResponse)
+    }
     AssignmentModel.create(assignment)
     ActivityModel.create(activity)
   }

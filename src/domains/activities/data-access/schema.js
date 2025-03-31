@@ -37,7 +37,6 @@ const activityQuestionSchema = new Schema(
       type: Number,
       required: true,
     },
-
     type: {
       type: String,
       required: true,
@@ -69,6 +68,10 @@ const schema = new Schema({
     type: Schema.Types.ObjectId,
     required: true,
     ref: "Users",
+  },
+  code: {
+    type: String,
+    required: true,
   },
   sections: {
     type: [activitySectionSchema],

@@ -45,7 +45,7 @@ describe("Create Activity", () => {
       tags: tagsProp,
     }
     const res = await request.activities.post("/", props, token)
-    const { id, owner, sections, isArchived, tags, name } = res.body
+    const { id, owner, sections, isArchived, tags, name, code } = res.body
 
     expect(res.status).toBe(201)
     expect({
@@ -57,6 +57,7 @@ describe("Create Activity", () => {
       isArchived: false,
       name: props.name,
     })
+    expect(code).toBeTruthy()
     expect(id).toBeTruthy()
     expect(tags[0]).toBe(tagsProp[0])
     expect(sections[0]).toEqual({

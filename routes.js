@@ -5,7 +5,8 @@ const bankRoutes = require("./src/domains/banks/routes.js")
 const activityRoutes = require("./src/domains/activities/routes.js")
 const classRoutes = require("./src/domains/classes/routes.js")
 const assignmentRoutes = require("./src/domains/assignments/routes.js")
-const assignmentResponseRoutes = require("./src/domains/responses/routes.js")
+//const assignmentResponseRoutes = require("./src/domains/responses/routes.js")
+const activityResponseRoutes = require("./src/domains/activityresponses/routes.js")
 const authenticate = require("./src/middleware/authenticate.js")
 const seed = require("./src/db-seed/e2e-seed.js")
 const { HttpError } = require("./src/core/errors.js")
@@ -31,6 +32,7 @@ function Routes() {
     })
   }
   router.use("/users", userRoutes())
+  router.use("/responses", activityResponseRoutes())
 
   router.use(authenticate)
 
@@ -39,7 +41,7 @@ function Routes() {
   router.use("/activities", activityRoutes())
   router.use("/classes", classRoutes())
   router.use("/assignments", assignmentRoutes())
-  router.use("/responses", assignmentResponseRoutes())
+  //router.use("/responses", assignmentResponseRoutes())
   return router
 }
 
