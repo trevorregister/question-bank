@@ -8,6 +8,7 @@ const ActivityModel = require("../domains/activities/data-access/model")
 const ClassModel = require("../domains/classes/data-access/model")
 const AssignmentModel = require("../domains/assignments/data-access/model")
 const AssignmentResponseModel = require("../domains/responses/data-access/model")
+const ActivityResponseModel = require("../domains/activityresponses/data-access/model")
 const { QUESTION_TYPES, VARIABLE_TYPES, USER_ROLES } = require("../core/enums")
 const dotenv = require("dotenv").config()
 const jwt = require("jsonwebtoken")
@@ -27,10 +28,40 @@ const assignmentResponseBuilder = build({
   },
 })
 
+const activityResponseBuilder = build({
+  fields: {
+    _id: perBuild(() => generateId()),
+    activity: perBuild(() => generateId()),
+    teacher: perBuild(() => generateId()),
+    student: perBuild(() => faker.lorem.word()),
+    variables: perBuild(() => []),
+    responses: perBuild(() => []),
+    totalScore: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+    activityCode: perBuild(() => crypto.randomBytes(4).toString("hex")),
+  },
+})
+
+const activityResponseVariableBuilder = build({
+  fields: {
+    id: perBuild(() => Math.random().toString(36).substring(2, 15)),
+    value: perBuild(() => faker.number.int({ min: 1, max: 50 })),
+    label: perBuild(() => faker.lorem.word()),
+  },
+})
+
+const activityResponseResponseBuilder = build({
+  fields: {
+    question: perBuild(() => generateId()),
+    content: perBuild(() => faker.number.int({ min: 1, max: 100 })),
+    score: perBuild(() => faker.number.int({ min: 1, max: 20 })),
+    isCorrect: perBuild(() => faker.number.int({ min: 1, max: 100 }) % 2 === 0),
+  },
+})
+
 const variableBuilder = build({
   name: "Variable",
   fields: {
-    id: perBuild(() => generateId()),
+    id: perBuild(() => Math.random().toString(36).substring(2, 15)),
     label: perBuild(() => faker.lorem.word()),
     type: VARIABLE_TYPES.Random,
     min: perBuild(() => faker.number.int({ min: 10, max: 100 })),
@@ -96,6 +127,7 @@ const activityBuilder = build({
     _id: perBuild(() => generateId()),
     name: perBuild(() => faker.lorem.sentence(5)),
     owner: perBuild(() => generateId()),
+    code: perBuild(() => crypto.randomBytes(4).toString("hex")),
     sections: perBuild(() =>
       Array.from({ length: faker.number.int({ min: 1, max: 5 }) }, () =>
         sectionBuilder(),
@@ -262,6 +294,7 @@ class Builder {
       classes: [],
       assignments: [],
       assignmentResponses: [],
+      activityResponses: [],
     }
     this.faker = faker
     this.user = {
@@ -287,6 +320,13 @@ class Builder {
       {
         rosteredStudent: createComponentBuilderMethod(rosteredStudentBuilder),
         droppedStudent: createComponentBuilderMethod(droppedStudentBuilder),
+      },
+    )
+    this.activityResponse = Object.assign(
+      createBuilderMethod(activityResponseBuilder, ActivityModel, this),
+      {
+        variable: createComponentBuilderMethod(activityResponseVariableBuilder),
+        response: createComponentBuilderMethod(activityResponseResponseBuilder),
       },
     )
     this.assignment = createBuilderMethod(
@@ -316,6 +356,9 @@ class Builder {
       assignments: await AssignmentModel.insertMany(this.data.assignments),
       assignmentResponses: await AssignmentResponseModel.insertMany(
         this.data.assignmentResponses,
+      ),
+      activityResponses: await ActivityResponseModel.insertMany(
+        this.data.activityResponses,
       ),
     }
   }
